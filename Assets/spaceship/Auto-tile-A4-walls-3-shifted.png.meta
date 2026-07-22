@@ -1,0 +1,4965 @@
+fileFormatVersion: 2
+guid: b4d27b3e86ba3394688f5d49de6ba541
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -7179767026867329792
+    second: Auto-tile-A4-walls-3_0
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 48
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_0
+      rect:
+        serializedVersion: 2
+        x: 24
+        y: 648
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 03fac8c4ae3384144a6b2230f7faaf95
+      internalID: 1507311489
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_1
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 648
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d8b286b2ac0f8db45bc0e3750e5efaf5
+      internalID: -1659293078
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_2
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 648
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 546c6c47ac546af47a3f6706140bff10
+      internalID: 1900274185
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_3
+      rect:
+        serializedVersion: 2
+        x: 168
+        y: 648
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 645708ef2f6c1eb41a575c979482119a
+      internalID: -1375045184
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_4
+      rect:
+        serializedVersion: 2
+        x: 216
+        y: 648
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4762c035886a98d40a4af0b4f13f48be
+      internalID: -452546509
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_5
+      rect:
+        serializedVersion: 2
+        x: 264
+        y: 648
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dea911ac558d5c3408e9401fc852ef5b
+      internalID: 2018450224
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_6
+      rect:
+        serializedVersion: 2
+        x: 312
+        y: 648
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9da8b457e625d7043a34ffd8c0543e1c
+      internalID: -1711383984
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_7
+      rect:
+        serializedVersion: 2
+        x: 360
+        y: 648
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d52b651a3d633e5438fc7a0e3633f2d7
+      internalID: 1349572622
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_8
+      rect:
+        serializedVersion: 2
+        x: 408
+        y: 648
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e38e68413e6ba634399f469716b0ff69
+      internalID: -290284917
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_9
+      rect:
+        serializedVersion: 2
+        x: 456
+        y: 648
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ac8766dfa831d31429ea995a1cd4d49e
+      internalID: 656804787
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_10
+      rect:
+        serializedVersion: 2
+        x: 504
+        y: 648
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0e49b9b3388905a44908f7c173ad4fb9
+      internalID: -1836189504
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_11
+      rect:
+        serializedVersion: 2
+        x: 552
+        y: 648
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1381dd8da00e99747a0c3aedb8813a6a
+      internalID: -1671036873
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_12
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 648
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1500d22530c4da64e9e12b77ccec62f4
+      internalID: 759048564
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_13
+      rect:
+        serializedVersion: 2
+        x: 648
+        y: 648
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: abd582c2cecd09448aa05d5c2275eec5
+      internalID: -1957343500
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_14
+      rect:
+        serializedVersion: 2
+        x: 696
+        y: 648
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d120a656379e2fd45bf9992edde62459
+      internalID: -327227626
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_15
+      rect:
+        serializedVersion: 2
+        x: 24
+        y: 600
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9635af18d82d7c343bc574ade0e064af
+      internalID: -932018239
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_16
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 600
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2e20469e822503641b014b15f382654e
+      internalID: -1237695136
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_17
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 600
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bfe897d7e26d86e4dad6df5b4bac6619
+      internalID: 2065604740
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_18
+      rect:
+        serializedVersion: 2
+        x: 168
+        y: 600
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ff067f52ebf58264e901cca55cda1561
+      internalID: 1588189262
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_19
+      rect:
+        serializedVersion: 2
+        x: 216
+        y: 600
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a7474fcc2c3285b4889da1ed3472df63
+      internalID: 1733734171
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_20
+      rect:
+        serializedVersion: 2
+        x: 264
+        y: 600
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eb2e425d0d5f1f54382b07fa0029755e
+      internalID: 1073701081
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_21
+      rect:
+        serializedVersion: 2
+        x: 312
+        y: 600
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e6cfba3115a4ffa478a48244779f0311
+      internalID: 1195267099
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_22
+      rect:
+        serializedVersion: 2
+        x: 360
+        y: 600
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8de56d0679a0ab54088d9713f5034492
+      internalID: -779948392
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_23
+      rect:
+        serializedVersion: 2
+        x: 408
+        y: 600
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d2b96d09c9d6ae64b8cf6309b8e5af48
+      internalID: 2128093465
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_24
+      rect:
+        serializedVersion: 2
+        x: 456
+        y: 600
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: afd4da67af6173a418892826b4d896c8
+      internalID: 217491934
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_25
+      rect:
+        serializedVersion: 2
+        x: 504
+        y: 600
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 75015ddfc88ecf34f8cb24868660a86e
+      internalID: 425161676
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_26
+      rect:
+        serializedVersion: 2
+        x: 552
+        y: 600
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6e6368160b3ce354ba616ea5a6f28675
+      internalID: 711737763
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_27
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 600
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 85f0db01c5045b547b6bf2e3566fdd1f
+      internalID: -1826308126
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_28
+      rect:
+        serializedVersion: 2
+        x: 648
+        y: 600
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e38f1400a380de740b409e4ebbb20a99
+      internalID: 97354647
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_29
+      rect:
+        serializedVersion: 2
+        x: 696
+        y: 600
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dae9eea033ea9e742984b5acd637946e
+      internalID: -842926515
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_30
+      rect:
+        serializedVersion: 2
+        x: 24
+        y: 552
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 53738f25c07fd4c4ea186661eb3c1e6e
+      internalID: 226419189
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_31
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 552
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a656c34474b141a44830aa7acf9972fd
+      internalID: -1750092067
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_32
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 552
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d275921630e7ff245b6af6297b85c34d
+      internalID: -1697141572
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_33
+      rect:
+        serializedVersion: 2
+        x: 168
+        y: 552
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4e192bdf19923e649a7f458325d905da
+      internalID: -1633337574
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_34
+      rect:
+        serializedVersion: 2
+        x: 216
+        y: 552
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f516d9555e7962845b149c92124b14e9
+      internalID: -962150482
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_35
+      rect:
+        serializedVersion: 2
+        x: 264
+        y: 552
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 359c506a4c003844fb1ffa705fcc9684
+      internalID: -895115971
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_36
+      rect:
+        serializedVersion: 2
+        x: 312
+        y: 552
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 792f5301a11d0d341a9cd02af46da809
+      internalID: 726383075
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_37
+      rect:
+        serializedVersion: 2
+        x: 360
+        y: 552
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4bc4a60529ab6b2468b0b0fea59ac2d5
+      internalID: 1312634882
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_38
+      rect:
+        serializedVersion: 2
+        x: 408
+        y: 552
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8ebd758e52b6561429820edaa702709c
+      internalID: -1746134619
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_39
+      rect:
+        serializedVersion: 2
+        x: 456
+        y: 552
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 436168d258a9eec4785893c0c6ea2b4e
+      internalID: 338911182
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_40
+      rect:
+        serializedVersion: 2
+        x: 504
+        y: 552
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8c5cf1e46c6d7ab4b88dabd01b80fd9d
+      internalID: 1055279560
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_41
+      rect:
+        serializedVersion: 2
+        x: 552
+        y: 552
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 09afcfdb0bd81e2459e20586894bfd38
+      internalID: 1129342057
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_42
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 552
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 57f7fd0f5196c7a4f8563309559e3407
+      internalID: -1816891382
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_43
+      rect:
+        serializedVersion: 2
+        x: 648
+        y: 552
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b039577a596377340840f24b78f05079
+      internalID: -2001190739
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_44
+      rect:
+        serializedVersion: 2
+        x: 696
+        y: 552
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 847ce40b6f387ee4e9ee0ec6670f0858
+      internalID: -1694130162
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_45
+      rect:
+        serializedVersion: 2
+        x: 24
+        y: 504
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: be01be682a6cb2a40a4f82239e93aa42
+      internalID: -899520036
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_46
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 504
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2fe8401c11f1f8241b83f1aa620b72ad
+      internalID: 1962328304
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_47
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 504
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f992a5c381dfee24bbe0c1bd4a9ddead
+      internalID: 382416384
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_48
+      rect:
+        serializedVersion: 2
+        x: 168
+        y: 504
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 85ca0bbec0190cc40814d97dcd8e30dc
+      internalID: 1733653704
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_49
+      rect:
+        serializedVersion: 2
+        x: 216
+        y: 504
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b0bc1182eeebff44abaab7c08faa954c
+      internalID: -861223917
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_50
+      rect:
+        serializedVersion: 2
+        x: 264
+        y: 504
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ff10a0283b384ed459bfae1b7a8f1928
+      internalID: 1799823990
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_51
+      rect:
+        serializedVersion: 2
+        x: 312
+        y: 504
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e132291f6e058034eb15f4a01178b0e7
+      internalID: -1321245993
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_52
+      rect:
+        serializedVersion: 2
+        x: 360
+        y: 504
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3a9e461d966145043a7628f6f1ed0685
+      internalID: 1251141230
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_53
+      rect:
+        serializedVersion: 2
+        x: 408
+        y: 504
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5101bbd94eba80c4882e43ce05997291
+      internalID: 1778309493
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_54
+      rect:
+        serializedVersion: 2
+        x: 456
+        y: 504
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 19299eb53264f1742b6e99895eca3370
+      internalID: 1115637153
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_55
+      rect:
+        serializedVersion: 2
+        x: 504
+        y: 504
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0c41617b24dd9af4ab5f1c320071110d
+      internalID: 264886944
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_56
+      rect:
+        serializedVersion: 2
+        x: 552
+        y: 504
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ab176c29fa0af1641960a281a56a8ded
+      internalID: 413857106
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_57
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 504
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3617981007b7f424d99a76686a0132d5
+      internalID: -304790216
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_58
+      rect:
+        serializedVersion: 2
+        x: 648
+        y: 504
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1c786ce67f324d74d930bfd82705b70c
+      internalID: -743318319
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_59
+      rect:
+        serializedVersion: 2
+        x: 696
+        y: 504
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1e178c181980cdc4484662b4bae1c75f
+      internalID: 686179715
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_60
+      rect:
+        serializedVersion: 2
+        x: 24
+        y: 456
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4415b31273a852f4d8bf3d204bee0b74
+      internalID: -1939582250
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_61
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 456
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 02d5fd1a16aaff448852058756b6eafd
+      internalID: 2019609828
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_62
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 456
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b7d854210ddee964faf24ac0a17f0cad
+      internalID: 1250693382
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_63
+      rect:
+        serializedVersion: 2
+        x: 168
+        y: 456
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 269d5b007d6b3d54389584f05fc6de9d
+      internalID: 172913719
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_64
+      rect:
+        serializedVersion: 2
+        x: 216
+        y: 456
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 96d79bf224e674f45a45d18e037caa5e
+      internalID: -878741498
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_65
+      rect:
+        serializedVersion: 2
+        x: 264
+        y: 456
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ea6bb6a603207d241a34110aa3546fac
+      internalID: 1672637561
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_66
+      rect:
+        serializedVersion: 2
+        x: 312
+        y: 456
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 454e5b8c2dfa34c4783c48cbc6089696
+      internalID: -1523753815
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_67
+      rect:
+        serializedVersion: 2
+        x: 360
+        y: 456
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 610c5e1e1fb15d343af1e40c78ad9ed9
+      internalID: -559730041
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_68
+      rect:
+        serializedVersion: 2
+        x: 408
+        y: 456
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b783561f9badb7646bbb5883af9d0946
+      internalID: -1312252062
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_69
+      rect:
+        serializedVersion: 2
+        x: 456
+        y: 456
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 00b49ae861e73a24aad4b393da8466b9
+      internalID: 288819593
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_70
+      rect:
+        serializedVersion: 2
+        x: 504
+        y: 456
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 78a3ff02217764e45bb1bc7bf36005f0
+      internalID: 280361663
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_71
+      rect:
+        serializedVersion: 2
+        x: 552
+        y: 456
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c347b5e887401fd4484771b6f598928e
+      internalID: -1499603521
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_72
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 456
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a9080d35deb0ffc4a8f59e82132d009d
+      internalID: -219397292
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_73
+      rect:
+        serializedVersion: 2
+        x: 648
+        y: 456
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4cc0e784b5dc68a47851226bddd65ab5
+      internalID: 308372553
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_74
+      rect:
+        serializedVersion: 2
+        x: 696
+        y: 456
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3ccb64e05eb67734481dcc03ea0bf9b3
+      internalID: -204093144
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_75
+      rect:
+        serializedVersion: 2
+        x: 24
+        y: 408
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3f971cdaefa1ae54a92ab9b1810d4e7b
+      internalID: -1297498277
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_76
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 408
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6b316dd0bf7fa6e46bbde5901a56b6e6
+      internalID: 708799722
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_77
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 408
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 13e156d96e67206409d1eb38a69130c1
+      internalID: 1635895017
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_78
+      rect:
+        serializedVersion: 2
+        x: 168
+        y: 408
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2ad7d5df5282565448845a8291df040d
+      internalID: -1024593102
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_79
+      rect:
+        serializedVersion: 2
+        x: 216
+        y: 408
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8fcd9dcec7cfda242ad35131fea21404
+      internalID: 1078789457
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_80
+      rect:
+        serializedVersion: 2
+        x: 264
+        y: 408
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 03499871969671e4ba0fae468eaedec8
+      internalID: 1610558846
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_81
+      rect:
+        serializedVersion: 2
+        x: 312
+        y: 408
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9ce4229bff37db143b979f3ee1ee692b
+      internalID: -2015522269
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_82
+      rect:
+        serializedVersion: 2
+        x: 360
+        y: 408
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4f6062d12215cf2459e25b6652b6563e
+      internalID: 1126160378
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_83
+      rect:
+        serializedVersion: 2
+        x: 408
+        y: 408
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bcef162e84d79d443b3d493b556e0ee5
+      internalID: 1402145437
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_84
+      rect:
+        serializedVersion: 2
+        x: 456
+        y: 408
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 39f0cd3d21aa31a40b233b0c8e92c033
+      internalID: -1149607883
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_85
+      rect:
+        serializedVersion: 2
+        x: 504
+        y: 408
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b603f174666a09a4d9520e3d5f4dba03
+      internalID: 492669245
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_86
+      rect:
+        serializedVersion: 2
+        x: 552
+        y: 408
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5661271c0ab139843a923609a59e714a
+      internalID: 679693068
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_87
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 408
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a7eafaef9d06ddc4e885ea0d19d8793a
+      internalID: 1651816060
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_88
+      rect:
+        serializedVersion: 2
+        x: 648
+        y: 408
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2a23a21a8127ef742a01edf1d5925e24
+      internalID: 1843208549
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_89
+      rect:
+        serializedVersion: 2
+        x: 696
+        y: 408
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d30c2dc785df4ba4a9acde0e8f1ec71a
+      internalID: 54592659
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_90
+      rect:
+        serializedVersion: 2
+        x: 24
+        y: 360
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 35f933ec32b3be045b28a21636b56064
+      internalID: -2145700450
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_91
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 360
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7fd11cf3c39e181439c7766b1b30461c
+      internalID: -423999671
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_92
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 360
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 15215f59d22cdcb4c868f2c46fba64c6
+      internalID: 991617210
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_93
+      rect:
+        serializedVersion: 2
+        x: 168
+        y: 360
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5bf24bd3bea2c7b4aa7371c52bc58986
+      internalID: 28095850
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_94
+      rect:
+        serializedVersion: 2
+        x: 216
+        y: 360
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7148b9349f8ad014dbcf30099842285d
+      internalID: 877593762
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_95
+      rect:
+        serializedVersion: 2
+        x: 264
+        y: 360
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f8416cfb39c7b3f48b33616eb25df70c
+      internalID: 309381027
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_96
+      rect:
+        serializedVersion: 2
+        x: 312
+        y: 360
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 985309ece8d460e4cbed6ac0e638d562
+      internalID: -1803542199
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_97
+      rect:
+        serializedVersion: 2
+        x: 360
+        y: 360
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 65deef6b20eaf954e95c4a0071d27cbb
+      internalID: -379842147
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_98
+      rect:
+        serializedVersion: 2
+        x: 408
+        y: 360
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0d7477599da33d645b2757b4cb35d80c
+      internalID: -882909380
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_99
+      rect:
+        serializedVersion: 2
+        x: 456
+        y: 360
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 821c5e9005efdc443ad3a5a2ec1fbf31
+      internalID: 1209185873
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_100
+      rect:
+        serializedVersion: 2
+        x: 504
+        y: 360
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eec2df7a60d6cc648a6904ff99c54b1f
+      internalID: -230364031
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_101
+      rect:
+        serializedVersion: 2
+        x: 552
+        y: 360
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7cadb64c82d209441b130675382b399c
+      internalID: -1948460691
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_102
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 360
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 16d08c31fd0f71b47a7918928990295a
+      internalID: -1532885551
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_103
+      rect:
+        serializedVersion: 2
+        x: 648
+        y: 360
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cc97592b7c06b494093f94505832c553
+      internalID: 397792390
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_104
+      rect:
+        serializedVersion: 2
+        x: 696
+        y: 360
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 911d21629ed1d514f8a1d8bf31626697
+      internalID: 659276676
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_105
+      rect:
+        serializedVersion: 2
+        x: 24
+        y: 312
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2b21a6d8dec256d4f97f2ae7f2383436
+      internalID: -61293957
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_106
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 312
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b927779ef6299e94fad3a015890a716a
+      internalID: -721822645
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_107
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 312
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 950235d405ebe2e4aba4d503fc7ffa90
+      internalID: 1544288544
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_108
+      rect:
+        serializedVersion: 2
+        x: 168
+        y: 312
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4e94216fac426ae4a96b9c5c8f5ec7ec
+      internalID: 250982996
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_109
+      rect:
+        serializedVersion: 2
+        x: 216
+        y: 312
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c2624324c02e4bb49b659376642405ac
+      internalID: 772936179
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_110
+      rect:
+        serializedVersion: 2
+        x: 264
+        y: 312
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 58152083e546c6b468b7d940b7fada6a
+      internalID: 2081874026
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_111
+      rect:
+        serializedVersion: 2
+        x: 312
+        y: 312
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 56c820e0a07b38a408a0378dc0f72d82
+      internalID: -423697809
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_112
+      rect:
+        serializedVersion: 2
+        x: 360
+        y: 312
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1f4f1c20b9644944cb85032213b9576c
+      internalID: -1272706277
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_113
+      rect:
+        serializedVersion: 2
+        x: 408
+        y: 312
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b4483e908a96ff3428048c490631633a
+      internalID: -346397051
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_114
+      rect:
+        serializedVersion: 2
+        x: 456
+        y: 312
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f949c9e29e848b34188027daf8ffe268
+      internalID: 897279768
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_115
+      rect:
+        serializedVersion: 2
+        x: 504
+        y: 312
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3be6c26d21394c44b8ca3d492f664b32
+      internalID: -2066883152
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_116
+      rect:
+        serializedVersion: 2
+        x: 552
+        y: 312
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e3df4aa4d7d90314e8f2d300e1aceff3
+      internalID: 462429379
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_117
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 312
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5b3324ad1cdc78c45b9529c10d9f0aac
+      internalID: -426404847
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_118
+      rect:
+        serializedVersion: 2
+        x: 648
+        y: 312
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7241e954e878d4441bf64ff1999a3ae9
+      internalID: -216161831
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_119
+      rect:
+        serializedVersion: 2
+        x: 696
+        y: 312
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 48a47f286f2d39749b9ea29dee14169b
+      internalID: 1265753833
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_120
+      rect:
+        serializedVersion: 2
+        x: 24
+        y: 264
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4fa9da1bf8660c9419881411031d09c6
+      internalID: -1100478762
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_121
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 264
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3b25f576e4681924ea5f8cb860214311
+      internalID: -335540055
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_122
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 264
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 43415d8e4916dfd4eb427f844336e948
+      internalID: 816771394
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_123
+      rect:
+        serializedVersion: 2
+        x: 168
+        y: 264
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7a8d473f526f5c649a0e5968318729eb
+      internalID: -708440400
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_124
+      rect:
+        serializedVersion: 2
+        x: 216
+        y: 264
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 206af490e2615af4bb6d740af0d88041
+      internalID: 1901093916
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_125
+      rect:
+        serializedVersion: 2
+        x: 264
+        y: 264
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2bb61380e4eae8b4bae235711fdfdfbd
+      internalID: 657569826
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_126
+      rect:
+        serializedVersion: 2
+        x: 312
+        y: 264
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: caf27854619c6d24cac318559d665815
+      internalID: 1091057263
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_127
+      rect:
+        serializedVersion: 2
+        x: 360
+        y: 264
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dc7941ab3bfac644b8feb46e8446b317
+      internalID: 316260237
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_128
+      rect:
+        serializedVersion: 2
+        x: 408
+        y: 264
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d6bdcd7d61b5c364dbdc53953e8c2442
+      internalID: 1238607669
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_129
+      rect:
+        serializedVersion: 2
+        x: 456
+        y: 264
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 23f926f2165d9a74e8cb694f0872f61a
+      internalID: -1731875219
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_130
+      rect:
+        serializedVersion: 2
+        x: 504
+        y: 264
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c6442fe89464e264c8f1c419e3a5b7e3
+      internalID: 1967649575
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_131
+      rect:
+        serializedVersion: 2
+        x: 552
+        y: 264
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e83f1ea5ef3586940ad06a7a40a1918f
+      internalID: -821285908
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_132
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 264
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5da2880aa7ee9d142847ee5587796195
+      internalID: 250370737
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_133
+      rect:
+        serializedVersion: 2
+        x: 648
+        y: 264
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cd705557cd6f7a348995c7245c3080a0
+      internalID: -223436723
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_134
+      rect:
+        serializedVersion: 2
+        x: 696
+        y: 264
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9401bb7bcf666f645b320fc8ddf7b728
+      internalID: -1143168291
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_135
+      rect:
+        serializedVersion: 2
+        x: 24
+        y: 216
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8a0e877512937b64593fa0b931164472
+      internalID: 784548755
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_136
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 216
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 66da6e291c28ea14fbf8302b03af5ee2
+      internalID: 461040988
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_137
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 216
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 470f9d4b0c1dc8e468115d7dc4437fb3
+      internalID: -1782236314
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_138
+      rect:
+        serializedVersion: 2
+        x: 168
+        y: 216
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ba1443771df14504b8ba0a75b4b36ded
+      internalID: -1236827838
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_139
+      rect:
+        serializedVersion: 2
+        x: 216
+        y: 216
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6146324c7d90a6a4f8ddc05ca90abfcf
+      internalID: -1776810904
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_140
+      rect:
+        serializedVersion: 2
+        x: 264
+        y: 216
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 35bbfc04925014044823536709a4ecd0
+      internalID: 9572362
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_141
+      rect:
+        serializedVersion: 2
+        x: 312
+        y: 216
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9fa843e628104a544b05c77e67ccbbc9
+      internalID: 869809653
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_142
+      rect:
+        serializedVersion: 2
+        x: 360
+        y: 216
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1613d09be5d3d8741bbbfb653899adee
+      internalID: -1973313811
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_143
+      rect:
+        serializedVersion: 2
+        x: 408
+        y: 216
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e60258b2e5f410a4ba49878f654874e8
+      internalID: 561763953
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_144
+      rect:
+        serializedVersion: 2
+        x: 456
+        y: 216
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5474f56ca93bb574abf182d951b65968
+      internalID: -1843404236
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_145
+      rect:
+        serializedVersion: 2
+        x: 504
+        y: 216
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 570a44b53bb51de4ab3cdf1b2b69551e
+      internalID: -1369647278
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_146
+      rect:
+        serializedVersion: 2
+        x: 552
+        y: 216
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3d2a6c5fa5a3aa649a0d62141f980878
+      internalID: 1867487697
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_147
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 216
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c93422445b983334d84030132be975fb
+      internalID: -2022144166
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_148
+      rect:
+        serializedVersion: 2
+        x: 648
+        y: 216
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 279ed57fc9e89a44bb9b3f30507c276c
+      internalID: -800036060
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_149
+      rect:
+        serializedVersion: 2
+        x: 696
+        y: 216
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 371ea39042ea46e4498d0adc7aa97c02
+      internalID: 1847534528
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_150
+      rect:
+        serializedVersion: 2
+        x: 24
+        y: 168
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cdb3b40dea62c504dae6df5348d1a297
+      internalID: 1744974799
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_151
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 168
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7bbe54857f855774784ca3dec05d1ea0
+      internalID: 1319365507
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_152
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 168
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6efc0fc0a2dd9c74f8f3f175c7033bbf
+      internalID: -1006118909
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_153
+      rect:
+        serializedVersion: 2
+        x: 168
+        y: 168
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 169620118365240428184716a41c58b1
+      internalID: -538691331
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_154
+      rect:
+        serializedVersion: 2
+        x: 216
+        y: 168
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f1e6f214942b9964d99c07a3dcf8a63b
+      internalID: 2067991182
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_155
+      rect:
+        serializedVersion: 2
+        x: 264
+        y: 168
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 06f410dd3f533db4683466170b59fe30
+      internalID: 1618504717
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_156
+      rect:
+        serializedVersion: 2
+        x: 312
+        y: 168
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d4a0289089e26564d8bcfb027c3661e7
+      internalID: -1983997257
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_157
+      rect:
+        serializedVersion: 2
+        x: 360
+        y: 168
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0088aa67c982eb346844caa36a5e1b2d
+      internalID: 1787654340
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_158
+      rect:
+        serializedVersion: 2
+        x: 408
+        y: 168
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ee945b60bfd8aa743ac0bedbd8619ffd
+      internalID: -339788369
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_159
+      rect:
+        serializedVersion: 2
+        x: 456
+        y: 168
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fcbb2ab07030a29459607a29fb43fd3e
+      internalID: -421438446
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_160
+      rect:
+        serializedVersion: 2
+        x: 504
+        y: 168
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0607c210a6d7ffd4da15eadfbd55eb5b
+      internalID: -1834539848
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_161
+      rect:
+        serializedVersion: 2
+        x: 552
+        y: 168
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2784d1582ccd82a4e817054e468f3d6e
+      internalID: 387652042
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_162
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 168
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f12dc8494995f9a43bccb05d114fbf25
+      internalID: 1832910809
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_163
+      rect:
+        serializedVersion: 2
+        x: 648
+        y: 168
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dbf2ebf1b02de9745a9b6076b1ed8873
+      internalID: 1483939992
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_164
+      rect:
+        serializedVersion: 2
+        x: 696
+        y: 168
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0b165e231996f7943995735fbde6178d
+      internalID: 1823055421
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_165
+      rect:
+        serializedVersion: 2
+        x: 24
+        y: 120
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e096372c23f598441a26f0f1a0b8c046
+      internalID: -1942832997
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_166
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 120
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 95a2ab9b334072f4ba6a3103ebc86768
+      internalID: 794195247
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_167
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 120
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8c785a939990bad44993a0036609ec14
+      internalID: -1893806029
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_168
+      rect:
+        serializedVersion: 2
+        x: 168
+        y: 120
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2b398c4b98cd365498ebc0169c65b83f
+      internalID: -1961843937
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_169
+      rect:
+        serializedVersion: 2
+        x: 216
+        y: 120
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 97db331b125d997488dd1506bdca0827
+      internalID: -212353577
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_170
+      rect:
+        serializedVersion: 2
+        x: 264
+        y: 120
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ce7668250345dd44382ccceb52cd0154
+      internalID: 2053097462
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_171
+      rect:
+        serializedVersion: 2
+        x: 312
+        y: 120
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 93431df47e10d874ca646db8d421c218
+      internalID: -865962509
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_172
+      rect:
+        serializedVersion: 2
+        x: 360
+        y: 120
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6fa052abddfa6c14f83a8f09203ebbf7
+      internalID: -666619478
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_173
+      rect:
+        serializedVersion: 2
+        x: 408
+        y: 120
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6fd6f0716deee2045bc11cc899f0beb1
+      internalID: 743399680
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_174
+      rect:
+        serializedVersion: 2
+        x: 456
+        y: 120
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ca4ed1e024ba31b4e8be21b5121147d1
+      internalID: -1012453527
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_175
+      rect:
+        serializedVersion: 2
+        x: 504
+        y: 120
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2a07664af2dcb3f4094c94fac543d922
+      internalID: 1388001233
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_176
+      rect:
+        serializedVersion: 2
+        x: 552
+        y: 120
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0d7c09ce57c696b47944975e658f753f
+      internalID: 1504351848
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_177
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 120
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 37b2b3d4d89bbbe4f9acf31a1fdd7e44
+      internalID: 166627160
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_178
+      rect:
+        serializedVersion: 2
+        x: 648
+        y: 120
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 846b513ce353bfa4c9aaac01f9c697f1
+      internalID: -21698171
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_179
+      rect:
+        serializedVersion: 2
+        x: 696
+        y: 120
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e75620c9e45764d4fb5800288e974900
+      internalID: 370071587
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_180
+      rect:
+        serializedVersion: 2
+        x: 24
+        y: 72
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 46f9fc1f9665099409c7ced012cf2ab0
+      internalID: 1167240724
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_181
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 72
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1059b641f437ffd49a59923e283d3ba5
+      internalID: -446194219
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_182
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 72
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3f7eff8317013ef429d5fef13fb8e945
+      internalID: -770761665
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_183
+      rect:
+        serializedVersion: 2
+        x: 168
+        y: 72
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a546a7986f7f73f4c8e6bf8883ff14cc
+      internalID: -1709020288
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_184
+      rect:
+        serializedVersion: 2
+        x: 216
+        y: 72
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 44dba456592ebb9418e535daa6b7bb79
+      internalID: 743365142
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_185
+      rect:
+        serializedVersion: 2
+        x: 264
+        y: 72
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a73bc7e1dbbbbfd4a8dfb447fc36af4a
+      internalID: 157493754
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_186
+      rect:
+        serializedVersion: 2
+        x: 312
+        y: 72
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2443aa5c642da194c98e3bdb0b8e9a72
+      internalID: -2125550720
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_187
+      rect:
+        serializedVersion: 2
+        x: 360
+        y: 72
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 38862366e1978494287a7020a54cc331
+      internalID: -1923245215
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_188
+      rect:
+        serializedVersion: 2
+        x: 408
+        y: 72
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 502d6b06cb489ed41a4783ce7525dca2
+      internalID: -1524508081
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_189
+      rect:
+        serializedVersion: 2
+        x: 456
+        y: 72
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e7c870fda1dab0e478813df9e9edffa4
+      internalID: -607028655
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_190
+      rect:
+        serializedVersion: 2
+        x: 504
+        y: 72
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 269e15368bfcf4e4eaf0547ea833bfa2
+      internalID: 78219246
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_191
+      rect:
+        serializedVersion: 2
+        x: 552
+        y: 72
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e35f263f8aece8f46acef97ee8bd482e
+      internalID: -1306993186
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_192
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 72
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 75816619dbe9b784b8ec1086433de055
+      internalID: -1595774363
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_193
+      rect:
+        serializedVersion: 2
+        x: 648
+        y: 72
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ecf8d662e5746bb4191b4c80ce1accd5
+      internalID: -419265879
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_194
+      rect:
+        serializedVersion: 2
+        x: 696
+        y: 72
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bf550878707ea4445bd0ae1c89206a26
+      internalID: 1827532177
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_195
+      rect:
+        serializedVersion: 2
+        x: 24
+        y: 24
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6730a425db723bd44ba285e9b683aebf
+      internalID: -36622372
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_196
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 24
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cf99c5f52e7a7514aa1bf4c1db11b4f6
+      internalID: 1892565361
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_197
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 24
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6dc775e5d3bfcdd43953331300937145
+      internalID: 1850606468
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_198
+      rect:
+        serializedVersion: 2
+        x: 168
+        y: 24
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4ca8033134591b242aacdba5e7e5dff3
+      internalID: 1094573483
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_199
+      rect:
+        serializedVersion: 2
+        x: 216
+        y: 24
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fb3e75220fa44b747835c6037c12d47e
+      internalID: -1279957337
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_200
+      rect:
+        serializedVersion: 2
+        x: 264
+        y: 24
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6e08c37e0f4dba44884fd405b7679f71
+      internalID: -1859444851
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_201
+      rect:
+        serializedVersion: 2
+        x: 312
+        y: 24
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 12f4cc38a57446046b0838cd57e22939
+      internalID: 363946476
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_202
+      rect:
+        serializedVersion: 2
+        x: 360
+        y: 24
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2a704098834af6a478b7414de6354b4f
+      internalID: 1718313495
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_203
+      rect:
+        serializedVersion: 2
+        x: 408
+        y: 24
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1c1c12104204d05418bcb56551506d7b
+      internalID: -1123747247
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_204
+      rect:
+        serializedVersion: 2
+        x: 456
+        y: 24
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ef117e64169beae4f80051c6ad893633
+      internalID: -654474210
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_205
+      rect:
+        serializedVersion: 2
+        x: 504
+        y: 24
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cf55de9e8d11b424ea479f11e181973a
+      internalID: -223570756
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_206
+      rect:
+        serializedVersion: 2
+        x: 552
+        y: 24
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2a661104ce4ae3842b922f01a7e11f57
+      internalID: 1065582086
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_207
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 24
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f0d310ef0461947419b7443c84769901
+      internalID: -2003292170
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_208
+      rect:
+        serializedVersion: 2
+        x: 648
+        y: 24
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d107247e8ee0ddf498232e7c80d81e95
+      internalID: -1597092916
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Auto-tile-A4-walls-3-shifted_209
+      rect:
+        serializedVersion: 2
+        x: 696
+        y: 24
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0a5c7c3bfbc119940a097f8de7076270
+      internalID: -1986569623
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 0f7deea2463078047bae87a2260b0e2c
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":48.0,"y":48.0},"gridSpriteOffset":{"x":24.0,"y":24.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      Auto-tile-A4-walls-3-shifted_0: 1507311489
+      Auto-tile-A4-walls-3-shifted_1: -1659293078
+      Auto-tile-A4-walls-3-shifted_10: -1836189504
+      Auto-tile-A4-walls-3-shifted_100: -230364031
+      Auto-tile-A4-walls-3-shifted_101: -1948460691
+      Auto-tile-A4-walls-3-shifted_102: -1532885551
+      Auto-tile-A4-walls-3-shifted_103: 397792390
+      Auto-tile-A4-walls-3-shifted_104: 659276676
+      Auto-tile-A4-walls-3-shifted_105: -61293957
+      Auto-tile-A4-walls-3-shifted_106: -721822645
+      Auto-tile-A4-walls-3-shifted_107: 1544288544
+      Auto-tile-A4-walls-3-shifted_108: 250982996
+      Auto-tile-A4-walls-3-shifted_109: 772936179
+      Auto-tile-A4-walls-3-shifted_11: -1671036873
+      Auto-tile-A4-walls-3-shifted_110: 2081874026
+      Auto-tile-A4-walls-3-shifted_111: -423697809
+      Auto-tile-A4-walls-3-shifted_112: -1272706277
+      Auto-tile-A4-walls-3-shifted_113: -346397051
+      Auto-tile-A4-walls-3-shifted_114: 897279768
+      Auto-tile-A4-walls-3-shifted_115: -2066883152
+      Auto-tile-A4-walls-3-shifted_116: 462429379
+      Auto-tile-A4-walls-3-shifted_117: -426404847
+      Auto-tile-A4-walls-3-shifted_118: -216161831
+      Auto-tile-A4-walls-3-shifted_119: 1265753833
+      Auto-tile-A4-walls-3-shifted_12: 759048564
+      Auto-tile-A4-walls-3-shifted_120: -1100478762
+      Auto-tile-A4-walls-3-shifted_121: -335540055
+      Auto-tile-A4-walls-3-shifted_122: 816771394
+      Auto-tile-A4-walls-3-shifted_123: -708440400
+      Auto-tile-A4-walls-3-shifted_124: 1901093916
+      Auto-tile-A4-walls-3-shifted_125: 657569826
+      Auto-tile-A4-walls-3-shifted_126: 1091057263
+      Auto-tile-A4-walls-3-shifted_127: 316260237
+      Auto-tile-A4-walls-3-shifted_128: 1238607669
+      Auto-tile-A4-walls-3-shifted_129: -1731875219
+      Auto-tile-A4-walls-3-shifted_13: -1957343500
+      Auto-tile-A4-walls-3-shifted_130: 1967649575
+      Auto-tile-A4-walls-3-shifted_131: -821285908
+      Auto-tile-A4-walls-3-shifted_132: 250370737
+      Auto-tile-A4-walls-3-shifted_133: -223436723
+      Auto-tile-A4-walls-3-shifted_134: -1143168291
+      Auto-tile-A4-walls-3-shifted_135: 784548755
+      Auto-tile-A4-walls-3-shifted_136: 461040988
+      Auto-tile-A4-walls-3-shifted_137: -1782236314
+      Auto-tile-A4-walls-3-shifted_138: -1236827838
+      Auto-tile-A4-walls-3-shifted_139: -1776810904
+      Auto-tile-A4-walls-3-shifted_14: -327227626
+      Auto-tile-A4-walls-3-shifted_140: 9572362
+      Auto-tile-A4-walls-3-shifted_141: 869809653
+      Auto-tile-A4-walls-3-shifted_142: -1973313811
+      Auto-tile-A4-walls-3-shifted_143: 561763953
+      Auto-tile-A4-walls-3-shifted_144: -1843404236
+      Auto-tile-A4-walls-3-shifted_145: -1369647278
+      Auto-tile-A4-walls-3-shifted_146: 1867487697
+      Auto-tile-A4-walls-3-shifted_147: -2022144166
+      Auto-tile-A4-walls-3-shifted_148: -800036060
+      Auto-tile-A4-walls-3-shifted_149: 1847534528
+      Auto-tile-A4-walls-3-shifted_15: -932018239
+      Auto-tile-A4-walls-3-shifted_150: 1744974799
+      Auto-tile-A4-walls-3-shifted_151: 1319365507
+      Auto-tile-A4-walls-3-shifted_152: -1006118909
+      Auto-tile-A4-walls-3-shifted_153: -538691331
+      Auto-tile-A4-walls-3-shifted_154: 2067991182
+      Auto-tile-A4-walls-3-shifted_155: 1618504717
+      Auto-tile-A4-walls-3-shifted_156: -1983997257
+      Auto-tile-A4-walls-3-shifted_157: 1787654340
+      Auto-tile-A4-walls-3-shifted_158: -339788369
+      Auto-tile-A4-walls-3-shifted_159: -421438446
+      Auto-tile-A4-walls-3-shifted_16: -1237695136
+      Auto-tile-A4-walls-3-shifted_160: -1834539848
+      Auto-tile-A4-walls-3-shifted_161: 387652042
+      Auto-tile-A4-walls-3-shifted_162: 1832910809
+      Auto-tile-A4-walls-3-shifted_163: 1483939992
+      Auto-tile-A4-walls-3-shifted_164: 1823055421
+      Auto-tile-A4-walls-3-shifted_165: -1942832997
+      Auto-tile-A4-walls-3-shifted_166: 794195247
+      Auto-tile-A4-walls-3-shifted_167: -1893806029
+      Auto-tile-A4-walls-3-shifted_168: -1961843937
+      Auto-tile-A4-walls-3-shifted_169: -212353577
+      Auto-tile-A4-walls-3-shifted_17: 2065604740
+      Auto-tile-A4-walls-3-shifted_170: 2053097462
+      Auto-tile-A4-walls-3-shifted_171: -865962509
+      Auto-tile-A4-walls-3-shifted_172: -666619478
+      Auto-tile-A4-walls-3-shifted_173: 743399680
+      Auto-tile-A4-walls-3-shifted_174: -1012453527
+      Auto-tile-A4-walls-3-shifted_175: 1388001233
+      Auto-tile-A4-walls-3-shifted_176: 1504351848
+      Auto-tile-A4-walls-3-shifted_177: 166627160
+      Auto-tile-A4-walls-3-shifted_178: -21698171
+      Auto-tile-A4-walls-3-shifted_179: 370071587
+      Auto-tile-A4-walls-3-shifted_18: 1588189262
+      Auto-tile-A4-walls-3-shifted_180: 1167240724
+      Auto-tile-A4-walls-3-shifted_181: -446194219
+      Auto-tile-A4-walls-3-shifted_182: -770761665
+      Auto-tile-A4-walls-3-shifted_183: -1709020288
+      Auto-tile-A4-walls-3-shifted_184: 743365142
+      Auto-tile-A4-walls-3-shifted_185: 157493754
+      Auto-tile-A4-walls-3-shifted_186: -2125550720
+      Auto-tile-A4-walls-3-shifted_187: -1923245215
+      Auto-tile-A4-walls-3-shifted_188: -1524508081
+      Auto-tile-A4-walls-3-shifted_189: -607028655
+      Auto-tile-A4-walls-3-shifted_19: 1733734171
+      Auto-tile-A4-walls-3-shifted_190: 78219246
+      Auto-tile-A4-walls-3-shifted_191: -1306993186
+      Auto-tile-A4-walls-3-shifted_192: -1595774363
+      Auto-tile-A4-walls-3-shifted_193: -419265879
+      Auto-tile-A4-walls-3-shifted_194: 1827532177
+      Auto-tile-A4-walls-3-shifted_195: -36622372
+      Auto-tile-A4-walls-3-shifted_196: 1892565361
+      Auto-tile-A4-walls-3-shifted_197: 1850606468
+      Auto-tile-A4-walls-3-shifted_198: 1094573483
+      Auto-tile-A4-walls-3-shifted_199: -1279957337
+      Auto-tile-A4-walls-3-shifted_2: 1900274185
+      Auto-tile-A4-walls-3-shifted_20: 1073701081
+      Auto-tile-A4-walls-3-shifted_200: -1859444851
+      Auto-tile-A4-walls-3-shifted_201: 363946476
+      Auto-tile-A4-walls-3-shifted_202: 1718313495
+      Auto-tile-A4-walls-3-shifted_203: -1123747247
+      Auto-tile-A4-walls-3-shifted_204: -654474210
+      Auto-tile-A4-walls-3-shifted_205: -223570756
+      Auto-tile-A4-walls-3-shifted_206: 1065582086
+      Auto-tile-A4-walls-3-shifted_207: -2003292170
+      Auto-tile-A4-walls-3-shifted_208: -1597092916
+      Auto-tile-A4-walls-3-shifted_209: -1986569623
+      Auto-tile-A4-walls-3-shifted_21: 1195267099
+      Auto-tile-A4-walls-3-shifted_22: -779948392
+      Auto-tile-A4-walls-3-shifted_23: 2128093465
+      Auto-tile-A4-walls-3-shifted_24: 217491934
+      Auto-tile-A4-walls-3-shifted_25: 425161676
+      Auto-tile-A4-walls-3-shifted_26: 711737763
+      Auto-tile-A4-walls-3-shifted_27: -1826308126
+      Auto-tile-A4-walls-3-shifted_28: 97354647
+      Auto-tile-A4-walls-3-shifted_29: -842926515
+      Auto-tile-A4-walls-3-shifted_3: -1375045184
+      Auto-tile-A4-walls-3-shifted_30: 226419189
+      Auto-tile-A4-walls-3-shifted_31: -1750092067
+      Auto-tile-A4-walls-3-shifted_32: -1697141572
+      Auto-tile-A4-walls-3-shifted_33: -1633337574
+      Auto-tile-A4-walls-3-shifted_34: -962150482
+      Auto-tile-A4-walls-3-shifted_35: -895115971
+      Auto-tile-A4-walls-3-shifted_36: 726383075
+      Auto-tile-A4-walls-3-shifted_37: 1312634882
+      Auto-tile-A4-walls-3-shifted_38: -1746134619
+      Auto-tile-A4-walls-3-shifted_39: 338911182
+      Auto-tile-A4-walls-3-shifted_4: -452546509
+      Auto-tile-A4-walls-3-shifted_40: 1055279560
+      Auto-tile-A4-walls-3-shifted_41: 1129342057
+      Auto-tile-A4-walls-3-shifted_42: -1816891382
+      Auto-tile-A4-walls-3-shifted_43: -2001190739
+      Auto-tile-A4-walls-3-shifted_44: -1694130162
+      Auto-tile-A4-walls-3-shifted_45: -899520036
+      Auto-tile-A4-walls-3-shifted_46: 1962328304
+      Auto-tile-A4-walls-3-shifted_47: 382416384
+      Auto-tile-A4-walls-3-shifted_48: 1733653704
+      Auto-tile-A4-walls-3-shifted_49: -861223917
+      Auto-tile-A4-walls-3-shifted_5: 2018450224
+      Auto-tile-A4-walls-3-shifted_50: 1799823990
+      Auto-tile-A4-walls-3-shifted_51: -1321245993
+      Auto-tile-A4-walls-3-shifted_52: 1251141230
+      Auto-tile-A4-walls-3-shifted_53: 1778309493
+      Auto-tile-A4-walls-3-shifted_54: 1115637153
+      Auto-tile-A4-walls-3-shifted_55: 264886944
+      Auto-tile-A4-walls-3-shifted_56: 413857106
+      Auto-tile-A4-walls-3-shifted_57: -304790216
+      Auto-tile-A4-walls-3-shifted_58: -743318319
+      Auto-tile-A4-walls-3-shifted_59: 686179715
+      Auto-tile-A4-walls-3-shifted_6: -1711383984
+      Auto-tile-A4-walls-3-shifted_60: -1939582250
+      Auto-tile-A4-walls-3-shifted_61: 2019609828
+      Auto-tile-A4-walls-3-shifted_62: 1250693382
+      Auto-tile-A4-walls-3-shifted_63: 172913719
+      Auto-tile-A4-walls-3-shifted_64: -878741498
+      Auto-tile-A4-walls-3-shifted_65: 1672637561
+      Auto-tile-A4-walls-3-shifted_66: -1523753815
+      Auto-tile-A4-walls-3-shifted_67: -559730041
+      Auto-tile-A4-walls-3-shifted_68: -1312252062
+      Auto-tile-A4-walls-3-shifted_69: 288819593
+      Auto-tile-A4-walls-3-shifted_7: 1349572622
+      Auto-tile-A4-walls-3-shifted_70: 280361663
+      Auto-tile-A4-walls-3-shifted_71: -1499603521
+      Auto-tile-A4-walls-3-shifted_72: -219397292
+      Auto-tile-A4-walls-3-shifted_73: 308372553
+      Auto-tile-A4-walls-3-shifted_74: -204093144
+      Auto-tile-A4-walls-3-shifted_75: -1297498277
+      Auto-tile-A4-walls-3-shifted_76: 708799722
+      Auto-tile-A4-walls-3-shifted_77: 1635895017
+      Auto-tile-A4-walls-3-shifted_78: -1024593102
+      Auto-tile-A4-walls-3-shifted_79: 1078789457
+      Auto-tile-A4-walls-3-shifted_8: -290284917
+      Auto-tile-A4-walls-3-shifted_80: 1610558846
+      Auto-tile-A4-walls-3-shifted_81: -2015522269
+      Auto-tile-A4-walls-3-shifted_82: 1126160378
+      Auto-tile-A4-walls-3-shifted_83: 1402145437
+      Auto-tile-A4-walls-3-shifted_84: -1149607883
+      Auto-tile-A4-walls-3-shifted_85: 492669245
+      Auto-tile-A4-walls-3-shifted_86: 679693068
+      Auto-tile-A4-walls-3-shifted_87: 1651816060
+      Auto-tile-A4-walls-3-shifted_88: 1843208549
+      Auto-tile-A4-walls-3-shifted_89: 54592659
+      Auto-tile-A4-walls-3-shifted_9: 656804787
+      Auto-tile-A4-walls-3-shifted_90: -2145700450
+      Auto-tile-A4-walls-3-shifted_91: -423999671
+      Auto-tile-A4-walls-3-shifted_92: 991617210
+      Auto-tile-A4-walls-3-shifted_93: 28095850
+      Auto-tile-A4-walls-3-shifted_94: 877593762
+      Auto-tile-A4-walls-3-shifted_95: 309381027
+      Auto-tile-A4-walls-3-shifted_96: -1803542199
+      Auto-tile-A4-walls-3-shifted_97: -379842147
+      Auto-tile-A4-walls-3-shifted_98: -882909380
+      Auto-tile-A4-walls-3-shifted_99: 1209185873
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
