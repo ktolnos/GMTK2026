@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class GM: MonoBehaviour
 {
@@ -11,8 +12,6 @@ public class GM: MonoBehaviour
     private InputAction loopResetAction;
     private InputAction nextAction;
     private InputAction previousAction;
-    public delegate void LoopResetDelegate();
-    public static event LoopResetDelegate LoopReset;
     private static int activePlayerIndex;
 
     public static Player ActivePlayer => Player.players[activePlayerIndex];
@@ -20,8 +19,13 @@ public class GM: MonoBehaviour
     
     private void Awake()
     {
-        LoopReset = null;
         Step = 0;
+        isPlaying = false;
+    }
+    
+    private void Start()
+    {
+        PlayerSelectionUI.I.Show();
     }
 
     private void OnEnable()
@@ -29,11 +33,6 @@ public class GM: MonoBehaviour
         loopResetAction = InputSystem.actions.FindAction("Reset");
         nextAction = InputSystem.actions.FindAction("Next");
         previousAction = InputSystem.actions.FindAction("Previous");
-    }
-
-    private void Start()
-    {
-        ResetLoop();
     }
 
     private void FixedUpdate()
@@ -44,6 +43,7 @@ public class GM: MonoBehaviour
             if (Step >= LoopFrames || loopResetAction.WasReleasedThisFrame())
             {
                 ResetLoop();
+                isPlaying = false;
             }
         }
         
@@ -65,11 +65,7 @@ public class GM: MonoBehaviour
     
     private static void ResetLoop()
     {
-        Step = 0;
-        LoopReset?.Invoke();
-        Debug.Log("Reset Loop");
-        isPlaying = false;
-        PlayerSelectionUI.I.Show();
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     public static void StartLoop()

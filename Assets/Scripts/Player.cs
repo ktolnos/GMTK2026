@@ -37,7 +37,6 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         InputSystem.actions.Enable();
         savePath =  Application.persistentDataPath + "/Player" + gameObject.name + ".save";
-        GM.LoopReset += LoopReset;
         startPosition = rb.position;
     }
 
@@ -53,17 +52,6 @@ public class Player : MonoBehaviour
             history = new HistoryEntry[GM.LoopFrames];
         }
         isControlled = false;
-        Reset();
-    }
-
-    void LoopReset()
-    {
-        if (history == null)
-        {
-            return;
-        }
-        Utils.WriteArrayToFile(history, savePath);
-        Reset();
     }
     
     void FixedUpdate()
@@ -154,15 +142,19 @@ public class Player : MonoBehaviour
         
         if (lastShotStep == GM.Step)
         {
-            gun.Shoot(direction);
+            gun.Shoot(direction.ToVector2());
         }
     }
 
-    private void Reset()
+    private void OnDestroy()
     {
-        rb.position = startPosition;
+        if (history == null)
+        {
+            return;
+        }
+        Utils.WriteArrayToFile(history, savePath);
     }
-    
+
     [Serializable]
     public struct HistoryEntry
     {

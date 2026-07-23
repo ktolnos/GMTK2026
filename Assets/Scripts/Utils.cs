@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Runtime.InteropServices;
+using UnityEngine;
 
 public class Utils
 {
@@ -8,6 +9,7 @@ public class Utils
     {
         var byteSpan = MemoryMarshal.AsBytes(dataArray.AsSpan());
         File.WriteAllBytes(filePath, byteSpan.ToArray());
+        Debug.Log("Wrote " + filePath);
     }
 
     public static Player.HistoryEntry[] ReadArrayFromFile(string filePath)

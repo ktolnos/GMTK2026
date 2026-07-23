@@ -8,7 +8,7 @@ public class Gun: MonoBehaviour
 
     private float lastShotStep;
     
-    public void Shoot(Direction direction)
+    public void Shoot(Vector2 direction)
     {
         if (GM.Step < lastShotStep)
         {
@@ -20,7 +20,7 @@ public class Gun: MonoBehaviour
             return;
         }
         var bullet = Instantiate(bulletPrefab, transform.position, transform.rotation);
-        bullet.rb.linearVelocity = direction.ToVector2() * bulletSpeed;
+        bullet.rb.linearVelocity = direction.normalized * bulletSpeed;
         lastShotStep = GM.Step;
     }
     

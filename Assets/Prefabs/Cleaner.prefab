@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5895438123672570972}
   - component: {fileID: 5150098456460008506}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Gun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -62,7 +62,7 @@ GameObject:
   - component: {fileID: 8477737261305421204}
   - component: {fileID: 4966157980345192869}
   - component: {fileID: 8421701019163742695}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cleaner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -227,7 +227,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!114 &4966157980345192869
 MonoBehaviour:
   m_ObjectHideFlags: 0
