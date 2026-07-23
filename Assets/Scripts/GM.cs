@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class GM: MonoBehaviour
 {
-    public static int LoopSeconds = 10;
+    public static int LoopSeconds = 30;
     public static int LoopFrames = LoopSeconds * 50;
     public static int Step = 0;
     private InputAction loopResetAction;

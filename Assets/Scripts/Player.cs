@@ -8,7 +8,7 @@ public class Player : MonoBehaviour
 {
     public static Player[] players = new Player[2];
     public int index;
-    public bool isUnlocked;
+    public bool isUnlocked => saveState.unlocked;
     public float speed = 5f;
     private InputAction movementAction;
     private InputAction shootAction;
@@ -21,7 +21,9 @@ public class Player : MonoBehaviour
     public bool isMoving;
     public int lastShotStep = -100;
 
-    private string savePath;
+    private string historySavePath;
+    private string stateSavePath;
+    private SaveState saveState;
 
     private Gun gun;
     public CircleCollider2D collider;
@@ -36,15 +38,14 @@ public class Player : MonoBehaviour
         
         rb = GetComponent<Rigidbody2D>();
         InputSystem.actions.Enable();
-        savePath =  Application.persistentDataPath + "/Player" + gameObject.name + ".save";
+        var baseSavePath = Application.persistentDataPath + "/Player" + gameObject.name;
+        historySavePath =  baseSavePath + ".save";
+        stateSavePath = baseSavePath + ".state";
         collider = GetComponent<CircleCollider2D>();
-    }
-
-    void LoopStart()
-    {
-        if (File.Exists(savePath))
+        
+        if (File.Exists(historySavePath))
         {
-            history = Utils.ReadArrayFromFile(savePath);
+            history = Utils.ReadArrayFromFile(historySavePath);
         }
 
         if (history == null || history.Length != GM.LoopFrames)
@@ -52,6 +53,17 @@ public class Player : MonoBehaviour
             history = new HistoryEntry[GM.LoopFrames];
         }
         isControlled = false;
+        if (File.Exists(stateSavePath))
+        {
+            saveState = JsonUtility.FromJson<SaveState>(File.ReadAllText(stateSavePath));
+        }
+        else
+        {
+            saveState = new SaveState()
+            {
+                unlocked = index == 0
+            };
+        }
     }
     
     void FixedUpdate()
@@ -59,10 +71,6 @@ public class Player : MonoBehaviour
         if (!GM.isPlaying)
         {
             return;
-        }
-        if ((GM.Step == 0 || history == null))
-        {
-            LoopStart();
         }
         var moveInput = movementAction.ReadValue<Vector2>();
         var moveVelocity = moveInput * speed;
@@ -154,7 +162,16 @@ public class Player : MonoBehaviour
         {
             return;
         }
-        Utils.WriteArrayToFile(history, savePath);
+        Utils.WriteArrayToFile(history, historySavePath);
+        File.WriteAllText(stateSavePath, JsonUtility.ToJson(saveState));
+    }
+
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.TryGetComponent(out Player otherPlayer))
+        {
+            otherPlayer.saveState.unlocked = true;
+        }
     }
 
     [Serializable]
@@ -165,5 +182,10 @@ public class Player : MonoBehaviour
         public Vector2 aim;
         public int lastInteractStep;
         public bool isWritten;
+    }
+    
+    public struct SaveState
+    {
+        public bool unlocked;
     }
 }

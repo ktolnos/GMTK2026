@@ -17,5 +17,4 @@ public class Utils
         byte[] fileBytes = File.ReadAllBytes(filePath);
         return MemoryMarshal.Cast<byte, Player.HistoryEntry>(fileBytes).ToArray();
     }
-        
 }
