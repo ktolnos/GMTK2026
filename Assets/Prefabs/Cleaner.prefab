@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4e6ba2b874f4693aee11af6807bf59f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Gun
-  bulletPrefab: {fileID: 30664251601204374, guid: 9e75cf4b027705c489f293c5ff4cac94, type: 3}
+  bulletPrefab: {fileID: 6875887957246599435, guid: 9e75cf4b027705c489f293c5ff4cac94, type: 3}
   stepsBetweenBullets: 10
   bulletSpeed: 20
 --- !u!1 &8941395654994605207
@@ -100,7 +100,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   index: 0
-  isUnlocked: 1
   speed: 5
   isControlled: 1
   lastInteractStep: -100

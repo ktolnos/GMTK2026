@@ -2,7 +2,7 @@
 
 public class Gun: MonoBehaviour
 {
-    public Bullet bulletPrefab;
+    public Rigidbody2D bulletPrefab;
     public float stepsBetweenBullets = 2;
     public float bulletSpeed = 20f;
 
@@ -20,7 +20,10 @@ public class Gun: MonoBehaviour
             return;
         }
         var bullet = Instantiate(bulletPrefab, transform.position, transform.rotation);
-        bullet.rb.linearVelocity = direction.normalized * bulletSpeed;
+        if (bullet.bodyType == RigidbodyType2D.Dynamic)
+        {
+            bullet.linearVelocity = direction.normalized * bulletSpeed;
+        }
         lastShotStep = GM.Step;
     }
     

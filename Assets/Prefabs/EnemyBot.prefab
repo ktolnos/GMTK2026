@@ -109,6 +109,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56f9d3e08d97ba44c84f594696d224a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  waypoints: []
+  speed: 2
 --- !u!114 &5540119752917326078
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -233,6 +235,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4e6ba2b874f4693aee11af6807bf59f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Gun
-  bulletPrefab: {fileID: 30664251601204374, guid: 9452ab4b7d3a33c4b9125156d830ec68, type: 3}
+  bulletPrefab: {fileID: 6875887957246599435, guid: 9452ab4b7d3a33c4b9125156d830ec68, type: 3}
   stepsBetweenBullets: 20
   bulletSpeed: 5
