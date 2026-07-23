@@ -101,6 +101,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   index: 0
   speed: 5
+  rb: {fileID: 0}
   isControlled: 1
   lastInteractStep: -100
   direction: 0
@@ -227,8 +228,8 @@ Rigidbody2D:
     serializedVersion: 2
     m_Bits: 0
   m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_SleepingMode: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!114 &4966157980345192869
 MonoBehaviour:

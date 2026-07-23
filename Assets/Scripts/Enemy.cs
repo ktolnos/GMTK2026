@@ -18,7 +18,10 @@ public class Enemy : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Player closestPlayer = null;
+        if (!GM.isPlaying)
+        {
+            return;
+        }
         var closestDistance = float.MaxValue;
         if (GM.Step % 10 == 0)
         {
@@ -33,9 +36,9 @@ public class Enemy : MonoBehaviour
                 var source = gun.transform.position;
                 var target = player.rb.position + player.collider.offset;
                 var distance = Vector2.Distance(source, target);
-                if (distance < 5 && distance < closestDistance)
+                var diff = (Vector2)source - target;
+                if (Mathf.Abs(diff.x) < 1.5f && Mathf.Abs(diff.y) < 5f && distance < closestDistance)
                 {
-                    closestPlayer = player;
                     closestDistance = distance;
                     targetPlayer = player;
                 }
