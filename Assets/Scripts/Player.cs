@@ -16,10 +16,10 @@ public class Player : MonoBehaviour
     private Rigidbody2D rb;
     public bool isControlled = true;
     private HistoryEntry[] history;
-    public int lastInteractStep = -1;
+    public int lastInteractStep = -100;
     public Direction direction;
     public bool isMoving;
-    public int lastShotStep = -1;
+    public int lastShotStep = -100;
     
     private string savePath;
     private Vector2 startPosition;
@@ -104,8 +104,8 @@ public class Player : MonoBehaviour
             history[GM.Step] = new HistoryEntry()
             {
                 movement =  moveVelocity * Time.fixedDeltaTime,
-                lastShotStep = shot ? GM.Step : GM.Step > 0 ? history[GM.Step-1].lastShotStep : -1,
-                lastInteractStep = interact ? GM.Step : GM.Step > 0 ? history[GM.Step-1].lastInteractStep : -1,
+                lastShotStep = shot ? GM.Step : GM.Step > 0 ? history[GM.Step-1].lastShotStep : -100,
+                lastInteractStep = interact ? GM.Step : GM.Step > 0 ? history[GM.Step-1].lastInteractStep : -100,
                 isWritten = true,
             };
         }

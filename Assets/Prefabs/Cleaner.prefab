@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Gun
   bulletPrefab: {fileID: 30664251601204374, guid: 9e75cf4b027705c489f293c5ff4cac94, type: 3}
-  bps: 2
+  stepsBetweenBullets: 2
   bulletSpeed: 20
 --- !u!1 &8941395654994605207
 GameObject:
@@ -101,10 +101,10 @@ MonoBehaviour:
   isUnlocked: 1
   speed: 5
   isControlled: 1
-  lastInteractStep: -1
+  lastInteractStep: -100
   direction: 0
   isMoving: 0
-  lastShotStep: -1
+  lastShotStep: -100
 --- !u!212 &3405475559147969970
 SpriteRenderer:
   serializedVersion: 3
