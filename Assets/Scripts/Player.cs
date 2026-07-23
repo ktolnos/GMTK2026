@@ -79,8 +79,8 @@ public class Player : MonoBehaviour
         var moveInput = movementAction.ReadValue<Vector2>();
         var moveVelocity = moveInput * speed;
 
-        var shot = shootAction.IsPressed();
-        var interact =  interactAction.IsPressed();
+        var shot = GM.ActivePlayer == this && shootAction.IsPressed();
+        var interact = GM.ActivePlayer == this && interactAction.IsPressed();
 
         if (GM.ActivePlayer != this)
         {
@@ -104,8 +104,8 @@ public class Player : MonoBehaviour
             history[GM.Step] = new HistoryEntry()
             {
                 movement =  moveVelocity * Time.fixedDeltaTime,
-                lastShotStep = shot ? GM.Step : GM.Step > 0 ? history[GM.Step].lastShotStep : -1,
-                lastInteractStep = interact ? GM.Step : GM.Step > 0 ? history[GM.Step].lastInteractStep : -1,
+                lastShotStep = shot ? GM.Step : GM.Step > 0 ? history[GM.Step-1].lastShotStep : -1,
+                lastInteractStep = interact ? GM.Step : GM.Step > 0 ? history[GM.Step-1].lastInteractStep : -1,
                 isWritten = true,
             };
         }
@@ -125,30 +125,34 @@ public class Player : MonoBehaviour
         isMoving = entry.movement != Vector2.zero;
         lastShotStep = entry.lastShotStep;
 
-        if (entry.movement.x > entry.movement.y)
+        if (entry.movement != Vector2.zero)
         {
-            if (entry.movement.x > 0)
+            if (Mathf.Abs(entry.movement.x) > Mathf.Abs(entry.movement.y))
             {
-                direction = Direction.Right;
+                if (entry.movement.x > 0)
+                {
+                    direction = Direction.Right;
+                }
+                else
+                {
+                    direction = Direction.Left;
+                }
             }
-            else if (entry.movement.x < 0)
+            else
             {
-                direction = Direction.Left;
-            }
-        }
-        else if (entry.movement.y > entry.movement.x)
-        {
-            if (entry.movement.y > 0) 
-            {
-                direction = Direction.Up;
-            }
-            else if (entry.movement.y < 0)
-            {
-                direction = Direction.Down;
+                if (entry.movement.y > 0) 
+                {
+                    direction = Direction.Up;
+                }
+                else
+                {
+                    direction = Direction.Down;
+                }
             }
         }
         
-        if (lastShotStep >= GM.Step - 2)
+        
+        if (lastShotStep == GM.Step)
         {
             gun.Shoot(direction);
         }

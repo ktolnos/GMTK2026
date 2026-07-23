@@ -1,6 +1,13 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
-public class Bullet: MonoBehaviour
+public class Bullet : MonoBehaviour
 {
-        public Rigidbody2D rb;
+    public Rigidbody2D rb;
+
+
+    private void Awake()
+    {
+        rb = GetComponent<Rigidbody2D>();
+    }
 }
