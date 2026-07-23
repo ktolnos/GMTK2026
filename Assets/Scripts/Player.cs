@@ -16,12 +16,15 @@ public class Player : MonoBehaviour
     private Rigidbody2D rb;
     public bool isControlled = true;
     private HistoryEntry[] history;
-    public bool interactRequested = false;
+    public int lastInteractStep = -1;
     public Direction direction;
     public bool isMoving;
+    public int lastShotStep = -1;
     
     private string savePath;
     private Vector2 startPosition;
+
+    private Gun gun;
     
     void Awake()
     {
@@ -29,7 +32,7 @@ public class Player : MonoBehaviour
         shootAction = InputSystem.actions.FindAction("Attack");
         interactAction = InputSystem.actions.FindAction("Interact");
         players[index] = this;
-        
+        gun = GetComponentInChildren<Gun>();
         
         rb = GetComponent<Rigidbody2D>();
         InputSystem.actions.Enable();
@@ -76,8 +79,8 @@ public class Player : MonoBehaviour
         var moveInput = movementAction.ReadValue<Vector2>();
         var moveVelocity = moveInput * speed;
 
-        var shot = shootAction.WasPressedThisFrame();
-        var interact =  interactAction.WasPressedThisFrame();
+        var shot = shootAction.IsPressed();
+        var interact =  interactAction.IsPressed();
 
         if (GM.ActivePlayer != this)
         {
@@ -101,8 +104,8 @@ public class Player : MonoBehaviour
             history[GM.Step] = new HistoryEntry()
             {
                 movement =  moveVelocity * Time.fixedDeltaTime,
-                shot = shot,
-                interact = interact,
+                lastShotStep = shot ? GM.Step : GM.Step > 0 ? history[GM.Step].lastShotStep : -1,
+                lastInteractStep = interact ? GM.Step : GM.Step > 0 ? history[GM.Step].lastInteractStep : -1,
                 isWritten = true,
             };
         }
@@ -118,9 +121,37 @@ public class Player : MonoBehaviour
         }
         
         rb.position += entry.movement;
-        interactRequested = entry.interact;
-        direction = entry.direction;
+        lastInteractStep = entry.lastInteractStep;
         isMoving = entry.movement != Vector2.zero;
+        lastShotStep = entry.lastShotStep;
+
+        if (entry.movement.x > entry.movement.y)
+        {
+            if (entry.movement.x > 0)
+            {
+                direction = Direction.Right;
+            }
+            else if (entry.movement.x < 0)
+            {
+                direction = Direction.Left;
+            }
+        }
+        else if (entry.movement.y > entry.movement.x)
+        {
+            if (entry.movement.y > 0) 
+            {
+                direction = Direction.Up;
+            }
+            else if (entry.movement.y < 0)
+            {
+                direction = Direction.Down;
+            }
+        }
+        
+        if (lastShotStep >= GM.Step - 2)
+        {
+            gun.Shoot(direction);
+        }
     }
 
     private void Reset()
@@ -132,10 +163,9 @@ public class Player : MonoBehaviour
     public struct HistoryEntry
     {
         public Vector2 movement;
-        public Direction direction;
-        public bool shot;
+        public int lastShotStep;
         public Vector2 aim;
-        public bool interact;
+        public int lastInteractStep;
         public bool isWritten;
     }
 }

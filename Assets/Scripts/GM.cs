@@ -17,7 +17,7 @@ public class GM: MonoBehaviour
 
     public static Player ActivePlayer => Player.players[activePlayerIndex];
     public static bool isPlaying = false;
-
+    
     private void Awake()
     {
         LoopReset = null;

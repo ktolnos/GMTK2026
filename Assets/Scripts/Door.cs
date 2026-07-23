@@ -21,7 +21,7 @@ public class Door : MonoBehaviour
     void OnTriggerEnter(Collider other) {
         if (other.CompareTag("Player"))
         {
-            playerInteractRequested = other.GetComponent<Player>().interactRequested;
+            playerInteractRequested = other.GetComponent<Player>().lastInteractStep >= GM.Step - 10;
         }
     }
 
