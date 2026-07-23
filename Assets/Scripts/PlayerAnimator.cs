@@ -8,7 +8,6 @@ public class PlayerAnimator: MonoBehaviour
     private SpriteAnimator spriteAnimator;
 
     public PlayerSprites controlled;
-    public PlayerSprites uncontrolled;
     
     private void Awake()
     {
@@ -18,7 +17,7 @@ public class PlayerAnimator: MonoBehaviour
 
     private void Update()
     {
-        var sprites = player.isControlled ? controlled : uncontrolled;
+        var sprites = controlled;
         if (player.isMoving)
         {
             spriteAnimator.animation = sprites.walk;
