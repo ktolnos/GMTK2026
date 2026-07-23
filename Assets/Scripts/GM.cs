@@ -52,14 +52,14 @@ public class GM: MonoBehaviour
             do
             {
                 activePlayerIndex = (activePlayerIndex + 1) % Player.players.Length;
-            } while (!ActivePlayer.isUnlocked);
+            } while (ActivePlayer == null || !ActivePlayer.isUnlocked);
         }
         if (previousAction.WasPerformedThisFrame())
         {
             do
             {
                 activePlayerIndex = (activePlayerIndex - 1 + Player.players.Length) % Player.players.Length;
-            } while (!ActivePlayer.isUnlocked);
+            } while (ActivePlayer == null || !ActivePlayer.isUnlocked);
         }
     }
     

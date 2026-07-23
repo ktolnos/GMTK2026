@@ -62,6 +62,7 @@ GameObject:
   - component: {fileID: 8477737261305421204}
   - component: {fileID: 4966157980345192869}
   - component: {fileID: 8421701019163742695}
+  - component: {fileID: 354087147937015861}
   m_Layer: 6
   m_Name: Cleaner
   m_TagString: Untagged
@@ -106,6 +107,7 @@ MonoBehaviour:
   direction: 0
   isMoving: 0
   lastShotStep: -100
+  collider: {fileID: 0}
 --- !u!212 &3405475559147969970
 SpriteRenderer:
   serializedVersion: 3
@@ -260,6 +262,23 @@ MonoBehaviour:
   autoplay: 1
   loop: 1
   spriteRenderer: {fileID: 0}
+--- !u!114 &354087147937015861
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8941395654994605207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5e9aa7665e34257bf6028bbab9111a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Health
+  maxHealth: 1
+  currentHealth: 0
+  destroyOnDeath: 1
+  deathEffect: {fileID: 141767832917907867, guid: 4d887e3f8843d7742a5f7a52b435a797, type: 3}
+  deathEffectDuration: 0.5
 --- !u!1 &9003546904402465473
 GameObject:
   m_ObjectHideFlags: 0

@@ -24,6 +24,7 @@ public class Player : MonoBehaviour
     private string savePath;
 
     private Gun gun;
+    public CircleCollider2D collider;
     
     void Awake()
     {
@@ -36,6 +37,7 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         InputSystem.actions.Enable();
         savePath =  Application.persistentDataPath + "/Player" + gameObject.name + ".save";
+        collider = GetComponent<CircleCollider2D>();
     }
 
     void LoopStart()
