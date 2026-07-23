@@ -20,7 +20,7 @@ public class Player : MonoBehaviour
     public Direction direction;
     public bool isMoving;
     public int lastShotStep = -100;
-    
+
     private string savePath;
     private Vector2 startPosition;
 
@@ -105,6 +105,8 @@ public class Player : MonoBehaviour
     {
         if (!entry.isWritten)
         {
+            isMoving = false;
+
             return;
         }
         

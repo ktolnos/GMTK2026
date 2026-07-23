@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using DefaultNamespace;
 using UnityEngine;
 
@@ -19,6 +19,15 @@ public class PlayerAnimator: MonoBehaviour
     private void Update()
     {
         var sprites = player.isControlled ? controlled : uncontrolled;
-        spriteAnimator.animation = sprites.idle;
+        if (player.isMoving)
+        {
+            spriteAnimator.animation = sprites.walk;
+        }
+        else
+        {
+            spriteAnimator.animation = sprites.idle;
+        }
+
+        spriteAnimator.spriteRenderer.flipX = player.direction == Direction.Left;
     }
 }

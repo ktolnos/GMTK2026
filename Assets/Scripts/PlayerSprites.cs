@@ -6,5 +6,6 @@ namespace DefaultNamespace
     public class PlayerSprites : ScriptableObject
     {
         public SpriteAnimator.Animation idle;
+        public SpriteAnimator.Animation walk;
     }
 }

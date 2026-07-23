@@ -14,5 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DefaultNamespace.PlayerSprites
   idle:
     frames:
-    - {fileID: 5749697539179435480, guid: 452592e3b8caf6b44b4105727bb63347, type: 3}
-    fps: 0
+    - {fileID: -3341639531561553397, guid: 452592e3b8caf6b44b4105727bb63347, type: 3}
+    - {fileID: 3729663262482465318, guid: 452592e3b8caf6b44b4105727bb63347, type: 3}
+    fps: 2
+  walk:
+    frames:
+    - {fileID: -4531401346954036184, guid: 452592e3b8caf6b44b4105727bb63347, type: 3}
+    - {fileID: -8597871773488591378, guid: 452592e3b8caf6b44b4105727bb63347, type: 3}
+    - {fileID: -2886500006717199140, guid: 452592e3b8caf6b44b4105727bb63347, type: 3}
+    - {fileID: -6692678861751429170, guid: 452592e3b8caf6b44b4105727bb63347, type: 3}
+    fps: 6
