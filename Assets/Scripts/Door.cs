@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class Door : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class Door : MonoBehaviour
     public List<string> unlockableByPlayers;
 
     public SpriteAnimator spriteAnimator; 
+    public Light2D light;
+    public ShadowCaster2D shadowCaster;
     public GameObject top;
     public GameObject overlay;
     public float openTime = 0.5f;
@@ -92,7 +95,15 @@ public class Door : MonoBehaviour
     void Update()
     {
         wallCollider.enabled = !isOpen;
+        if (shadowCaster != null)
+        {
+            shadowCaster.enabled = !isOpen;
+        }
         overlaySpriteRenderer.color = overlayColor;
+        if (light != null)
+        {
+            light.color = overlayColor;
+        }
         top.SetActive(isOpen);
         if (playerInteractRequested && !isOpen)
         {
