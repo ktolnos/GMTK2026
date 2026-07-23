@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 587630fc027e4bc5bff2a096ccca1d80, type: 3}
+  m_Name: Engineer
+  m_EditorClassIdentifier: Assembly-CSharp::DefaultNamespace.PlayerSprites
+  idle:
+    frames:
+    - {fileID: 2794048480989124112, guid: 97561b9fa3fa56746a5a36ff282cb422, type: 3}
+    - {fileID: -4626222684284389788, guid: 97561b9fa3fa56746a5a36ff282cb422, type: 3}
+    fps: 4
+  walk:
+    frames:
+    - {fileID: -8912520357164549628, guid: 97561b9fa3fa56746a5a36ff282cb422, type: 3}
+    - {fileID: 8966963182000257849, guid: 97561b9fa3fa56746a5a36ff282cb422, type: 3}
+    - {fileID: -1361555342716024925, guid: 97561b9fa3fa56746a5a36ff282cb422, type: 3}
+    - {fileID: -569505456005512590, guid: 97561b9fa3fa56746a5a36ff282cb422, type: 3}
+    fps: 6

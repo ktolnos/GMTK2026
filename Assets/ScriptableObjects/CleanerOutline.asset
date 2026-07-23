@@ -14,13 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DefaultNamespace.PlayerSprites
   idle:
     frames:
-    - {fileID: -7904116220757903311, guid: 188664ef59a8141489817d1d83c61edb, type: 3}
+    - {fileID: 1538298404319793793, guid: 188664ef59a8141489817d1d83c61edb, type: 3}
     - {fileID: -8984292708282352461, guid: 188664ef59a8141489817d1d83c61edb, type: 3}
     fps: 2
   walk:
     frames:
-    - {fileID: -2585392819492366797, guid: 188664ef59a8141489817d1d83c61edb, type: 3}
-    - {fileID: 2751316546098024759, guid: 188664ef59a8141489817d1d83c61edb, type: 3}
-    - {fileID: -4392421719393099968, guid: 188664ef59a8141489817d1d83c61edb, type: 3}
-    - {fileID: 3160367757032792348, guid: 188664ef59a8141489817d1d83c61edb, type: 3}
+    - {fileID: 3348276922482517349, guid: 188664ef59a8141489817d1d83c61edb, type: 3}
+    - {fileID: -7873303376382930142, guid: 188664ef59a8141489817d1d83c61edb, type: 3}
+    - {fileID: -3026752951706196183, guid: 188664ef59a8141489817d1d83c61edb, type: 3}
+    - {fileID: -7425896917961295793, guid: 188664ef59a8141489817d1d83c61edb, type: 3}
     fps: 6

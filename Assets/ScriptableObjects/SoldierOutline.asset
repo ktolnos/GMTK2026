@@ -16,7 +16,7 @@ MonoBehaviour:
     frames:
     - {fileID: -3341639531561553397, guid: 452592e3b8caf6b44b4105727bb63347, type: 3}
     - {fileID: 3729663262482465318, guid: 452592e3b8caf6b44b4105727bb63347, type: 3}
-    fps: 2
+    fps: 3
   walk:
     frames:
     - {fileID: -4531401346954036184, guid: 452592e3b8caf6b44b4105727bb63347, type: 3}
