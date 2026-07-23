@@ -236,5 +236,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Gun
   bulletPrefab: {fileID: 6875887957246599435, guid: 9452ab4b7d3a33c4b9125156d830ec68, type: 3}
-  stepsBetweenBullets: 20
+  stepsBetweenBullets: 40
   bulletSpeed: 5

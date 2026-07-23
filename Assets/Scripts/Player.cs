@@ -13,7 +13,7 @@ public class Player : MonoBehaviour
     private InputAction movementAction;
     private InputAction shootAction;
     private InputAction interactAction;
-    private Rigidbody2D rb;
+    public Rigidbody2D rb;
     public bool isControlled = true;
     private HistoryEntry[] history;
     public int lastInteractStep = -100;
@@ -100,6 +100,7 @@ public class Player : MonoBehaviour
             history[GM.Step] = new HistoryEntry()
             {
                 movement =  moveVelocity * Time.fixedDeltaTime,
+                position = rb.position,
                 lastShotStep = shot ? GM.Step : GM.Step > 0 ? history[GM.Step-1].lastShotStep : -100,
                 lastInteractStep = interact ? GM.Step : GM.Step > 0 ? history[GM.Step-1].lastInteractStep : -100,
                 isWritten = true,
@@ -118,34 +119,30 @@ public class Player : MonoBehaviour
             return;
         }
         
+        if (Vector2.SqrMagnitude(rb.position - entry.position) < 0.01f)
+        {
+            rb.position = entry.position;
+        }
+        else
+        {
+            Debug.Log($"Diverged! Player {index} position: {rb.position}, saved position: {entry.position}");
+        }
+        
         rb.position += entry.movement;
+        
         lastInteractStep = entry.lastInteractStep;
         isMoving = entry.movement != Vector2.zero;
         lastShotStep = entry.lastShotStep;
 
-        if (entry.movement != Vector2.zero)
+        if (entry.movement.x != 0f)
         {
-            if (Mathf.Abs(entry.movement.x) > Mathf.Abs(entry.movement.y))
+            if (entry.movement.x > 0)
             {
-                if (entry.movement.x > 0)
-                {
-                    direction = Direction.Right;
-                }
-                else
-                {
-                    direction = Direction.Left;
-                }
+                direction = Direction.Right;
             }
             else
             {
-                if (entry.movement.y > 0) 
-                {
-                    direction = Direction.Up;
-                }
-                else
-                {
-                    direction = Direction.Down;
-                }
+                direction = Direction.Left;
             }
         }
         
@@ -178,6 +175,7 @@ public class Player : MonoBehaviour
     public struct HistoryEntry
     {
         public Vector2 movement;
+        public Vector2 position;
         public int lastShotStep;
         public Vector2 aim;
         public int lastInteractStep;

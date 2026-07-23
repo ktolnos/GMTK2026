@@ -6,15 +6,10 @@ public class Gun: MonoBehaviour
     public float stepsBetweenBullets = 2;
     public float bulletSpeed = 20f;
 
-    private float lastShotStep;
+    private float lastShotStep = -100;
     
     public void Shoot(Vector2 direction)
     {
-        if (GM.Step < lastShotStep)
-        {
-            lastShotStep = -100;
-        }
-
         if (GM.Step < lastShotStep + stepsBetweenBullets)
         {
             return;

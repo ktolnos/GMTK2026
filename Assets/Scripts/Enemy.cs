@@ -8,6 +8,7 @@ public class Enemy : MonoBehaviour
     public float speed = 2f;
     private int waypointIndex = 0;
     private Rigidbody2D rb;
+    private Player targetPlayer;
     
     private void Awake()
     {
@@ -17,50 +18,60 @@ public class Enemy : MonoBehaviour
 
     private void FixedUpdate()
     {
-        var seesPlayer = false;
         Player closestPlayer = null;
         var closestDistance = float.MaxValue;
-        foreach (var player in Player.players)
+        if (GM.Step % 10 == 0)
         {
-            if (!player)
+            targetPlayer = null;
+            foreach (var player in Player.players)
             {
-                continue;
-            }
-            var source = gun.transform.position;
-            var target = player.transform.position + (Vector3)player.collider.offset;
-            var hit = Physics2D.Raycast(source, target - source,
-                Vector2.Distance(source, target),
-                LayerMask.GetMask("Default"));
-            if (!hit)
-            {
-                seesPlayer = true;
-                var distance = Vector2.Distance(player.transform.position, gun.transform.position);
-                if (distance < closestDistance)
+                if (!player)
+                {
+                    continue;
+                }
+            
+                var source = gun.transform.position;
+                var target = player.rb.position + player.collider.offset;
+                var distance = Vector2.Distance(source, target);
+                if (distance < 5 && distance < closestDistance)
                 {
                     closestPlayer = player;
                     closestDistance = distance;
+                    targetPlayer = player;
                 }
             }
-            else
-            {
-                Debug.Log(hit.transform.gameObject.name + " for player " + player.name);
-                Debug.DrawLine(source, target, Color.red, 1f);
-            }
         }
+        
 
-        if (seesPlayer)
+        if (targetPlayer != null)
         {
-            gun.Shoot(closestPlayer.transform.position - gun.transform.position);
+            gun.Shoot(targetPlayer.transform.position.x - gun.transform.position.x > 0 ? Vector3.right : Vector3.left);
+            var dir = Vector2.zero;
+            // if (Mathf.Abs(closestPlayer.transform.position.y - gun.transform.position.y) > 0.1f)
+            // {
+            //     dir = closestPlayer.transform.position.y - gun.transform.position.y > 0 ? Vector3.up : Vector3.down;
+            // }
+            // else
+            // {
+            //     dir = closestPlayer.transform.position.x - gun.transform.position.x > 0 ? Vector3.right : Vector3.left;
+            // }
+            // rb.position += (Vector2)dir * speed * Time.fixedDeltaTime;
         }
         else if (waypoints.Length > 0)
         {
             var target = waypoints[waypointIndex].position;
             var direction = (target - transform.position).normalized;
-            rb.position += (Vector2)direction * speed * Time.fixedDeltaTime;
-
-            if (Vector2.Distance(transform.position, target) < 0.1f)
+            var step = speed * Time.fixedDeltaTime;
+            var requiredStep = (target - transform.position).magnitude;
+            if (requiredStep < step)
             {
-                waypointIndex = (waypointIndex + 1) % waypoints.Length;
+                rb.position = target;
+                waypointIndex++;
+                waypointIndex %= waypoints.Length;
+            }
+            else
+            {
+                rb.position += (Vector2)direction * step;
             }
         }
     }
