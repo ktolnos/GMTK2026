@@ -6,6 +6,9 @@ using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
+    public static Player[] players = new Player[2];
+    public int index;
+    public bool isUnlocked;
     public float speed = 5f;
     private InputAction movementAction;
     private InputAction shootAction;
@@ -14,44 +17,59 @@ public class Player : MonoBehaviour
     public bool isControlled = true;
     private HistoryEntry[] history;
     public bool interactRequested = false;
+    public Direction direction;
+    public bool isMoving;
     
     private string savePath;
+    private Vector2 startPosition;
     
-    void Start()
+    void Awake()
     {
         movementAction = InputSystem.actions.FindAction("Move");
         shootAction = InputSystem.actions.FindAction("Attack");
         interactAction = InputSystem.actions.FindAction("Interact");
+        players[index] = this;
         
         
         rb = GetComponent<Rigidbody2D>();
         InputSystem.actions.Enable();
         savePath =  Application.persistentDataPath + "/Player" + gameObject.name + ".save";
         GM.LoopReset += LoopReset;
+        startPosition = rb.position;
     }
 
     void LoopStart()
     {
-        if (!File.Exists(savePath))
+        if (File.Exists(savePath))
         {
-            isControlled = true;
-            history = new HistoryEntry[GM.LoopFrames];
-        }
-        else
-        {
-            isControlled = false;
             history = Utils.ReadArrayFromFile(savePath);
         }
+
+        if (history == null || history.Length != GM.LoopFrames)
+        {
+            history = new HistoryEntry[GM.LoopFrames];
+        }
+        isControlled = false;
+        Reset();
     }
 
     void LoopReset()
     {
+        if (history == null)
+        {
+            return;
+        }
         Utils.WriteArrayToFile(history, savePath);
+        Reset();
     }
     
     void FixedUpdate()
     {
-        if (GM.Step == 0 || history == null)
+        if (!GM.isPlaying)
+        {
+            return;
+        }
+        if ((GM.Step == 0 || history == null))
         {
             LoopStart();
         }
@@ -60,8 +78,16 @@ public class Player : MonoBehaviour
 
         var shot = shootAction.WasPressedThisFrame();
         var interact =  interactAction.WasPressedThisFrame();
+
+        if (GM.ActivePlayer != this)
+        {
+            isControlled = false;
+        }
         
-        if (isControlled || moveInput != Vector2.zero)
+        if (GM.ActivePlayer == this && (isControlled || 
+                                        moveInput != Vector2.zero ||
+                                        shot ||
+                                        interact))
         {
             if (!isControlled)
             {
@@ -71,31 +97,41 @@ public class Player : MonoBehaviour
                     history[i].isWritten = false;
                 }
             }
-            var position = rb.position + moveVelocity * Time.fixedDeltaTime;
             
             history[GM.Step] = new HistoryEntry()
             {
-                position = position,
+                movement =  moveVelocity * Time.fixedDeltaTime,
                 shot = shot,
                 interact = interact,
                 isWritten = true,
             };
         }
         
-        var entry = history[GM.Step];
+        ApplyHistory(history[GM.Step]);
+    }
+
+    private void ApplyHistory(HistoryEntry entry)
+    {
         if (!entry.isWritten)
         {
             return;
         }
         
-        rb.position = entry.position;
+        rb.position += entry.movement;
         interactRequested = entry.interact;
+        direction = entry.direction;
+        isMoving = entry.movement != Vector2.zero;
+    }
+
+    private void Reset()
+    {
+        rb.position = startPosition;
     }
     
     [Serializable]
     public struct HistoryEntry
     {
-        public Vector2 position;
+        public Vector2 movement;
         public Direction direction;
         public bool shot;
         public Vector2 aim;

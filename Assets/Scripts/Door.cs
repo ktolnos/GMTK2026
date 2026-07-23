@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Door : Interactable
+public class Door : MonoBehaviour
 {
     public bool isLocked = true;
     public bool isOpen = false;
@@ -25,7 +25,7 @@ public class Door : Interactable
         }
     }
 
-    public override void Interact()
+    public void Interact()
     {
         if (isLocked)
         {
