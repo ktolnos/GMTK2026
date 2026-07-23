@@ -62,7 +62,6 @@ public class Door : MonoBehaviour
 
     void OnTriggerStay2D(Collider2D other)
     {
-        Debug.Log("On trigger stay");
         if (other.TryGetComponent(out Player player))
         {
             interactRequested |= other.GetComponent<Player>().lastInteractStep >= GM.Step - 10;

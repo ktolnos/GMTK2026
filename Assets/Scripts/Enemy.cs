@@ -22,7 +22,7 @@ public class Enemy : MonoBehaviour
         {
             return;
         }
-        var closestDistance = float.MaxValue;
+        var closestDistance = 10f;
         if (GM.Step % 10 == 0)
         {
             targetPlayer = null;
@@ -36,14 +36,18 @@ public class Enemy : MonoBehaviour
                 var source = gun.transform.position;
                 var target = player.rb.position + player.collider.offset;
                 var distance = Vector2.Distance(source, target);
-                var hit = Physics2D.Raycast(source, target - (Vector2) source,
-                    Vector2.Distance(source, target),
-                    LayerMask.GetMask("Default"));
-                if (distance < closestDistance && !hit)
+                if (distance < closestDistance)
                 {
-                    closestDistance = distance;
-                    targetPlayer = player;
+                    var hit = Physics2D.Raycast(source, target - (Vector2) source,
+                                        Vector2.Distance(source, target),
+                                        LayerMask.GetMask("Default"));
+                    if (!hit)
+                    {
+                        closestDistance = distance;
+                        targetPlayer = player;
+                    }
                 }
+                
             }
         }
         
