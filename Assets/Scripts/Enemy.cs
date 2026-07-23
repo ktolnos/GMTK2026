@@ -36,8 +36,10 @@ public class Enemy : MonoBehaviour
                 var source = gun.transform.position;
                 var target = player.rb.position + player.collider.offset;
                 var distance = Vector2.Distance(source, target);
-                var diff = (Vector2)source - target;
-                if (Mathf.Abs(diff.x) < 1.5f && Mathf.Abs(diff.y) < 5f && distance < closestDistance)
+                var hit = Physics2D.Raycast(source, target - (Vector2) source,
+                    Vector2.Distance(source, target),
+                    LayerMask.GetMask("Default"));
+                if (distance < closestDistance && !hit)
                 {
                     closestDistance = distance;
                     targetPlayer = player;
@@ -48,17 +50,22 @@ public class Enemy : MonoBehaviour
 
         if (targetPlayer != null)
         {
-            gun.Shoot(targetPlayer.transform.position.x - gun.transform.position.x > 0 ? Vector3.right : Vector3.left);
-            var dir = Vector2.zero;
-            // if (Mathf.Abs(closestPlayer.transform.position.y - gun.transform.position.y) > 0.1f)
-            // {
-            //     dir = closestPlayer.transform.position.y - gun.transform.position.y > 0 ? Vector3.up : Vector3.down;
-            // }
-            // else
-            // {
-            //     dir = closestPlayer.transform.position.x - gun.transform.position.x > 0 ? Vector3.right : Vector3.left;
-            // }
-            // rb.position += (Vector2)dir * speed * Time.fixedDeltaTime;
+            Vector2 diff = targetPlayer.transform.position - gun.transform.position;
+            gun.Shoot(diff.x > 0 ? Vector3.right : Vector3.left);
+            if (diff.magnitude > 1.5f)
+            {
+                Vector2 dir;
+                if (Mathf.Abs(diff.y) > 0.1f)
+                {
+                    dir = diff.y > 0 ? Vector3.up : Vector3.down;
+                }
+                else
+                {
+                    dir = diff.x > 0 ? Vector3.right : Vector3.left;
+                }
+                rb.position += dir * speed * Time.fixedDeltaTime;
+            }
+            
         }
         else if (waypoints.Length > 0)
         {
