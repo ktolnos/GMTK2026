@@ -22,7 +22,6 @@ public class Player : MonoBehaviour
     public int lastShotStep = -100;
 
     private string savePath;
-    private Vector2 startPosition;
 
     private Gun gun;
     
@@ -37,7 +36,6 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         InputSystem.actions.Enable();
         savePath =  Application.persistentDataPath + "/Player" + gameObject.name + ".save";
-        startPosition = rb.position;
     }
 
     void LoopStart()
