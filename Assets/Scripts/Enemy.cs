@@ -56,7 +56,7 @@ public class Enemy : MonoBehaviour
         {
             Vector2 diff = targetPlayer.transform.position - gun.transform.position;
             gun.Shoot(diff.x > 0 ? Vector3.right : Vector3.left);
-            if (diff.magnitude > 1.5f)
+            if (Mathf.Abs(diff.y) > 0.1f || Mathf.Abs(diff.x) > 2f)
             {
                 Vector2 dir;
                 if (Mathf.Abs(diff.y) > 0.1f)

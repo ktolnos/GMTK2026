@@ -48,9 +48,9 @@ public class Player : MonoBehaviour
             history = Utils.ReadArrayFromFile(historySavePath);
         }
 
-        if (history == null || history.Length != GM.LoopFrames)
+        if (history == null || history.Length != GM.LoopSteps)
         {
-            history = new HistoryEntry[GM.LoopFrames];
+            history = new HistoryEntry[GM.LoopSteps];
         }
         isControlled = false;
         if (File.Exists(stateSavePath))
@@ -91,7 +91,7 @@ public class Player : MonoBehaviour
             if (!isControlled)
             {
                 isControlled = true;
-                for (int i = GM.Step; i < GM.LoopFrames; i++)
+                for (int i = GM.Step; i < GM.LoopSteps; i++)
                 {
                     history[i].isWritten = false;
                 }

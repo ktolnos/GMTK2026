@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 1343293427409025660}
   - component: {fileID: 8837662543887804941}
   - component: {fileID: 8867123003438197837}
+  - component: {fileID: 3143074702761069506}
+  - component: {fileID: 4211470030239099950}
   m_Layer: 0
   m_Name: Vile
   m_TagString: Untagged
@@ -154,7 +156,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.44, y: 0.86}
+    oldSize: {x: 0.6875, y: 1.34375}
     newSize: {x: 0.44, y: 0.86}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -162,3 +164,42 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.44, y: 0.86}
   m_EdgeRadius: 0
+--- !u!114 &3143074702761069506
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2038913100897074676}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbf9d0292ef64a6887311942e0422c51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ExplodeAtTime
+  explosionPrefab: {fileID: 5669723346973264015, guid: f2463c7dcfb6d364090b908be824fffa, type: 3}
+  time: 3
+  shakeTime: 0.2
+  selfDestroyTime: 0.2
+  explosionDestroyTime: 0.5
+  endOfLoop: 1
+  randomOffset: 0
+  explodeWalls: 1
+  wallsExplosionRadius: 3
+--- !u!114 &4211470030239099950
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2038913100897074676}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5e9aa7665e34257bf6028bbab9111a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Health
+  maxHealth: 1
+  currentHealth: 0
+  destroyOnDeath: 0
+  deathEffect: {fileID: 0}
+  deathEffectDuration: 1
+  triggerTimedExplosionOnDeath: 1

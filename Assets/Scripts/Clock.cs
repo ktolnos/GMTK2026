@@ -5,10 +5,21 @@ using UnityEngine;
 public class Clock : MonoBehaviour
 {
     public TextMeshProUGUI clockText;
+    public bool wholeLoop = true;
+    public int maxTime = 15;
 
     private void Update()
     {
-        var seconds = Mathf.RoundToInt((float)(GM.LoopFrames - GM.Step) * GM.LoopSeconds / GM.LoopFrames);
+        int seconds;
+        if (wholeLoop)
+        {
+            seconds = Mathf.RoundToInt((float)(GM.LoopSteps - GM.Step) * GM.LoopSeconds / GM.LoopSteps);
+        }
+        else
+        {
+            seconds = maxTime - GM.Step / GM.StepsPerSecond;
+        }
+
         clockText.text = $"0:{seconds:D2}";
     }
 }

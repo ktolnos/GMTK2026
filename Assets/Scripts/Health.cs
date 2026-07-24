@@ -9,6 +9,7 @@ public class Health: MonoBehaviour
     public bool destroyOnDeath = true;
     public GameObject deathEffect;
     public float deathEffectDuration = 1f;
+    public bool triggerTimedExplosionOnDeath;
 
     public void TakeDamage(float damage)
     {
@@ -26,7 +27,12 @@ public class Health: MonoBehaviour
                 {
                     Destroy(effect, deathEffectDuration);
                 }
-            } 
+            }
+
+            if (triggerTimedExplosionOnDeath)
+            {
+                GetComponent<ExplodeAtTime>().StartExplosion();
+            }
             
         }
     }

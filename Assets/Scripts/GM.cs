@@ -9,7 +9,8 @@ using UnityEngine.SceneManagement;
 public class GM: MonoBehaviour
 {
     public static int LoopSeconds = 30;
-    public static int LoopFrames = LoopSeconds * 50;
+    public static int StepsPerSecond = 50;
+    public static int LoopSteps = LoopSeconds * StepsPerSecond;
     public static int Step = 0;
     private InputAction loopResetAction;
     private InputAction nextAction;
@@ -44,10 +45,15 @@ public class GM: MonoBehaviour
         if (isPlaying)
         {
             Step++;
-            if (Step >= LoopFrames || loopResetAction.WasReleasedThisFrame())
+            if (Step >= LoopSteps)
             {
                 isPlaying = false;
                 StartCoroutine(FinalExplosion());
+            }
+            else if (loopResetAction.WasReleasedThisFrame())
+            {
+                isPlaying = false;
+                ResetLoop();
             }
         }
         
@@ -92,11 +98,12 @@ public class GM: MonoBehaviour
     private IEnumerator FinalExplosion()
     {
         var startTime = Time.time;
-        var animationTime = 0.5f;
+        var animationTime = 1f;
+        CameraController.I.Shake(animationTime);
         while (Time.time - startTime < animationTime)
         {
             var t = (Time.time - startTime) / animationTime;
-            globalLight.intensity = 1 + 10 * t;
+            globalLight.intensity = 1 + 50 * t;
             yield return null;
         }
         ResetLoop();
