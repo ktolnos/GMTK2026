@@ -169,7 +169,7 @@ MonoBehaviour:
   overlay: {fileID: 8345894583199706885}
   interactionTime: 2
   triggerCollider: {fileID: 5291221980954673119}
-  overlayUnlockableColor: {r: 1, g: 1, b: 1, a: 1}
+  overlayUnlockableColor: {r: 0.70754707, g: 1, b: 0.72181815, a: 1}
   overlayLockedColor: {r: 1, g: 1, b: 1, a: 0}
   lineRenderer: {fileID: 6524084879959550893, guid: c5338c735c7008047bc483ae51c19f90, type: 3}
 --- !u!114 &8546205320680825754

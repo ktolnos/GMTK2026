@@ -8,6 +8,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1956581072528391137, guid: e511474ebcdfa474497bd8214d482ffe, type: 3}
+      propertyPath: index
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3405475559147969970, guid: e511474ebcdfa474497bd8214d482ffe, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 1418907036938009580, guid: 3afad2ff891c26b4888ddbbae40352e1, type: 3}
     - target: {fileID: 4565894188822126784, guid: e511474ebcdfa474497bd8214d482ffe, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -48,9 +56,13 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4966157980345192869, guid: e511474ebcdfa474497bd8214d482ffe, type: 3}
+      propertyPath: controlled
+      value: 
+      objectReference: {fileID: 11400000, guid: 2aada43e4ca299c469d621090706298a, type: 2}
     - target: {fileID: 8941395654994605207, guid: e511474ebcdfa474497bd8214d482ffe, type: 3}
       propertyPath: m_Name
-      value: Hackerman Variant
+      value: Hackerman
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

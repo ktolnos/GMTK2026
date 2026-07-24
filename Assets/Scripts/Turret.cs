@@ -17,7 +17,7 @@ public class Turret : MonoBehaviour
 
     private void FixedUpdate()
     {
-        ShootClosestTargetInRadius(gun.transform.position, radius);
+        ShootClosestTargetInRadius((Vector2)gun.transform.position, radius);
     }
 
     public void ShootClosestTargetInRadius(Vector2 position, float radius)
@@ -38,7 +38,7 @@ public class Turret : MonoBehaviour
             Vector2 targetPos = (Vector2)col.transform.position;
             float distance = Vector2.Distance(position, targetPos);
 
-            LayerMask mask = obstacleMask != (obstacleMask = 0) ? obstacleMask : LayerMask.GetMask("Default");
+            LayerMask mask = obstacleMask != 0 ? obstacleMask : LayerMask.GetMask("Default");
             if (!Physics2D.Raycast(position, targetPos - position, distance, mask))
             {
                 if (distance < closestDistance)

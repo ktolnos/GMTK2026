@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: EmissionFiltered
+  m_Name: EmissionFilteredGreen
   m_Shader: {fileID: -6465566751694194690, guid: 3fd84537971fa874e9e30ea4f79c04d9, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -55,7 +55,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _EmissionStrength: 25
-    - _SimilarityThreshold: 0.1
+    - _SimilarityThreshold: 0.09
     m_Colors:
     - White: {r: 1, g: 1, b: 1, a: 1}
     - _ColorFilter: {r: 0.6464113, g: 0.9811321, b: 0.42114633, a: 1}

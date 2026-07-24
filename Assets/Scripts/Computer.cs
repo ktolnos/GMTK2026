@@ -7,7 +7,7 @@ public class Computer : MonoBehaviour
 {
     public bool isLocked = true;
     public bool isActivated = false;
-    public bool playerInteractRequested;
+    
     public List<string> unlockableByPlayers;
     public List<GameObject> destroyOnActivate;
 
@@ -26,6 +26,7 @@ public class Computer : MonoBehaviour
     private Color overlayColor;
     private bool isInteracting = false;
     private List<LineRenderer> lineRenderers = new List<LineRenderer>();
+    private bool interactRequested;
 
     void Start()
     {
@@ -40,14 +41,15 @@ public class Computer : MonoBehaviour
         {
             overlayColor = overlayUnlockableColor;
         }
+        StartCoroutine(InteractChecker());
     }
 
     void OnTriggerStay2D(Collider2D other)
     {
         if (other.TryGetComponent(out Player player))
         {
-            playerInteractRequested = other.GetComponent<Player>().lastInteractStep >= GM.Step - 10;
-            canBeInteractedWith = unlockableByPlayers.Contains(player.name);
+            interactRequested |= other.GetComponent<Player>().lastInteractStep >= GM.Step - 10;
+            canBeInteractedWith |= unlockableByPlayers.Contains(player.name);
             if (canBeInteractedWith || !isLocked || isActivated)
             {
                 overlayColor = overlayUnlockableColor;
@@ -59,24 +61,6 @@ public class Computer : MonoBehaviour
         }
     }
 
-    void OnTriggerExit2D(Collider2D other)
-    {
-        if (other.TryGetComponent(out Player player))
-        {
-            if (unlockableByPlayers.Contains(player.name))
-            {
-                canBeInteractedWith = false;
-                if (!isLocked || isActivated)
-                {
-                    overlayColor = overlayUnlockableColor;
-                }
-                else
-                {
-                    overlayColor = overlayLockedColor;
-                }
-            }
-        }
-    }
 
     public void Interact()
     {
@@ -92,23 +76,36 @@ public class Computer : MonoBehaviour
         }
     }
 
-    void Update()
+    void FixedUpdate()
     {
         overlaySpriteRenderer.color = overlayColor;
         if (light != null)
         {
             light.color = overlayColor;
         }
-        if (playerInteractRequested && !isInteracting)
+        if (interactRequested && !isInteracting)
         {
             Interact();
-            playerInteractRequested = false;
+            interactRequested = false;
         }
         if(isInteracting){
-            for (int i = 0; i < lineRenderers.Count; i++)
-            {
-                lineRenderers[i].SetPosition(0, destroyOnActivate[i].transform.position);
-            }
+            for (int i = lineRenderers.Count - 1; i >= 0; i--)
+                {
+                    LineRenderer lr = lineRenderers[i];
+                    GameObject obj = destroyOnActivate[i];
+                    if (obj == null)
+                    {
+                        if (lr != null) Destroy(lr);
+                        lineRenderers.RemoveAt(i);
+                        destroyOnActivate.RemoveAt(i);
+                        continue;
+                    }
+                    if (lr != null && obj != null)
+                    {
+                        lr.SetPosition(0, obj.transform.position);
+                        lr.SetPosition(1, transform.position);
+                    }
+                }
         }
     }
 
@@ -130,5 +127,23 @@ public class Computer : MonoBehaviour
         {
             i.GetComponent<Health>().TakeDamage(1000);
         }
+        lineRenderers.Clear();
+        destroyOnActivate.Clear();
     }
+
+
+    IEnumerator InteractChecker()
+    {
+        while (true)
+        {
+            if (interactRequested && (canBeInteractedWith || !isLocked) && !isInteracting && !isActivated)
+            {
+                isInteracting = true;
+                spriteAnimator.PlayLoop();
+                yield return StartCoroutine(Activate());
+            }
+            yield return new WaitForFixedUpdate();
+        }
+    }
+
 }
