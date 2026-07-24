@@ -30,7 +30,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1624291737415109687, guid: ef58aeb28fea3b54e9520c484bc2dc72, type: 3}
       propertyPath: attackDistance
-      value: 3
+      value: 2.8
       objectReference: {fileID: 0}
     - target: {fileID: 1624291737415109687, guid: ef58aeb28fea3b54e9520c484bc2dc72, type: 3}
       propertyPath: attackDuration
@@ -40,13 +40,21 @@ PrefabInstance:
       propertyPath: stayDuringAttack
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4517071429502956574, guid: ef58aeb28fea3b54e9520c484bc2dc72, type: 3}
+      propertyPath: m_SleepingMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5540119752917326078, guid: ef58aeb28fea3b54e9520c484bc2dc72, type: 3}
+      propertyPath: maxHealth
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 6597696967589447860, guid: ef58aeb28fea3b54e9520c484bc2dc72, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.8400133
+      value: 2.7920446
       objectReference: {fileID: 0}
     - target: {fileID: 6597696967589447860, guid: ef58aeb28fea3b54e9520c484bc2dc72, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -5.643046
+      value: -4.501973
       objectReference: {fileID: 0}
     - target: {fileID: 6597696967589447860, guid: ef58aeb28fea3b54e9520c484bc2dc72, type: 3}
       propertyPath: m_LocalPosition.z

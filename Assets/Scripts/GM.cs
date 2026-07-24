@@ -9,7 +9,7 @@ using UnityEngine.SceneManagement;
 public class GM: MonoBehaviour
 {
     public static GM I;
-    public static int LoopSeconds = 30;
+    public static int LoopSeconds = 59;
     public static int StepsPerSecond = 50;
     public static int LoopSteps = LoopSeconds * StepsPerSecond;
     public static int Step = 0;
@@ -47,11 +47,7 @@ public class GM: MonoBehaviour
         if (isPlaying)
         {
             Step++;
-            if (Step >= LoopSteps)
-            {
-                TriggerFinalExplosion();
-            }
-            else if (loopResetAction.WasReleasedThisFrame())
+            if (loopResetAction.WasReleasedThisFrame())
             {
                 isPlaying = false;
                 ResetLoop();

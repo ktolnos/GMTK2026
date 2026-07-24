@@ -110,6 +110,10 @@ MonoBehaviour:
   rb: {fileID: 0}
   damage: 1
   destroyOnCollision: 1
+  damageType: physical
+  activeTime: 5000
+  destroyAfterDeactivate: 0
+  lifetime: 10
 --- !u!50 &6875887957246599435
 Rigidbody2D:
   serializedVersion: 5

@@ -33,10 +33,7 @@ public class Gun: MonoBehaviour
     private void ShootImpl(Vector2 direction)
     {
         Vector3 pos = transform.position;
-        if (mokriyUron)
-        {
-            pos.z = 5;
-        }
+        pos.z = bulletPrefab.transform.position.z;
         var bullet = Instantiate(bulletPrefab, pos, transform.rotation);
 
         if (bullet.bodyType == RigidbodyType2D.Dynamic)

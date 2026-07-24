@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8486022410926299462}
   - component: {fileID: 1857254543034750571}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Gun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 643382724259684310}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.03, y: 0.07, z: -1}
+  m_LocalPosition: {x: 0.026, y: 0.066, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -45,8 +45,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Gun
   bulletPrefab: {fileID: 6875887957246599435, guid: 9e75cf4b027705c489f293c5ff4cac94, type: 3}
-  stepsBetweenBullets: 10
+  stepsBetweenBullets: 3
   bulletSpeed: 20
+  mokriyUron: 0
+  shootAnimation:
+    frames: []
+    fps: 0
+  targetAnimator: {fileID: 0}
+  isAnimating: 0
 --- !u!1 &9073152586018619813
 GameObject:
   m_ObjectHideFlags: 0
@@ -61,7 +67,7 @@ GameObject:
   - component: {fileID: -5129076564039896904}
   - component: {fileID: 4200983709100912059}
   - component: {fileID: 2350211806277057334}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Turret
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -77,7 +83,7 @@ Transform:
   m_GameObject: {fileID: 9073152586018619813}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.5, y: -1.46, z: 0}
+  m_LocalPosition: {x: -1.5, y: -1.46, z: -0.9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -96,7 +102,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3498581054e18a74082be9836440f8de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Turret
-  radius: 5
+  radius: 10
   targetMask:
     serializedVersion: 2
     m_Bits: 128
@@ -225,7 +231,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.000913322, y: -0.040181994}
+  m_Offset: {x: 0.000913322, y: -0.043912232}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -235,7 +241,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.45389092, y: 0.60548615}
+  m_Size: {x: 0.45389092, y: 0.5980257}
   m_EdgeRadius: 0
 --- !u!114 &2350211806277057334
 MonoBehaviour:
@@ -249,8 +255,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5e9aa7665e34257bf6028bbab9111a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Health
-  maxHealth: 10
+  maxHealth: 3
   currentHealth: 0
   destroyOnDeath: 1
   deathEffect: {fileID: 141767832917907867, guid: bf20b88da1e4ed44d8ad92d12728474a, type: 3}
+  stunEffect: {fileID: 0}
   deathEffectDuration: 1
+  stunDuration: 1
+  stunEnd: 0
+  triggerTimedExplosionOnDeath: 0

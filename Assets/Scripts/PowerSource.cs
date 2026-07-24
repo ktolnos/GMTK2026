@@ -15,6 +15,8 @@ public class PowerSource: MonoBehaviour
     private void OnDestroy()
     {
         all.Remove(this);
+        if (Level.I == null) return;
+        if (Level.I.wireTilemap == null) return;
         Level.I.RefreshPowerGrid(Level.I.wireTilemap.WorldToCell(transform.position));
     }
 }

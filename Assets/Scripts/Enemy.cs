@@ -39,7 +39,7 @@ public class Enemy : MonoBehaviour
             direction = Vector2.zero;
             return;
         }
-        var closestDistance = 10f;
+        var closestDistance = 15f;
         if (GM.Step % 1 == 0)
         {
             targetPlayer = null;
@@ -71,7 +71,7 @@ public class Enemy : MonoBehaviour
 
         if (targetPlayer != null)
         {
-            Vector2 diff = targetPlayer.transform.position - gun.transform.position;
+            Vector2 diff = (Vector2)targetPlayer.transform.position + targetPlayer.collider.offset - (Vector2)gun.transform.position;
             if(closestDistance <= attackDistance){
                 gun.Shoot(diff.x > 0 ? Vector3.right : Vector3.left);
             }
@@ -79,7 +79,7 @@ public class Enemy : MonoBehaviour
             {
                 stayStill = true;
             }
-            if (Mathf.Abs(diff.y) > 0.1f || Mathf.Abs(diff.x) > 2f)
+            if (Mathf.Abs(diff.y) > 0.02f || Mathf.Abs(diff.x) > 2f)
             {
                 Vector2 dir;
                 if (Mathf.Abs(diff.y) > 0.1f)

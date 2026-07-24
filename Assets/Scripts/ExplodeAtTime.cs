@@ -17,6 +17,7 @@ public class ExplodeAtTime : MonoBehaviour
     public float randomOffset;
     public bool explodeWalls;
     public float wallsExplosionRadius;
+    public bool isDefused = false;
 
     private void Start()
     {
@@ -31,7 +32,7 @@ public class ExplodeAtTime : MonoBehaviour
     public void FixedUpdate()
     {
         var currentTime = (float)GM.Step * GM.LoopSeconds / GM.LoopSteps;
-        if (currentTime > time)
+        if (currentTime > time && !isDefused)
         {
             StartExplosion();
         }

@@ -103,6 +103,7 @@ public class Computer : MonoBehaviour
                 {
                     LineRenderer lr = lineRenderers[i];
                     GameObject obj = destroyOnActivate[i];
+
                     if (obj == null)
                     {
                         if (lr != null) Destroy(lr);
@@ -134,8 +135,19 @@ public class Computer : MonoBehaviour
         isActivated = true;
         isInteracting = false;
         foreach (var i in destroyOnActivate)
-        {
-            i.GetComponent<Health>().TakeDamage(1000);
+        {       
+            if(i.TryGetComponent(out ExplodeAtTime explode)){
+                explode.isDefused = true;
+                if(i.TryGetComponent(out Clock clock)){
+                    clock.enabled = false;
+                }
+            } else if(i.TryGetComponent(out Door door)) {
+                door.isLocked = false;
+            } else {
+                if(i.TryGetComponent(out Health health)){
+                    health.TakeDamage(1000);
+                }
+            }
         }
         lineRenderers.Clear();
         destroyOnActivate.Clear();

@@ -11,11 +11,13 @@ public class Bullet : MonoBehaviour
     public bool destroyAfterDeactivate = false;
 
     private int activeStep = -100;
+    public float lifetime = 10f;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         activeStep = GM.Step;
+        Destroy(gameObject, lifetime);
     }
 
     private void FixedUpdate()
@@ -26,7 +28,7 @@ public class Bullet : MonoBehaviour
         }
     }
 
-    private void OnCollisionStay2D(Collision2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
         if(GM.Step > activeStep + activeTime)
         {

@@ -26,25 +26,37 @@ public class Door : MonoBehaviour
     private Color overlayColor;
     private bool isOpening = false;
     private bool interactRequested = false;
+    public bool needsPower = false;
+    private bool hasPower;
 
     void Start()
     {
         spriteAnimator = GetComponent<SpriteAnimator>();
         overlaySpriteRenderer = overlay.GetComponent<SpriteRenderer>();
         
-        if (isLocked)
-        {
-            overlayColor = overlayLockedColor;
-        }
-        else
-        {
-            overlayColor = overlayUnlockableColor;
-        }
         StartCoroutine(InteractChecker());
     }
     
     void FixedUpdate()
     {
+        if (canBeUnlocked || !isLocked || isOpen)
+        {
+            overlayColor = overlayUnlockableColor;
+        }
+        else
+        {
+            overlayColor = overlayLockedColor;
+        }
+        if (needsPower) {
+            hasPower = Level.I.IsPowered(transform.position) || 
+                Level.I.IsPowered(transform.position + Vector3.left) ||
+                Level.I.IsPowered(transform.position + Vector3.right);
+            if (!hasPower)
+            {
+                overlayColor = Color.black;
+            }
+        }
+
         wallCollider.enabled = !isOpen;
         if (shadowCaster != null)
         {
@@ -62,18 +74,13 @@ public class Door : MonoBehaviour
 
     void OnTriggerStay2D(Collider2D other)
     {
+        if (needsPower && !hasPower) {
+            return;
+        }
         if (other.TryGetComponent(out Player player))
         {
             interactRequested |= other.GetComponent<Player>().lastInteractStep >= GM.Step - 10;
             canBeUnlocked |= unlockableByPlayers.Contains(player.name);
-            if (canBeUnlocked || !isLocked || isOpen)
-            {
-                overlayColor = overlayUnlockableColor;
-            }
-            else
-            {
-                overlayColor = overlayLockedColor;
-            }
         }
     }
 
