@@ -27,6 +27,7 @@ public class Computer : MonoBehaviour
     private bool isInteracting = false;
     private List<LineRenderer> lineRenderers = new List<LineRenderer>();
     private bool interactRequested;
+    public GameObject noEnergyIndicator;
 
     void Start()
     {
@@ -46,6 +47,10 @@ public class Computer : MonoBehaviour
 
     void OnTriggerStay2D(Collider2D other)
     {
+        if (!Level.I.IsPowered(transform.position))
+        {
+            return;
+        }
         if (other.TryGetComponent(out Player player))
         {
             interactRequested |= other.GetComponent<Player>().lastInteractStep >= GM.Step - 10;
@@ -60,7 +65,6 @@ public class Computer : MonoBehaviour
             }
         }
     }
-
 
     public void Interact()
     {
@@ -78,6 +82,12 @@ public class Computer : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (!Level.I.IsPowered(transform.position))
+        {
+            noEnergyIndicator.SetActive(true);
+            return;
+        }
+        noEnergyIndicator.SetActive(false);
         overlaySpriteRenderer.color = overlayColor;
         if (light != null)
         {
