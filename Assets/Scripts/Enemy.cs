@@ -1,29 +1,46 @@
-using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.Rendering.Universal;
+using System;
 public class Enemy : MonoBehaviour
 {
-    private Gun gun;
-    public Transform[] waypoints;
+
+    [NonSerialized] public bool isMoving;
+    [NonSerialized] public Vector2 direction;
+
     public float speed = 2f;
+    public Transform[] waypoints;
+    public bool stayDuringAttack = false;
+    public int attackDuration = 0;
+    public bool stayStill = false;
+    public float attackDistance = 10;
+
+
+
+    private Gun gun;
     private int waypointIndex = 0;
     private Rigidbody2D rb;
     private Player targetPlayer;
+    private Health health;
     
     private void Awake()
     {
         gun = GetComponentInChildren<Gun>();
         rb = GetComponent<Rigidbody2D>();
+        health = GetComponent<Health>();
     }
 
     private void FixedUpdate()
     {
-        if (!GM.isPlaying)
+        if (!GM.isPlaying || health.stunEnd > GM.Step)
         {
+            isMoving = false;
+            direction = Vector2.zero;
             return;
         }
         var closestDistance = 10f;
-        if (GM.Step % 10 == 0)
+        if (GM.Step % 1 == 0)
         {
             targetPlayer = null;
             foreach (var player in Player.players)
@@ -55,7 +72,13 @@ public class Enemy : MonoBehaviour
         if (targetPlayer != null)
         {
             Vector2 diff = targetPlayer.transform.position - gun.transform.position;
-            gun.Shoot(diff.x > 0 ? Vector3.right : Vector3.left);
+            if(closestDistance <= attackDistance){
+                gun.Shoot(diff.x > 0 ? Vector3.right : Vector3.left);
+            }
+            if(stayDuringAttack && !stayStill)
+            {
+                stayStill = true;
+            }
             if (Mathf.Abs(diff.y) > 0.1f || Mathf.Abs(diff.x) > 2f)
             {
                 Vector2 dir;
@@ -67,9 +90,15 @@ public class Enemy : MonoBehaviour
                 {
                     dir = diff.x > 0 ? Vector3.right : Vector3.left;
                 }
+                isMoving = true;
                 rb.position += dir * speed * Time.fixedDeltaTime;
+                direction = dir;
             }
-            
+            else
+            {
+                isMoving = false;
+                direction = Vector2.zero;
+            }
         }
         else if (waypoints.Length > 0)
         {
@@ -85,8 +114,23 @@ public class Enemy : MonoBehaviour
             }
             else
             {
+                isMoving = true;
+                direction = (Vector2)direction;
                 rb.position += (Vector2)direction * step;
             }
+        }else{
+            isMoving = false;
+            direction = Vector2.zero;
+        }
+        if(GM.Step - gun.lastShotStep > attackDuration && !gun.isAnimating)
+        {
+            stayStill = false;
+        }
+        if(stayStill)
+        {
+            isMoving = false;
+            direction = Vector2.zero;
+            rb.position = transform.position;
         }
     }
 }

@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 587630fc027e4bc5bff2a096ccca1d80, type: 3}
+  m_Name: EnemyBot
+  m_EditorClassIdentifier: Assembly-CSharp::DefaultNamespace.PlayerSprites
+  idle:
+    frames:
+    - {fileID: 7617403611008385243, guid: 5e2d6e54c36aab847b4ef32566c51c77, type: 3}
+    - {fileID: 6484827310579986974, guid: 5e2d6e54c36aab847b4ef32566c51c77, type: 3}
+    - {fileID: 6445837661772093963, guid: 5e2d6e54c36aab847b4ef32566c51c77, type: 3}
+    - {fileID: -895792847845037918, guid: 5e2d6e54c36aab847b4ef32566c51c77, type: 3}
+    fps: 4
+  walk:
+    frames:
+    - {fileID: 7988034935308457957, guid: 5e2d6e54c36aab847b4ef32566c51c77, type: 3}
+    - {fileID: -3749379633731375033, guid: 5e2d6e54c36aab847b4ef32566c51c77, type: 3}
+    - {fileID: -4086219931996227907, guid: 5e2d6e54c36aab847b4ef32566c51c77, type: 3}
+    - {fileID: -7558172330886306258, guid: 5e2d6e54c36aab847b4ef32566c51c77, type: 3}
+    fps: 4

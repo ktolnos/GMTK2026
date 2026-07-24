@@ -8,7 +8,7 @@ public class SpriteAnimator: MonoBehaviour
     public bool autoplay = true;
     public bool loop = true;
     public SpriteRenderer spriteRenderer;
-    private bool pause;
+    [NonSerialized] public bool pause;
     private void Awake()
     {
         if (spriteRenderer == null)

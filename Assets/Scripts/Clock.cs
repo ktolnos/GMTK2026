@@ -26,7 +26,7 @@ public class Clock : MonoBehaviour
 
     private void OnDestroy()
     {
-        if (endLoopOnDestroy)
+        if (endLoopOnDestroy && GM.isPlaying)
         {
             GM.I.TriggerFinalExplosion();
         }
