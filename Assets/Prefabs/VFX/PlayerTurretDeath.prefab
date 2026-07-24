@@ -55,6 +55,7 @@ MonoBehaviour:
     - {fileID: 1594409044583314554, guid: 5e2d6e54c36aab847b4ef32566c51c77, type: 3}
     - {fileID: -1289618261064849282, guid: 5e2d6e54c36aab847b4ef32566c51c77, type: 3}
     - {fileID: 6605497105692410497, guid: 5e2d6e54c36aab847b4ef32566c51c77, type: 3}
+    - {fileID: 0}
     fps: 15
   autoplay: 1
   loop: 0
