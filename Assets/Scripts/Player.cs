@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
-    public static Player[] players = new Player[3];
+    public static Player[] players = new Player[4];
     public int index;
     public bool isUnlocked => saveState.unlocked;
     public float speed = 5f;

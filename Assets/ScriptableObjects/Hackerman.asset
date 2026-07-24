@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 587630fc027e4bc5bff2a096ccca1d80, type: 3}
+  m_Name: Hackerman
+  m_EditorClassIdentifier: Assembly-CSharp::DefaultNamespace.PlayerSprites
+  idle:
+    frames:
+    - {fileID: -6243230019256466047, guid: 3afad2ff891c26b4888ddbbae40352e1, type: 3}
+    - {fileID: 4057904246464633868, guid: 3afad2ff891c26b4888ddbbae40352e1, type: 3}
+    fps: 2
+  walk:
+    frames:
+    - {fileID: -568871305586799898, guid: 3afad2ff891c26b4888ddbbae40352e1, type: 3}
+    - {fileID: 7083969904413559984, guid: 3afad2ff891c26b4888ddbbae40352e1, type: 3}
+    - {fileID: 6475057480587831656, guid: 3afad2ff891c26b4888ddbbae40352e1, type: 3}
+    - {fileID: -3197263272951492386, guid: 3afad2ff891c26b4888ddbbae40352e1, type: 3}
+    fps: 6

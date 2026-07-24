@@ -46,6 +46,27 @@ public class SpriteAnimator: MonoBehaviour
             this.fps = fps;
         }
     }
+    public void PlayLoop()
+    {
+        PlayLoop(animation);
+    }
+
+    public void PlayLoop(Animation anim)
+    {
+        StartCoroutine(PlayLoopCoroutine(anim));
+    }
+
+    private IEnumerator PlayLoopCoroutine(Animation anim)
+    {
+        while (loop)
+        {
+            foreach (var animationFrame in anim.frames)
+            {
+                spriteRenderer.sprite = animationFrame;
+                yield return new WaitForSeconds(1f / anim.fps);
+            }
+        }
+    }
 
     public void PlayOnce()
     {
