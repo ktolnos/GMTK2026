@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
 
 public class GM: MonoBehaviour
@@ -13,6 +15,8 @@ public class GM: MonoBehaviour
     private InputAction nextAction;
     private InputAction previousAction;
     private static int activePlayerIndex;
+    
+    public Light2D globalLight;
 
     public static Player ActivePlayer => Player.players[activePlayerIndex];
     public static bool isPlaying = false;
@@ -42,8 +46,8 @@ public class GM: MonoBehaviour
             Step++;
             if (Step >= LoopFrames || loopResetAction.WasReleasedThisFrame())
             {
-                ResetLoop();
                 isPlaying = false;
+                StartCoroutine(FinalExplosion());
             }
         }
         
@@ -83,5 +87,18 @@ public class GM: MonoBehaviour
                 break;
             }
         }
+    }
+
+    private IEnumerator FinalExplosion()
+    {
+        var startTime = Time.time;
+        var animationTime = 0.5f;
+        while (Time.time - startTime < animationTime)
+        {
+            var t = (Time.time - startTime) / animationTime;
+            globalLight.intensity = 1 + 10 * t;
+            yield return null;
+        }
+        ResetLoop();
     }
 }
