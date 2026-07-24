@@ -119,7 +119,7 @@ public class Player : MonoBehaviour
             return;
         }
         
-        if (Vector2.SqrMagnitude(rb.position - entry.position) < 0.01f)
+        if (Vector2.SqrMagnitude(rb.position - entry.position) < 0.04f)
         {
             rb.position = entry.position;
         }

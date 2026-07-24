@@ -64,6 +64,22 @@ PrefabInstance:
       propertyPath: uncontrolled
       value: 
       objectReference: {fileID: 11400000, guid: d33dcdf8ffc88854e8a12ed95b69b26c, type: 2}
+    - target: {fileID: 5150098456460008506, guid: e511474ebcdfa474497bd8214d482ffe, type: 3}
+      propertyPath: mokriyUron
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5150098456460008506, guid: e511474ebcdfa474497bd8214d482ffe, type: 3}
+      propertyPath: bulletSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5150098456460008506, guid: e511474ebcdfa474497bd8214d482ffe, type: 3}
+      propertyPath: bulletPrefab
+      value: 
+      objectReference: {fileID: 6875887957246599435, guid: 9e75cf4b027705c489f293c5ff4cac94, type: 3}
+    - target: {fileID: 5150098456460008506, guid: e511474ebcdfa474497bd8214d482ffe, type: 3}
+      propertyPath: stepsBetweenBullets
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 5895438123672570972, guid: e511474ebcdfa474497bd8214d482ffe, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.314

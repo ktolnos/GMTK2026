@@ -802,22 +802,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 8742722472825131303}
     m_Modifications:
-    - target: {fileID: 982188459132268051, guid: 3e0d096ca43cc22498c881090cdb6696, type: 3}
-      propertyPath: m_fontColor.b
-      value: 0.57254905
-      objectReference: {fileID: 0}
-    - target: {fileID: 982188459132268051, guid: 3e0d096ca43cc22498c881090cdb6696, type: 3}
-      propertyPath: m_fontColor.g
-      value: 0.9960785
-      objectReference: {fileID: 0}
-    - target: {fileID: 982188459132268051, guid: 3e0d096ca43cc22498c881090cdb6696, type: 3}
-      propertyPath: m_fontColor.r
-      value: 0.85098046
-      objectReference: {fileID: 0}
-    - target: {fileID: 982188459132268051, guid: 3e0d096ca43cc22498c881090cdb6696, type: 3}
-      propertyPath: m_fontColor32.rgba
-      value: 4287823577
-      objectReference: {fileID: 0}
     - target: {fileID: 1876199538649315915, guid: 3e0d096ca43cc22498c881090cdb6696, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.1420097
@@ -858,10 +842,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3450463071344637066, guid: 3e0d096ca43cc22498c881090cdb6696, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: 0ae25198e4549594b93315be79bdfebc, type: 2}
+    - target: {fileID: 5546318406875143942, guid: 3e0d096ca43cc22498c881090cdb6696, type: 3}
+      propertyPath: endLoopOnDestroy
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6918389223103956001, guid: 3e0d096ca43cc22498c881090cdb6696, type: 3}
       propertyPath: m_Name
       value: Clock

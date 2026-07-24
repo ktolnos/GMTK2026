@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 
 public class GM: MonoBehaviour
 {
+    public static GM I;
     public static int LoopSeconds = 30;
     public static int StepsPerSecond = 50;
     public static int LoopSteps = LoopSeconds * StepsPerSecond;
@@ -26,6 +27,7 @@ public class GM: MonoBehaviour
     {
         Step = 0;
         isPlaying = false;
+        I = this;
     }
     
     private void Start()
@@ -47,8 +49,7 @@ public class GM: MonoBehaviour
             Step++;
             if (Step >= LoopSteps)
             {
-                isPlaying = false;
-                StartCoroutine(FinalExplosion());
+                TriggerFinalExplosion();
             }
             else if (loopResetAction.WasReleasedThisFrame())
             {
@@ -71,6 +72,12 @@ public class GM: MonoBehaviour
                 activePlayerIndex = (activePlayerIndex - 1 + Player.players.Length) % Player.players.Length;
             } while (ActivePlayer == null || !ActivePlayer.isUnlocked);
         }
+    }
+
+    public void TriggerFinalExplosion()
+    {
+        isPlaying = false;
+        StartCoroutine(FinalExplosion());
     }
     
     private static void ResetLoop()

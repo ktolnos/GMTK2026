@@ -7,6 +7,7 @@ public class Clock : MonoBehaviour
     public TextMeshProUGUI clockText;
     public bool wholeLoop = true;
     public int maxTime = 15;
+    public bool endLoopOnDestroy = false;
 
     private void Update()
     {
@@ -21,5 +22,13 @@ public class Clock : MonoBehaviour
         }
 
         clockText.text = $"0:{seconds:D2}";
+    }
+
+    private void OnDestroy()
+    {
+        if (endLoopOnDestroy)
+        {
+            GM.I.TriggerFinalExplosion();
+        }
     }
 }

@@ -92,9 +92,9 @@ public class ExplodeAtTime : MonoBehaviour
             var objects = Physics2D.OverlapCircleAll(explosionPosition, wallsExplosionRadius);
             foreach (var collider2D in objects)
             {
-                if (collider2D.GetComponentInChildren<Health>())
+                if (collider2D.TryGetComponent<Health>(out var health))
                 {
-                    collider2D.GetComponentInChildren<Health>().TakeDamage(100f);
+                    health.TakeDamage(100f);
                 }
                 else if (!collider2D.TryGetComponent(out Tilemap tm))
                 {
