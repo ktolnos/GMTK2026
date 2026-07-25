@@ -247,3 +247,8 @@ MonoBehaviour:
   stepsBetweenBullets: 30
   bulletSpeed: 4
   mokriyUron: 0
+  shootAnimation:
+    frames: []
+    fps: 0
+  targetAnimator: {fileID: 0}
+  isAnimating: 0

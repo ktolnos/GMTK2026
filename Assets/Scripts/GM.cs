@@ -28,6 +28,8 @@ public class GM: MonoBehaviour
     public static bool isPlaying = false;
     public static AudioManager AudioManager => I.audioManager;
 
+    public static float lastResetTime = 0;
+    
     private void Awake()
     {
         Step = 0;
@@ -69,7 +71,6 @@ public class GM: MonoBehaviour
             Step++;
             if (loopResetAction.WasReleasedThisFrame())
             {
-                isPlaying = false;
                 ResetLoop();
             }
         }
@@ -96,8 +97,13 @@ public class GM: MonoBehaviour
         StartCoroutine(FinalExplosion());
     }
     
-    private static void ResetLoop()
+    public static void ResetLoop()
     {
+        if (Time.time - lastResetTime < 0.5f)
+        {
+            return;
+        }
+        lastResetTime = Time.time;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
@@ -147,6 +153,9 @@ public class GM: MonoBehaviour
         }
 
         skipSave = true;
-        ResetLoop();
+        if (Application.isPlaying)
+        {
+            ResetLoop();
+        }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -33,6 +34,8 @@ public class Player : MonoBehaviour
     public string playerName;
     [TextArea] public string description;
     public Sprite icon;
+    private Health health;
+    private float wasControlledStep = -100;
     
     void Awake()
     {
@@ -41,6 +44,7 @@ public class Player : MonoBehaviour
         interactAction = InputSystem.actions.FindAction("Interact");
         players[index] = this;
         gun = GetComponentInChildren<Gun>();
+        health = GetComponent<Health>();
         
         rb = GetComponent<Rigidbody2D>();
         InputSystem.actions.Enable();
@@ -116,6 +120,11 @@ public class Player : MonoBehaviour
                 isWritten = true,
             };
         }
+
+        if (isControlled)
+        {
+            wasControlledStep = GM.Step;
+        }
         
         ApplyHistory(history[GM.Step]);
     }
@@ -163,7 +172,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void OnDestroy()
+    private async void OnDestroy()
     {
         if (history == null || GM.I.skipSave)
         {
@@ -171,6 +180,18 @@ public class Player : MonoBehaviour
         }
         Utils.WriteArrayToFile(history.ToArray(), historySavePath);
         File.WriteAllText(stateSavePath, JsonUtility.ToJson(saveState));
+        if (health.currentHealth <= 0)
+        {
+            UIManager.I.ShowResetText();
+            if (GM.Step - wasControlledStep < 5)
+            {
+                var deathAnimTime = 1000;
+                GM.lastResetTime = Time.time + deathAnimTime;
+                await Task.Delay(deathAnimTime);
+                GM.lastResetTime = 0;
+                GM.ResetLoop();
+            }
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D other)
