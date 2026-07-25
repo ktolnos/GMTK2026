@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Rendering.Universal;
 using System;
+using UnityEngine;
+
 public class Enemy : MonoBehaviour
 {
 
@@ -95,7 +93,7 @@ public class Enemy : MonoBehaviour
                     dir = diff.x > 0 ? Vector3.right : Vector3.left;
                 }
                 isMoving = true;
-                rb.position += dir * speed * Time.fixedDeltaTime;
+                rb.MovePosition(rb.position + dir * speed * Time.fixedDeltaTime);
                 direction = dir;
             }
             else
@@ -112,7 +110,7 @@ public class Enemy : MonoBehaviour
             var requiredStep = (target - transform.position).magnitude;
             if (requiredStep < step)
             {
-                rb.position = target;
+                rb.MovePosition(target);
                 waypointIndex++;
                 waypointIndex %= waypoints.Length;
             }
@@ -120,7 +118,7 @@ public class Enemy : MonoBehaviour
             {
                 isMoving = true;
                 direction = (Vector2)direction;
-                rb.position += (Vector2)direction * step;
+                rb.MovePosition(rb.position + (Vector2)direction * step);
             }
         }else{
             isMoving = false;
@@ -134,7 +132,7 @@ public class Enemy : MonoBehaviour
         {
             isMoving = false;
             direction = Vector2.zero;
-            rb.position = transform.position;
+            rb.MovePosition(transform.position);
         }
     }
 }
