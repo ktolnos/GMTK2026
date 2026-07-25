@@ -98,7 +98,7 @@ public class Player : MonoBehaviour
             isControlled = false;
         }
 
-        if (history.Count < GM.Step)
+        if (history.Count < GM.Step-1)
         {
             history.Add(new HistoryEntry());
         }
@@ -144,8 +144,8 @@ public class Player : MonoBehaviour
         }
 
         var contactedClosedDoorsPotentialDesync =
-            GM.Step - entry.lastClosedDoorCollisionStep < 5 ||
-            entry.lastClosedDoorCollisionStep == closedDoorCollisionStep;
+            GM.Step - entry.lastClosedDoorCollisionStep < 5 &&
+            entry.lastClosedDoorCollisionStep != closedDoorCollisionStep;
         if (isSynced && !contactedClosedDoorsPotentialDesync)
         {
             rb.MovePosition(entry.position);

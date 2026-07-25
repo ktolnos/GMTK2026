@@ -31,6 +31,7 @@ public class Door : MonoBehaviour
     private bool interactRequested = false;
     public bool needsPower = false;
     private bool hasPower;
+    public GameObject noPowerIndicator;
 
     void Start()
     {
@@ -59,6 +60,7 @@ public class Door : MonoBehaviour
                 overlayColor = Color.black;
             }
         }
+        noPowerIndicator.SetActive(needsPower && !hasPower);
 
         wallCollider.enabled = !isOpen;
         if (shadowCaster != null)

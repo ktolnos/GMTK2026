@@ -1732,7 +1732,7 @@ MonoBehaviour:
   typingSpeed: 0.02
   newCharacterSprite: {fileID: -1887431466044049191, guid: 1085ae7810a32554cb36c472ffe12b44, type: 3}
   newCharacterTextColor: {r: 0.07450981, g: 0.21960786, b: 0.23137257, a: 1}
-  DialogMenu: {fileID: 255766553}
+  DialogMenu: {fileID: 0}
 --- !u!1 &1452265705
 GameObject:
   m_ObjectHideFlags: 0
