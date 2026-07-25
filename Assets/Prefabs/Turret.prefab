@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Gun
   bulletPrefab: {fileID: 6875887957246599435, guid: 9e75cf4b027705c489f293c5ff4cac94, type: 3}
-  stepsBetweenBullets: 7
+  stepsBetweenBullets: 6
   bulletSpeed: 20
   mokriyUron: 0
   shootAnimation:

@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: turrent_shot
   m_EditorClassIdentifier: Assembly-CSharp::AudioContainer
   <Clips>k__BackingField:
-  - {fileID: 8300000, guid: 9f77683c400dc70479da026b37e42fea, type: 3}
-  - {fileID: 8300000, guid: 569cacaad52544448974181116b54366, type: 3}
-  - {fileID: 8300000, guid: f6f9d2833c72dbd45a937046412c2419, type: 3}
-  - {fileID: 8300000, guid: 97751d529faaf7a45a63db2518dba87a, type: 3}
+  - {fileID: 8300000, guid: 2641117392a13c54dbdb9aa4a020ee7b, type: 3}
+  - {fileID: 8300000, guid: e5b167cb7bad2024892aab743a6d940e, type: 3}
+  - {fileID: 8300000, guid: 81cd8b6a7fd8035448937279f7e2745a, type: 3}
+  - {fileID: 8300000, guid: ee9fdd04985044543b2189904d9953d9, type: 3}
   <VolumeScale>k__BackingField: 1
   <PitchOffset>k__BackingField: 0
