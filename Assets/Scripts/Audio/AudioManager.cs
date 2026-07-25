@@ -1,10 +1,12 @@
-﻿using UnityEngine;
-using UnityEngine.Audio;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class AudioManager : MonoBehaviour {
 
     [SerializeField] private AudioSource musicSource;
     [SerializeField] private AudioSource uiSource;
+    [SerializeField] private AudioSource positionalAudioSourcePrefab;
+    [SerializeField] private int positionalAudioSourcesPoolSize = 20;
 
     [Header("UI Sounds")]
     [SerializeField] private AudioContainer uiClickAudio;
@@ -20,6 +22,9 @@ public class AudioManager : MonoBehaviour {
     [SerializeField] private AudioContainer footstepsLightMetalRunAudio;
     [SerializeField] private AudioContainer footstepsStoneWalkAudio;
     [SerializeField] private AudioContainer footstepsStoneRunAudio;
+
+    private int positionalAudioSourceIndex = 0;
+    private readonly List<AudioSource> positionalAudioSources = new();
 
     public void PlayUIClick() {
         uiClickAudio.PlayOneShot(uiSource);
@@ -51,5 +56,21 @@ public class AudioManager : MonoBehaviour {
             GroundMaterial.LightMetal => isHeavy ? footstepsLightMetalWalkAudio : footstepsLightMetalRunAudio,
             _ => isHeavy ? footstepsStoneWalkAudio : footstepsStoneRunAudio,
         };
+    }
+
+    public void PlayAtPosition(AudioContainer audioContainer, Vector2 position) {
+        AudioSource audioSource;
+        if (positionalAudioSourceIndex > positionalAudioSources.Count - 1) {
+            audioSource = Instantiate(positionalAudioSourcePrefab, transform);
+            positionalAudioSources.Add(audioSource);
+        } else {
+            audioSource = positionalAudioSources[positionalAudioSourceIndex];
+        }
+        audioSource.transform.position = position;
+        audioContainer.Play(audioSource);
+        positionalAudioSourceIndex++;
+        if (positionalAudioSourceIndex >= positionalAudioSourcesPoolSize) {
+            positionalAudioSourceIndex = 0;
+        }
     }
 }

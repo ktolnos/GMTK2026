@@ -21,6 +21,9 @@ public class Door : MonoBehaviour
     public Color overlayUnlockableColor = Color.green;
     public Color overlayLockedColor = Color.red;
 
+    [SerializeField] private AudioContainer doorOpenAudio;
+    [SerializeField] private AudioSource doorOpenSource;
+
     private bool canBeUnlocked = false;
     private SpriteRenderer overlaySpriteRenderer;
     private Color overlayColor;
@@ -87,6 +90,7 @@ public class Door : MonoBehaviour
 
     IEnumerator Open()
     {
+        doorOpenAudio.Play(doorOpenSource);
         yield return new WaitForSeconds(openTime);
         isOpen = true;
         isOpening = false;

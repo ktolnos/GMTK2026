@@ -306,6 +306,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AudioManager
   musicSource: {fileID: 3616670636856502667}
   uiSource: {fileID: 875335149285252116}
+  positionalAudioSourcePrefab: {fileID: 3875485641945145065, guid: adfbead9191bf834cb6d20d489cefafb, type: 3}
+  positionalAudioSourcesPoolSize: 20
   uiClickAudio: {fileID: 11400000, guid: 98063a9cf588a0f408054afc8dad66fe, type: 2}
   uiAltClickAudio: {fileID: 11400000, guid: e6f69d2e208a74242bb8a1fcb767cd92, type: 2}
   uiSelectAudio: {fileID: 11400000, guid: c77c728d8d689aa42a189fec8e1a008d, type: 2}

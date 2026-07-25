@@ -73,6 +73,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5150098456460008506, guid: e511474ebcdfa474497bd8214d482ffe, type: 3}
+      propertyPath: shotAudio
+      value: 
+      objectReference: {fileID: 11400000, guid: 0268a8c811596b04593fc0274d6a1a0a, type: 2}
+    - target: {fileID: 5150098456460008506, guid: e511474ebcdfa474497bd8214d482ffe, type: 3}
       propertyPath: mokriyUron
       value: 0
       objectReference: {fileID: 0}

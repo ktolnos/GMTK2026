@@ -10,6 +10,8 @@ public class Bullet : MonoBehaviour
     public int activeTime = 5000;
     public bool destroyAfterDeactivate = false;
 
+    [SerializeField] private AudioContainer impactAudio;
+
     private int activeStep = -100;
     public float lifetime = 10f;
 
@@ -34,7 +36,11 @@ public class Bullet : MonoBehaviour
         {
             return;
         }
-        if (destroyOnCollision) Destroy(gameObject);
+        if (destroyOnCollision) 
+        {
+            GM.AudioManager.PlayAtPosition(impactAudio, transform.position);
+            Destroy(gameObject);
+        }
         if (collision.transform.gameObject.TryGetComponent(out Health health))
         {
             health.TakeDamage(damage, damageType);

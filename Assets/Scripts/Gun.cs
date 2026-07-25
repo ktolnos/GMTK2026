@@ -14,6 +14,9 @@ public class Gun: MonoBehaviour
     public SpriteAnimator.Animation shootAnimation;
     public SpriteAnimator targetAnimator;
 
+    [SerializeField] private AudioSource shotSource;
+    [SerializeField] private AudioContainer shotAudio;
+
     [NonSerialized] public float lastShotStep = -1000;
     public bool isAnimating;
 
@@ -28,6 +31,7 @@ public class Gun: MonoBehaviour
         } else {
             ShootImpl(direction);
         }
+        shotAudio.Play(shotSource);
     }
 
     private void ShootImpl(Vector2 direction)
