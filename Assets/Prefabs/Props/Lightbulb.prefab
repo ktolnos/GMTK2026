@@ -108,8 +108,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   on: {fileID: -822466898666700999, guid: e8b9c97bbc5f1ed4faa8579830102737, type: 3}
   off: {fileID: -3477987190385702088, guid: e8b9c97bbc5f1ed4faa8579830102737, type: 3}
-  onMaterial: {fileID: 0}
-  offMaterial: {fileID: 0}
+  onMaterial: {fileID: 2100000, guid: 49c7d1e507492a648b4ea81019aebd99, type: 2}
+  offMaterial: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
 --- !u!1 &8327724909977999096
 GameObject:
   m_ObjectHideFlags: 0
