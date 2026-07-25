@@ -16,6 +16,7 @@ public class GM: MonoBehaviour
     private InputAction loopResetAction;
     private InputAction nextAction;
     private InputAction previousAction;
+    private InputAction fastForwardAction;
     private static int activePlayerIndex;
     
     public Light2D globalLight;
@@ -40,7 +41,22 @@ public class GM: MonoBehaviour
         loopResetAction = InputSystem.actions.FindAction("Reset");
         nextAction = InputSystem.actions.FindAction("Next");
         previousAction = InputSystem.actions.FindAction("Previous");
+        fastForwardAction =  InputSystem.actions.FindAction("Sprint");
     }
+
+    // private void Update()
+    // {
+    //     if (fastForwardAction.IsPressed())
+    //     {
+    //         Time.timeScale = 2f;
+    //         Time.fixedDeltaTime = 0.01f;
+    //     }
+    //     else
+    //     {
+    //         Time.timeScale = 1f;
+    //         Time.fixedDeltaTime = 0.02f;
+    //     }
+    // }
 
     private void FixedUpdate()
     {

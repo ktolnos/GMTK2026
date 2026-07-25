@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -15,7 +17,7 @@ public class Player : MonoBehaviour
     private InputAction interactAction;
     public Rigidbody2D rb;
     public bool isControlled = true;
-    private HistoryEntry[] history;
+    private List<HistoryEntry> history;
     public int lastInteractStep = -100;
     public Direction direction;
     public bool isMoving;
@@ -45,12 +47,12 @@ public class Player : MonoBehaviour
         
         if (File.Exists(historySavePath))
         {
-            history = Utils.ReadArrayFromFile(historySavePath);
+            history = Utils.ReadArrayFromFile(historySavePath).ToList();
         }
 
-        if (history == null || history.Length != GM.LoopSteps)
+        if (history == null || history.Count < GM.LoopSteps)
         {
-            history = new HistoryEntry[GM.LoopSteps];
+            history = new HistoryEntry[GM.LoopSteps].ToList();
         }
         isControlled = false;
         if (File.Exists(stateSavePath))
@@ -82,7 +84,11 @@ public class Player : MonoBehaviour
         {
             isControlled = false;
         }
-        
+
+        if (history.Count < GM.LoopSteps)
+        {
+            history.Add(new HistoryEntry());
+        }
         if (GM.ActivePlayer == this && (isControlled || 
                                         moveInput != Vector2.zero ||
                                         shot ||
@@ -93,7 +99,7 @@ public class Player : MonoBehaviour
                 isControlled = true;
                 for (int i = GM.Step; i < GM.LoopSteps; i++)
                 {
-                    history[i].isWritten = false;
+                    history[i] = new HistoryEntry();
                 }
             }
             
@@ -119,7 +125,7 @@ public class Player : MonoBehaviour
             return;
         }
         
-        if (Vector2.SqrMagnitude(rb.position - entry.position) < 0.04f)
+        if (Vector2.SqrMagnitude(rb.position - entry.position) < 0.02f)
         {
             rb.position = entry.position;
         }
@@ -159,7 +165,7 @@ public class Player : MonoBehaviour
         {
             return;
         }
-        Utils.WriteArrayToFile(history, historySavePath);
+        Utils.WriteArrayToFile(history.ToArray(), historySavePath);
         File.WriteAllText(stateSavePath, JsonUtility.ToJson(saveState));
     }
 
