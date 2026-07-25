@@ -13,14 +13,20 @@ public class Enemy : MonoBehaviour
     public int attackDuration = 0;
     public bool stayStill = false;
     public float attackDistance = 10;
+    public GameObject warning;
+
+    [Header("Audio")]
+    [SerializeField] private AudioSource footstepAudioSource;
+    [SerializeField] private bool isHeavyFootsteps;
+    [SerializeField] private float footstepDelaySeconds = .3f;
 
     private Gun gun;
     private int waypointIndex = 0;
     private Rigidbody2D rb;
     private Player targetPlayer;
     private Health health;
-    public GameObject warning;
-    
+    private float nextFootstepAt = 0f;
+
     private void Awake()
     {
         gun = GetComponentInChildren<Gun>();
@@ -127,6 +133,12 @@ public class Enemy : MonoBehaviour
         if(GM.Step - gun.lastShotStep > attackDuration && !gun.isAnimating)
         {
             stayStill = false;
+        }
+        if (footstepAudioSource != null && isMoving && Time.time >= nextFootstepAt) {
+            var groundMaterial = Level.I.GetGroundMaterialAt(transform.position);
+            var footstepsAudioContainer = GM.AudioManager.GetFootstepsAudioContainer(groundMaterial, isHeavyFootsteps);
+            footstepsAudioContainer.PlayOneShot(footstepAudioSource);
+            nextFootstepAt = Time.time + footstepDelaySeconds;
         }
         if(stayStill)
         {

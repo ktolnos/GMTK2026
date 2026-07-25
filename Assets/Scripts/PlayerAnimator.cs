@@ -9,6 +9,7 @@ public class PlayerAnimator: MonoBehaviour
 
     public PlayerSprites controlled;
 
+    [Header("Audio")]
     [SerializeField] private AudioSource footstepAudioSource;
     [SerializeField] private bool isHeavyFootsteps;
     [SerializeField] private float footstepDelaySeconds = .3f;
@@ -27,7 +28,7 @@ public class PlayerAnimator: MonoBehaviour
         if (player.isMoving)
         {
             spriteAnimator.animation = sprites.walk;
-            if (Time.time > nextFootstepAt) {
+            if (Time.time >= nextFootstepAt) {
                 var groundMaterial = Level.I.GetGroundMaterialAt(player.transform.position);
                 var footstepsAudioContainer = GM.AudioManager.GetFootstepsAudioContainer(groundMaterial, isHeavyFootsteps);
                 footstepsAudioContainer.PlayOneShot(footstepAudioSource);

@@ -29,4 +29,4 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 83efed45754dcfb4bbfa5da1277cba4d, type: 3}
   - {fileID: 8300000, guid: 14fc50d9aeff1ad4f90866e435358599, type: 3}
   <VolumeScale>k__BackingField: 1
-  <PitchOffset>k__BackingField: 0.1
+  <PitchOffset>k__BackingField: 0
