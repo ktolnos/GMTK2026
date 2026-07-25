@@ -48,6 +48,11 @@ MonoBehaviour:
   stepsBetweenBullets: 100
   bulletSpeed: 0
   mokriyUron: 1
+  shootAnimation:
+    frames: []
+    fps: 0
+  targetAnimator: {fileID: 0}
+  isAnimating: 0
 --- !u!1 &8941395654994605207
 GameObject:
   m_ObjectHideFlags: 0
@@ -109,6 +114,12 @@ MonoBehaviour:
   isMoving: 0
   lastShotStep: -100
   collider: {fileID: 0}
+  playerName: Janitor
+  description: '[Space] Mop strike with extra wet damage
+
+
+    [E] Opens most doors'
+  icon: {fileID: -3591552613031203118, guid: 188664ef59a8141489817d1d83c61edb, type: 3}
 --- !u!212 &3405475559147969970
 SpriteRenderer:
   serializedVersion: 3
@@ -228,7 +239,7 @@ Rigidbody2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 0
   m_CollisionDetection: 1
   m_Constraints: 4
@@ -279,7 +290,10 @@ MonoBehaviour:
   currentHealth: 0
   destroyOnDeath: 1
   deathEffect: {fileID: 141767832917907867, guid: 4d887e3f8843d7742a5f7a52b435a797, type: 3}
+  stunEffect: {fileID: 0}
   deathEffectDuration: 0.5
+  stunDuration: 0
+  stunEnd: 0
   triggerTimedExplosionOnDeath: 0
 --- !u!1 &9003546904402465473
 GameObject:
