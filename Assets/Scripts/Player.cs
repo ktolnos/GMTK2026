@@ -16,11 +16,6 @@ public class Player : MonoBehaviour
         get => saveState.unlocked;
         set => saveState.unlocked = value;
     }
-    public bool isUnlocked
-    {
-        get => saveState.unlocked;
-        set => saveState.unlocked = value;
-    }
     public float speed = 5f;
     private InputAction movementAction;
     private InputAction shootAction;
