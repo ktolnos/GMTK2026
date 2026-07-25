@@ -79410,6 +79410,14 @@ MonoBehaviour:
   wireTilemap: {fileID: 7133995004873310990}
   unpoweredWire: {fileID: 11400000, guid: e76f6e8de69523b45b6273fb44588b67, type: 2}
   poweredWire: {fileID: 11400000, guid: 3509432042c3a0e4abdece62aba7e8fb, type: 2}
+  ambience: {fileID: 11400000, guid: 7be31385d7b435b4d975f6802336e94b, type: 2}
+  heavyMetalFloor: []
+  lightMetalFloor:
+  - {fileID: 11400000, guid: 741cb6e43a442504581cb097fb02a6dc, type: 2}
+  - {fileID: 11400000, guid: 14717926758eb864392f297ec8ee8423, type: 2}
+  - {fileID: 11400000, guid: c824cf6887febf44eaed9192599f0c5e, type: 2}
+  - {fileID: 11400000, guid: 097cfce7f9cb11946bc2806f11031345, type: 2}
+  stoneFloor: []
 --- !u!1001 &52737448083182023
 PrefabInstance:
   m_ObjectHideFlags: 0

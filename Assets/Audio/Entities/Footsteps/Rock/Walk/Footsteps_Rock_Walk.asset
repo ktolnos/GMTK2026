@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a94eed0d41eba1f43a981c1058b2c79b, type: 3}
+  m_Name: Footsteps_Rock_Walk
+  m_EditorClassIdentifier: Assembly-CSharp::AudioContainer
+  <Clips>k__BackingField:
+  - {fileID: 8300000, guid: fcd71f55f5102234ea58b9601949e4f8, type: 3}
+  - {fileID: 8300000, guid: 44275ad8c2b4caa478062b3ed91696a6, type: 3}
+  - {fileID: 8300000, guid: eb79730bff49e8d45b3e5a6e87a7c79e, type: 3}
+  - {fileID: 8300000, guid: 43c1cf6194955b04a930f21c187020fb, type: 3}
+  - {fileID: 8300000, guid: 7fb66b608e89a744ca7271114c67ae01, type: 3}
+  - {fileID: 8300000, guid: a75ff800ae06c75409321f0d14391b4d, type: 3}
+  - {fileID: 8300000, guid: c1acb9ebf97c87b4c94f7c4ff0eb4841, type: 3}
+  - {fileID: 8300000, guid: ba52d84ff6bc98044beb764164b54beb, type: 3}
+  - {fileID: 8300000, guid: 4db49a99a53a9024f8d7263e1962611e, type: 3}
+  <VolumeScale>k__BackingField: 1
+  <PitchOffset>k__BackingField: 0

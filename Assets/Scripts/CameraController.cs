@@ -8,6 +8,7 @@ public class CameraController: MonoBehaviour
     public Camera mainCamera;
 
     private float shakeEndTime = -100;
+    private Vector3 cameraPosSmoothDampVel;
     
     private void Awake()
     {
@@ -20,11 +21,13 @@ public class CameraController: MonoBehaviour
         {
             return;
         }
-        transform.position = new Vector3(
-            GM.ActivePlayer.transform.position.x, 
-            GM.ActivePlayer.transform.position.y, 
+        var targetPos = new Vector3(
+            GM.ActivePlayer.transform.position.x,
+            GM.ActivePlayer.transform.position.y,
             transform.position.z
         );
+        transform.position = Vector3.SmoothDamp(transform.position, targetPos, ref cameraPosSmoothDampVel, .1f);
+
         if (Time.time < shakeEndTime)
         {
             mainCamera.transform.localPosition = Random.insideUnitCircle * 0.1f;

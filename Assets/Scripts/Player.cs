@@ -137,8 +137,8 @@ public class Player : MonoBehaviour
         {
             Debug.Log($"Diverged! Player {index} position: {rb.position}, saved position: {entry.position}");
         }
-        
-        rb.position += entry.movement;
+
+        rb.MovePosition(rb.position + entry.movement);
         
         lastInteractStep = entry.lastInteractStep;
         isMoving = entry.movement != Vector2.zero;

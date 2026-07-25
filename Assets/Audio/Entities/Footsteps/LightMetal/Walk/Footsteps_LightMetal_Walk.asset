@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a94eed0d41eba1f43a981c1058b2c79b, type: 3}
+  m_Name: Footsteps_LightMetal_Walk
+  m_EditorClassIdentifier: Assembly-CSharp::AudioContainer
+  <Clips>k__BackingField:
+  - {fileID: 8300000, guid: 4b075a64e714b084daf9e7d7945320a9, type: 3}
+  - {fileID: 8300000, guid: 04781da97fb40934994980c3fd516606, type: 3}
+  - {fileID: 8300000, guid: 5e34940add7836b478dbd3097be89bf2, type: 3}
+  - {fileID: 8300000, guid: 39b96e53a8452214089a0b8e028ec773, type: 3}
+  - {fileID: 8300000, guid: dc1ed6b611fb49f4da09bb9bb991a5ef, type: 3}
+  - {fileID: 8300000, guid: c8997981d40ccef43b7c70012fe3f10f, type: 3}
+  - {fileID: 8300000, guid: ece5669444c4fb444ae47579fb2a42a8, type: 3}
+  - {fileID: 8300000, guid: 4764ce9585ac7f645b80e46a5af3eb21, type: 3}
+  - {fileID: 8300000, guid: 3dc3714cf7e125b43880fe53bf2d1a59, type: 3}
+  - {fileID: 8300000, guid: 80b3ce71f3e70e34a9f8260172a6ab4d, type: 3}
+  - {fileID: 8300000, guid: a100dd809fb737c459d5f8df911f9886, type: 3}
+  - {fileID: 8300000, guid: 5a56e798de546a547827f1712f50a3fc, type: 3}
+  - {fileID: 8300000, guid: 3554344f11f031e4c9c8633043849382, type: 3}
+  - {fileID: 8300000, guid: 6142882d8b7bdec4b84f7e251df8192d, type: 3}
+  - {fileID: 8300000, guid: 8141e68b1ccff2241ba233ba2c8312e9, type: 3}
+  <VolumeScale>k__BackingField: 1
+  <PitchOffset>k__BackingField: 0.1

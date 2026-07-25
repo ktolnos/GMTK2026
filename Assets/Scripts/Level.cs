@@ -1,7 +1,15 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
-using UnityEngine.Serialization;
+using UnityEngine.Audio;
 using UnityEngine.Tilemaps;
+
+public enum GroundMaterial 
+{
+    HeavyMetal,
+    LightMetal,
+    Stone
+}
 
 public class Level: MonoBehaviour
 {
@@ -13,10 +21,20 @@ public class Level: MonoBehaviour
 
     public TileBase unpoweredWire;
     public TileBase poweredWire;
-    
+
+    [SerializeField] private AudioContainer ambience;
+    [SerializeField] private TileBase[] heavyMetalFloor;
+    [SerializeField] private TileBase[] lightMetalFloor;
+    [SerializeField] private TileBase[] stoneFloor;
+
     private void Awake()
     {
         I = this;
+    }
+
+    private void Start() 
+    {
+        GM.AudioManager.PlayMusic(ambience);
     }
 
     public bool IsPowered(Vector2 pos)
@@ -119,6 +137,21 @@ public class Level: MonoBehaviour
                     sourceFrontier.Enqueue(neighbor);
                 }
             }
+        }
+    }
+
+    public GroundMaterial GetGroundMaterialAt(Vector2 worldPos) {
+        var cell = floorTilemap.WorldToCell(worldPos);
+        var tile = floorTilemap.GetTile(cell);
+        if (heavyMetalFloor.Any(tb => ReferenceEquals(tile, tb))) {
+            return GroundMaterial.HeavyMetal;
+        } else if (lightMetalFloor.Any(tb => ReferenceEquals(tile, tb))) {
+            return GroundMaterial.LightMetal;
+        } else if (stoneFloor.Any(tb => ReferenceEquals(tile, tb))) {
+            return GroundMaterial.Stone;
+        } else {
+            Debug.LogWarning($"Unknown ground material at cell {cell}");
+            return GroundMaterial.Stone;
         }
     }
 }

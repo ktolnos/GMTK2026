@@ -22,10 +22,12 @@ public class GM: MonoBehaviour
     public bool skipSave;
     
     public Light2D globalLight;
+    [SerializeField] private AudioManager audioManager;
 
     public static Player ActivePlayer => Player.players[activePlayerIndex];
     public static bool isPlaying = false;
-    
+    public static AudioManager AudioManager => I.audioManager;
+
     private void Awake()
     {
         Step = 0;

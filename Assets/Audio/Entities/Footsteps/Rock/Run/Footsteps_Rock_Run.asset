@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a94eed0d41eba1f43a981c1058b2c79b, type: 3}
+  m_Name: Footsteps_Rock_Run
+  m_EditorClassIdentifier: Assembly-CSharp::AudioContainer
+  <Clips>k__BackingField:
+  - {fileID: 8300000, guid: 90ac8c28d66c9994abb80a092bb2a006, type: 3}
+  - {fileID: 8300000, guid: a073f017e03817d49a3aee0f47911547, type: 3}
+  - {fileID: 8300000, guid: 31adf25d52e53814284cac660a575b68, type: 3}
+  - {fileID: 8300000, guid: 42f43f12b5fdf594e944411f8ec262bb, type: 3}
+  - {fileID: 8300000, guid: 2732b9b256f571a45ab1bfc7ccc4a617, type: 3}
+  - {fileID: 8300000, guid: 96e52d87496e1de409f735dee8c25026, type: 3}
+  - {fileID: 8300000, guid: 8ba7ac815918fba46ae131c09071729d, type: 3}
+  - {fileID: 8300000, guid: 8fbbdc7c177370e4b8252f8a545c23ff, type: 3}
+  - {fileID: 8300000, guid: 0173b14450de08f4ea36df0876d2cde0, type: 3}
+  - {fileID: 8300000, guid: 8c09489d547472d449b37fd4a38dbd6e, type: 3}
+  <VolumeScale>k__BackingField: 1
+  <PitchOffset>k__BackingField: 0
