@@ -36,6 +36,8 @@ public class Player : MonoBehaviour
     public Sprite icon;
     private Health health;
     private float wasControlledStep = -100;
+    private int closedDoorCollisionStep = -100;
+    private bool isSynced = true;
     
     void Awake()
     {
@@ -110,13 +112,14 @@ public class Player : MonoBehaviour
                     history[i] = new HistoryEntry();
                 }
             }
-            
+            Debug.Log("Write!");
             history[GM.Step] = new HistoryEntry()
             {
                 movement =  moveVelocity * Time.fixedDeltaTime,
                 position = rb.position,
                 lastShotStep = shot ? GM.Step : GM.Step > 0 ? history[GM.Step-1].lastShotStep : -100,
                 lastInteractStep = interact ? GM.Step : GM.Step > 0 ? history[GM.Step-1].lastInteractStep : -100,
+                lastClosedDoorCollisionStep = closedDoorCollisionStep,
                 isWritten = true,
             };
         }
@@ -137,14 +140,21 @@ public class Player : MonoBehaviour
 
             return;
         }
-        
-        if (Vector2.SqrMagnitude(rb.position - entry.position) < 0.02f)
+
+        var contactedClosedDoorsPotentialDesync =
+            GM.Step - entry.lastClosedDoorCollisionStep < 5 ||
+            entry.lastClosedDoorCollisionStep == closedDoorCollisionStep;
+        if (isSynced && !contactedClosedDoorsPotentialDesync)
         {
-            rb.position = entry.position;
+            rb.MovePosition(entry.position);
         }
         else
         {
-            Debug.Log($"Diverged! Player {index} position: {rb.position}, saved position: {entry.position}");
+            if (Vector2.Distance(rb.position, entry.position) > 0.12f)
+            {
+                isSynced = false;
+                Debug.Log("Desync detected for player " + gameObject.name + " at step " + GM.Step);
+            }
         }
 
         rb.MovePosition(rb.position + entry.movement);
@@ -196,9 +206,21 @@ public class Player : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other)
     {
+        if (other.gameObject.TryGetComponent(out Door door) && !door.isOpen)
+        {
+            closedDoorCollisionStep = GM.Step;
+        }
         if (other.gameObject.TryGetComponent(out Player otherPlayer))
         {
             otherPlayer.saveState.unlocked = true;
+        }
+    }
+    
+    private void OnCollisionStay2D(Collision2D other)
+    {
+        if (other.gameObject.TryGetComponent(out Door door) && !door.isOpen)
+        {
+            closedDoorCollisionStep = GM.Step;
         }
     }
 
@@ -211,6 +233,7 @@ public class Player : MonoBehaviour
         public Vector2 aim;
         public int lastInteractStep;
         public bool isWritten;
+        public int lastClosedDoorCollisionStep;
     }
     
     public struct SaveState
