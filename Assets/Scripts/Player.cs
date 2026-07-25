@@ -98,7 +98,7 @@ public class Player : MonoBehaviour
             isControlled = false;
         }
 
-        if (history.Count < GM.LoopSteps)
+        if (history.Count < GM.Step)
         {
             history.Add(new HistoryEntry());
         }
