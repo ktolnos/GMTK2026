@@ -42,6 +42,7 @@ public class Enemy : MonoBehaviour
     {
         if (!GM.isPlaying || health.stunEnd > GM.Step)
         {
+            rb.linearVelocity = Vector2.zero;
             isMoving = false;
             direction = Vector2.zero;
             return;

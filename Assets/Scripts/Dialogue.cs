@@ -42,9 +42,16 @@ public class Dialogue : MonoBehaviour
 
    void FixedUpdate()
    {
-    if (!isOpen || isTyping) return;
+    if (!isOpen) return;
     if(interactAction.WasPressedThisFrame())
     {
+      if (isTyping)
+      {
+        StopAllCoroutines();
+        textComponent.text = replica[index].text;
+        isTyping = false;
+        return;
+      }
       NextSentence();
     }
    }
@@ -90,6 +97,7 @@ public class Dialogue : MonoBehaviour
     isTyping = false;
     GM.isPlaying = true;
     Time.timeScale = 1;
+    GM.ResetLoop();
     DialogMenu.SetActive(false);
    }
 

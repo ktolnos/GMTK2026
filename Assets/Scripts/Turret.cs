@@ -63,7 +63,7 @@ public class Turret : MonoBehaviour
             Vector2 direction = (Vector2)closestTarget.position - position;
 
             spriteRenderer.flipX = direction.x > 0;
-            gun.Shoot(direction);
+                gun.Shoot(direction);
         }
     }
 
