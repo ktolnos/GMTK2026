@@ -35,6 +35,10 @@ public class GM: MonoBehaviour
         Step = 0;
         isPlaying = false;
         I = this;
+        if (lastResetTime > Time.realtimeSinceStartup)
+        {
+            lastResetTime = -100;
+        }
     }
     
     private void Start()
