@@ -7,6 +7,7 @@ public class Turret : MonoBehaviour
     public LayerMask targetMask;
     public LayerMask obstacleMask;
     public int windUpSteps = 50;
+    public SpriteAnimator spriteAnimator;
 
     private Gun gun;
     public SpriteRenderer spriteRenderer;
@@ -16,6 +17,7 @@ public class Turret : MonoBehaviour
     {
         gun = GetComponentInChildren<Gun>();
         startStep = GM.Step;
+        spriteAnimator.PlayOnce();
     }
 
     private void FixedUpdate()
@@ -60,7 +62,7 @@ public class Turret : MonoBehaviour
         {
             Vector2 direction = (Vector2)closestTarget.position - position;
 
-            spriteRenderer.flipX = direction.x < 0;
+            spriteRenderer.flipX = direction.x > 0;
             gun.Shoot(direction);
         }
     }

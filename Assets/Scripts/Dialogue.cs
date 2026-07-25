@@ -21,6 +21,7 @@ public class Dialogue : MonoBehaviour
    public float typingSpeed;
    public Sprite newCharacterSprite;
    public Color newCharacterTextColor = Color.white;
+   public GameObject DialogMenu;
 
 
    private int index = 0;
@@ -39,7 +40,7 @@ public class Dialogue : MonoBehaviour
     interactAction = InputSystem.actions.FindAction("Interact");   
    }
 
-   void Update()
+   void FixedUpdate()
    {
     if (!isOpen || isTyping) return;
     if(interactAction.WasPressedThisFrame())
@@ -60,7 +61,7 @@ public class Dialogue : MonoBehaviour
       pendingOpen = true; 
       StopAllCoroutines();
       textComponent.text = string.Empty;
-      textComponent.gameObject.transform.parent.gameObject.SetActive(true);
+      DialogMenu.SetActive(true);
       StartCoroutine(TypeSentence(replica[index].text));
       playerSprite = dialogueStarter.playerSprite;
       playerTextColor = dialogueStarter.textColor;
@@ -88,7 +89,8 @@ public class Dialogue : MonoBehaviour
     pendingOpen = false;
     isTyping = false;
     GM.isPlaying = true;
-    textComponent.gameObject.transform.parent.gameObject.SetActive(false);
+    Time.timeScale = 1;
+    DialogMenu.SetActive(false);
    }
 
    IEnumerator TypeSentence(string sentence)
@@ -105,7 +107,7 @@ public class Dialogue : MonoBehaviour
         foreach (char letter in sentence.ToCharArray())
         {
             textComponent.text += letter;
-            yield return new WaitForSeconds(typingSpeed);
+            yield return new WaitForSecondsRealtime(typingSpeed);
         }
         isTyping = false;
    }

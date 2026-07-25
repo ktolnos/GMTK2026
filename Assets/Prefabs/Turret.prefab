@@ -167,6 +167,7 @@ GameObject:
   - component: {fileID: -5129076564039896904}
   - component: {fileID: 4200983709100912059}
   - component: {fileID: 2350211806277057334}
+  - component: {fileID: -2069510316651102092}
   m_Layer: 8
   m_Name: Turret
   m_TagString: Untagged
@@ -210,6 +211,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   windUpSteps: 50
+  spriteAnimator: {fileID: -2069510316651102092}
   spriteRenderer: {fileID: 258691927579387248}
 --- !u!212 &258691927579387248
 SpriteRenderer:
@@ -260,7 +262,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -1548837685672425413, guid: d6ac876cd2360e647b4614f2fbd466b1, type: 3}
+  m_Sprite: {fileID: -5780366336169995295, guid: 5e2d6e54c36aab847b4ef32566c51c77, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -365,3 +367,26 @@ MonoBehaviour:
   stunDuration: 1
   stunEnd: 0
   triggerTimedExplosionOnDeath: 0
+--- !u!114 &-2069510316651102092
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9073152586018619813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0acde274ecaf3354dbee0081d952c8cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpriteAnimator
+  animation:
+    frames:
+    - {fileID: -1963548260389759142, guid: 5e2d6e54c36aab847b4ef32566c51c77, type: 3}
+    - {fileID: -981629035180266602, guid: 5e2d6e54c36aab847b4ef32566c51c77, type: 3}
+    - {fileID: 631841356780363194, guid: 5e2d6e54c36aab847b4ef32566c51c77, type: 3}
+    - {fileID: -8106178512490342173, guid: 5e2d6e54c36aab847b4ef32566c51c77, type: 3}
+    - {fileID: -7574149487232261951, guid: 5e2d6e54c36aab847b4ef32566c51c77, type: 3}
+    fps: 8
+  autoplay: 0
+  loop: 0
+  spriteRenderer: {fileID: 258691927579387248}

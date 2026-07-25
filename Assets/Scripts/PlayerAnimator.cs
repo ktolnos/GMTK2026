@@ -25,7 +25,7 @@ public class PlayerAnimator: MonoBehaviour
     private void Update()
     {
         var sprites = controlled;
-        if (player.isMoving)
+        if (player.isMoving && GM.isPlaying)
         {
             spriteAnimator.animation = sprites.walk;
             if (Time.time >= nextFootstepAt) {
