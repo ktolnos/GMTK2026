@@ -5,6 +5,7 @@ public class PlayerSelectionUI : MonoBehaviour
     public static PlayerSelectionUI I;
     public RectTransform panel;
     public PlayerSelectionItem prefab;
+    public RectTransform playersParent;
     
     private void Awake()
     {
@@ -15,7 +16,7 @@ public class PlayerSelectionUI : MonoBehaviour
     public void Show()
     {
         panel.gameObject.SetActive(true);
-        foreach (PlayerSelectionItem item in panel.GetComponentsInChildren<PlayerSelectionItem>())
+        foreach (PlayerSelectionItem item in playersParent.GetComponentsInChildren<PlayerSelectionItem>())
         {
             Destroy(item.gameObject);
         }
@@ -23,7 +24,7 @@ public class PlayerSelectionUI : MonoBehaviour
         {
             if (player.isUnlocked)
             {
-                PlayerSelectionItem item = Instantiate(prefab, panel.transform);
+                PlayerSelectionItem item = Instantiate(prefab, playersParent.transform);
                 item.Setup(player);
             }
         }

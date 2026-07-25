@@ -1,6 +1,4 @@
-﻿using System;
-using UnityEditor.Media;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Health: MonoBehaviour
 {

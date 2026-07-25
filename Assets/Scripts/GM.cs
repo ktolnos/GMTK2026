@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.IO;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -18,6 +19,7 @@ public class GM: MonoBehaviour
     private InputAction previousAction;
     private InputAction fastForwardAction;
     private static int activePlayerIndex;
+    public bool skipSave;
     
     public Light2D globalLight;
 
@@ -125,6 +127,24 @@ public class GM: MonoBehaviour
             globalLight.intensity = 1 + 50 * t;
             yield return null;
         }
+        ResetLoop();
+    }
+
+    public void DeleteSaves()
+    {
+        var saveFilePath = Application.persistentDataPath + "/";
+        if (Directory.Exists(saveFilePath))
+        {
+            Directory.Delete(saveFilePath, true);
+            Directory.CreateDirectory(saveFilePath);
+            Debug.Log("Save file deleted.");
+        }
+        else
+        {
+            Debug.LogWarning("No save file found to delete.");
+        }
+
+        skipSave = true;
         ResetLoop();
     }
 }

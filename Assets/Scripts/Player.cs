@@ -165,7 +165,7 @@ public class Player : MonoBehaviour
 
     private void OnDestroy()
     {
-        if (history == null)
+        if (history == null || GM.I.skipSave)
         {
             return;
         }

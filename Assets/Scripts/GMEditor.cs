@@ -14,16 +14,7 @@ public class GMEditor : Editor
         GM gm = (GM)target;
         if (GUILayout.Button("Delete Save File"))
         {
-            var saveFilePath = Application.persistentDataPath + "/";
-            if (Directory.Exists(saveFilePath))
-            {
-                Directory.Delete(saveFilePath, true);
-                Debug.Log("Save file deleted.");
-            }
-            else
-            {
-                Debug.LogWarning("No save file found to delete.");
-            }
+           gm.DeleteSaves();
         }
         if (GUILayout.Button("Open Save File Location"))
         {
