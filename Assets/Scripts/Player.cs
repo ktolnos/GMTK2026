@@ -112,7 +112,6 @@ public class Player : MonoBehaviour
                     history[i] = new HistoryEntry();
                 }
             }
-            Debug.Log("Write!");
             history[GM.Step] = new HistoryEntry()
             {
                 movement =  moveVelocity * Time.fixedDeltaTime,

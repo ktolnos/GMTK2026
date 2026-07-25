@@ -744,6 +744,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6b3ef7757a62c2448a80d6cdca489bf8, type: 3}
+--- !u!114 &1000683103 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5861146544743312581, guid: 12ad19160e7d6d44bb18a6d471aac75b, type: 3}
+  m_PrefabInstance: {fileID: 1642865028336187335}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1412ed3194d9e794697c078053c14e0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AudioManager
 --- !u!1 &1075957622
 GameObject:
   m_ObjectHideFlags: 0
@@ -1545,7 +1556,7 @@ PrefabInstance:
     - target: {fileID: 3756621494839541611, guid: 1e25b2b28a3cc964ea8efb5ffc0b2afe, type: 3}
       propertyPath: audioManager
       value: 
-      objectReference: {fileID: 1374464728}
+      objectReference: {fileID: 1000683103}
     - target: {fileID: 4106547022029344369, guid: 1e25b2b28a3cc964ea8efb5ffc0b2afe, type: 3}
       propertyPath: m_Name
       value: GM
@@ -1907,6 +1918,14 @@ PrefabInstance:
     - target: {fileID: 1638338361261457720, guid: d0bbf5a134f460c4698799611a09303f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3766815476647993681, guid: d0bbf5a134f460c4698799611a09303f, type: 3}
+      propertyPath: needsPower
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6978564300830059094, guid: d0bbf5a134f460c4698799611a09303f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 13.29
       objectReference: {fileID: 0}
     - target: {fileID: 7601851169434224939, guid: d0bbf5a134f460c4698799611a09303f, type: 3}
       propertyPath: m_Tiles.Array.size
