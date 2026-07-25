@@ -8,13 +8,29 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 354087147937015861, guid: e511474ebcdfa474497bd8214d482ffe, type: 3}
+      propertyPath: deathEffect
+      value: 
+      objectReference: {fileID: 141767832917907867, guid: 505e1036b80080c47a9286efbf2a908a, type: 3}
+    - target: {fileID: 1956581072528391137, guid: e511474ebcdfa474497bd8214d482ffe, type: 3}
+      propertyPath: icon
+      value: 
+      objectReference: {fileID: -5361472825222029744, guid: 452592e3b8caf6b44b4105727bb63347, type: 3}
     - target: {fileID: 1956581072528391137, guid: e511474ebcdfa474497bd8214d482ffe, type: 3}
       propertyPath: index
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1956581072528391137, guid: e511474ebcdfa474497bd8214d482ffe, type: 3}
+      propertyPath: speed
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1956581072528391137, guid: e511474ebcdfa474497bd8214d482ffe, type: 3}
       propertyPath: playerName
       value: Soldier
+      objectReference: {fileID: 0}
+    - target: {fileID: 1956581072528391137, guid: e511474ebcdfa474497bd8214d482ffe, type: 3}
+      propertyPath: description
+      value: '[Space] Shoot'
       objectReference: {fileID: 0}
     - target: {fileID: 3405475559147969970, guid: e511474ebcdfa474497bd8214d482ffe, type: 3}
       propertyPath: m_Sprite
@@ -22,11 +38,11 @@ PrefabInstance:
       objectReference: {fileID: -5361472825222029744, guid: 452592e3b8caf6b44b4105727bb63347, type: 3}
     - target: {fileID: 4565894188822126784, guid: e511474ebcdfa474497bd8214d482ffe, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -8.67
+      value: -7.5
       objectReference: {fileID: 0}
     - target: {fileID: 4565894188822126784, guid: e511474ebcdfa474497bd8214d482ffe, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.37855
+      value: -15.6
       objectReference: {fileID: 0}
     - target: {fileID: 4565894188822126784, guid: e511474ebcdfa474497bd8214d482ffe, type: 3}
       propertyPath: m_LocalPosition.z
@@ -90,7 +106,7 @@ PrefabInstance:
       objectReference: {fileID: 6875887957246599435, guid: 9e75cf4b027705c489f293c5ff4cac94, type: 3}
     - target: {fileID: 5150098456460008506, guid: e511474ebcdfa474497bd8214d482ffe, type: 3}
       propertyPath: stepsBetweenBullets
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5895438123672570972, guid: e511474ebcdfa474497bd8214d482ffe, type: 3}
       propertyPath: m_LocalPosition.x
@@ -115,5 +131,49 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8941395654994605207, guid: e511474ebcdfa474497bd8214d482ffe, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -8722391049643992439}
   m_SourcePrefab: {fileID: 100100000, guid: e511474ebcdfa474497bd8214d482ffe, type: 3}
+--- !u!1 &8226931901807019684 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8941395654994605207, guid: e511474ebcdfa474497bd8214d482ffe, type: 3}
+  m_PrefabInstance: {fileID: 1026214886191264307}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &-8722391049643992439
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8226931901807019684}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9fd5bfa911cfcd4eacc845dc7631d69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Dialogue
+  textComponent: {fileID: 0}
+  dialogueImage: {fileID: 0}
+  replica:
+  - text: Ahoy, SpaceCowboy!
+    playerSide: 1
+  - text: Have you seen that shit?
+    playerSide: 1
+  - text: Are you pinging about that AI rebel?
+    playerSide: 0
+  - text: No!
+    playerSide: 1
+  - text: Have you seen the toilets?
+    playerSide: 1
+  - text: However, what about AI?
+    playerSide: 1
+  - text: Seem's like this chromed psycho is attacking us
+    playerSide: 0
+  - text: Prepare for the good old battle!
+    playerSide: 0
+  - text: 'Roger that. '
+    playerSide: 1
+  typingSpeed: 0.02
+  newCharacterSprite: {fileID: 3938834146804672134, guid: 452592e3b8caf6b44b4105727bb63347, type: 3}
+  newCharacterTextColor: {r: 0.3372549, g: 0.42352945, b: 0.5254902, a: 1}

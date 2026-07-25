@@ -11,7 +11,16 @@ public class Player : MonoBehaviour
 {
     public static Player[] players = new Player[4];
     public int index;
-    public bool isUnlocked => saveState.unlocked;
+    public bool isUnlocked
+    {
+        get => saveState.unlocked;
+        set => saveState.unlocked = value;
+    }
+    public bool isUnlocked
+    {
+        get => saveState.unlocked;
+        set => saveState.unlocked = value;
+    }
     public float speed = 5f;
     private InputAction movementAction;
     private InputAction shootAction;
