@@ -16,19 +16,22 @@ public class Enemy : MonoBehaviour
     public bool stayStill = false;
     public float attackDistance = 10;
 
-
-
     private Gun gun;
     private int waypointIndex = 0;
     private Rigidbody2D rb;
     private Player targetPlayer;
     private Health health;
+    public GameObject warning;
     
     private void Awake()
     {
         gun = GetComponentInChildren<Gun>();
         rb = GetComponent<Rigidbody2D>();
         health = GetComponent<Health>();
+        if (warning)
+        {
+            warning.SetActive(false);
+        }
     }
 
     private void FixedUpdate()
@@ -40,36 +43,37 @@ public class Enemy : MonoBehaviour
             return;
         }
         var closestDistance = 15f;
-        if (GM.Step % 1 == 0)
+        targetPlayer = null;
+        foreach (var player in Player.players)
         {
-            targetPlayer = null;
-            foreach (var player in Player.players)
+            if (!player)
             {
-                if (!player)
-                {
-                    continue;
-                }
-            
-                var source = gun.transform.position;
-                var target = player.rb.position + player.collider.offset;
-                var distance = Vector2.Distance(source, target);
-                if (distance < closestDistance)
-                {
-                    var hit = Physics2D.Raycast(source, target - (Vector2) source,
-                                        Vector2.Distance(source, target),
-                                        LayerMask.GetMask("Default"));
-                    if (!hit)
-                    {
-                        closestDistance = distance;
-                        targetPlayer = player;
-                    }
-                }
-                
+                continue;
             }
+        
+            var source = gun.transform.position;
+            var target = player.rb.position + player.collider.offset;
+            var distance = Vector2.Distance(source, target);
+            if (distance < closestDistance)
+            {
+                var hit = Physics2D.Raycast(source, target - (Vector2) source,
+                                    Vector2.Distance(source, target),
+                                    LayerMask.GetMask("Default"));
+                if (!hit)
+                {
+                    closestDistance = distance;
+                    targetPlayer = player;
+                }
+            }
+            
         }
         
-
-        if (targetPlayer != null)
+        var seesPlayer = targetPlayer != null;
+        if (warning)
+        {
+            warning.SetActive(seesPlayer);
+        }
+        if (seesPlayer)
         {
             Vector2 diff = (Vector2)targetPlayer.transform.position + targetPlayer.collider.offset - (Vector2)gun.transform.position;
             if(closestDistance <= attackDistance){

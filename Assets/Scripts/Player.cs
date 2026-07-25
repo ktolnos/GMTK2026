@@ -182,6 +182,7 @@ public class Player : MonoBehaviour
         File.WriteAllText(stateSavePath, JsonUtility.ToJson(saveState));
         if (health.currentHealth <= 0)
         {
+            UIManager.I.ShowResetText();
             if (GM.Step - wasControlledStep < 5)
             {
                 var deathAnimTime = 1000;
@@ -190,7 +191,6 @@ public class Player : MonoBehaviour
                 GM.lastResetTime = 0;
                 GM.ResetLoop();
             }
-            UIManager.I.ShowResetText();
         }
     }
 
