@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -199,7 +198,7 @@ public class Player : MonoBehaviour
             if (GM.Step - wasControlledStep < 5)
             {
                 var deathAnimTime = 1000;
-                GM.lastResetTime = Time.time + deathAnimTime;
+                GM.lastResetTime = Time.realtimeSinceStartup + deathAnimTime / 1000f;
                 await Task.Delay(deathAnimTime);
                 GM.lastResetTime = 0;
                 GM.ResetLoop();

@@ -6,17 +6,24 @@ public class Turret : MonoBehaviour
     public float radius = 5f;
     public LayerMask targetMask;
     public LayerMask obstacleMask;
+    public int windUpSteps = 50;
 
     private Gun gun;
     public SpriteRenderer spriteRenderer;
+    private int startStep;
 
     private void Awake()
     {
         gun = GetComponentInChildren<Gun>();
+        startStep = GM.Step;
     }
 
     private void FixedUpdate()
     {
+        if (GM.Step < startStep + windUpSteps)
+        {
+            return;
+        }
         ShootClosestTargetInRadius((Vector2)gun.transform.position, radius);
     }
 

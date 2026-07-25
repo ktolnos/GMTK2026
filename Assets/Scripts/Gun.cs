@@ -31,7 +31,7 @@ public class Gun: MonoBehaviour
         } else {
             ShootImpl(direction);
         }
-        shotAudio.Play(shotSource);
+        // shotAudio.Play(shotSource);
     }
 
     private void ShootImpl(Vector2 direction)

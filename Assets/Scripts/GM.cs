@@ -99,11 +99,12 @@ public class GM: MonoBehaviour
     
     public static void ResetLoop()
     {
-        if (Time.time - lastResetTime < 0.5f)
+        if (Time.realtimeSinceStartup - lastResetTime < 0.5f)
         {
+            Debug.Log("Double reset: time = " + Time.realtimeSinceStartup + " last reset = " + lastResetTime);
             return;
         }
-        lastResetTime = Time.time;
+        lastResetTime = Time.realtimeSinceStartup;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
