@@ -1,4 +1,5 @@
 ﻿using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -7,6 +8,8 @@ public class PlayerSelectionItem: MonoBehaviour
 {
     public Button button;
     public Image image;
+    public TextMeshProUGUI playerName;
+    public TextMeshProUGUI playerDescription;
 
     private void Awake()
     {
@@ -25,7 +28,8 @@ public class PlayerSelectionItem: MonoBehaviour
                 GM.StartLoop();
             }
         );
-        image.sprite = player.GetComponent<PlayerAnimator>().controlled.idle.frames[0];
+        image.sprite = player.icon;
+        playerName.text = player.playerName;
+        playerDescription.text = player.description;
     }
-    
 }

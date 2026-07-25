@@ -29,6 +29,10 @@ public class Player : MonoBehaviour
 
     private Gun gun;
     public CircleCollider2D collider;
+
+    public string playerName;
+    [TextArea] public string description;
+    public Sprite icon;
     
     void Awake()
     {

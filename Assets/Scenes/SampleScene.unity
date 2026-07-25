@@ -2069,6 +2069,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8559616325475509984, guid: ed1f5f3f4a88ed54e9ed146d6db40841, type: 3}
+      propertyPath: icon
+      value: 
+      objectReference: {fileID: 2794048480989124112, guid: 97561b9fa3fa56746a5a36ff282cb422, type: 3}
+    - target: {fileID: 8559616325475509984, guid: ed1f5f3f4a88ed54e9ed146d6db40841, type: 3}
+      propertyPath: playerName
+      value: Engineer
+      objectReference: {fileID: 0}
+    - target: {fileID: 8559616325475509984, guid: ed1f5f3f4a88ed54e9ed146d6db40841, type: 3}
+      propertyPath: description
+      value: '[Space] Place turret
+
+
+        [E] Place cable'
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2514,6 +2529,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2106109548635138603, guid: 6b3ef7757a62c2448a80d6cdca489bf8, type: 3}
+      propertyPath: icon
+      value: 
+      objectReference: {fileID: -568871305586799898, guid: 3afad2ff891c26b4888ddbbae40352e1, type: 3}
+    - target: {fileID: 2106109548635138603, guid: 6b3ef7757a62c2448a80d6cdca489bf8, type: 3}
+      propertyPath: playerName
+      value: Hackerman
+      objectReference: {fileID: 0}
+    - target: {fileID: 2106109548635138603, guid: 6b3ef7757a62c2448a80d6cdca489bf8, type: 3}
+      propertyPath: description
+      value: '[E] Interact with computers'
+      objectReference: {fileID: 0}
+    - target: {fileID: 2981355043689598072, guid: 6b3ef7757a62c2448a80d6cdca489bf8, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 23942919048973969, guid: 3afad2ff891c26b4888ddbbae40352e1, type: 3}
     - target: {fileID: 4125327999849033994, guid: 6b3ef7757a62c2448a80d6cdca489bf8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 3.4300003
@@ -5931,6 +5962,21 @@ PrefabInstance:
       propertyPath: stunDuration
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1956581072528391137, guid: e511474ebcdfa474497bd8214d482ffe, type: 3}
+      propertyPath: icon
+      value: 
+      objectReference: {fileID: -3591552613031203118, guid: 188664ef59a8141489817d1d83c61edb, type: 3}
+    - target: {fileID: 1956581072528391137, guid: e511474ebcdfa474497bd8214d482ffe, type: 3}
+      propertyPath: playerName
+      value: Janitor
+      objectReference: {fileID: 0}
+    - target: {fileID: 1956581072528391137, guid: e511474ebcdfa474497bd8214d482ffe, type: 3}
+      propertyPath: description
+      value: '[Space] Mop strike with extra wet damage
+
+
+        [E] Opens most doors'
+      objectReference: {fileID: 0}
     - target: {fileID: 4565894188822126784, guid: e511474ebcdfa474497bd8214d482ffe, type: 3}
       propertyPath: m_LocalPosition.x
       value: -4.51
@@ -5993,8 +6039,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 141767832917907867, guid: 505e1036b80080c47a9286efbf2a908a, type: 3}
     - target: {fileID: 1520797333404207570, guid: a8b6588cd714168419eee6175e68a8bf, type: 3}
+      propertyPath: icon
+      value: 
+      objectReference: {fileID: -5361472825222029744, guid: 452592e3b8caf6b44b4105727bb63347, type: 3}
+    - target: {fileID: 1520797333404207570, guid: a8b6588cd714168419eee6175e68a8bf, type: 3}
       propertyPath: speed
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1520797333404207570, guid: a8b6588cd714168419eee6175e68a8bf, type: 3}
+      propertyPath: description
+      value: '[Space] Shoot'
       objectReference: {fileID: 0}
     - target: {fileID: 3557994968673325811, guid: a8b6588cd714168419eee6175e68a8bf, type: 3}
       propertyPath: m_LocalPosition.x
@@ -171478,15 +171532,15 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 619394802}
-  - {fileID: 8425992157096846107}
   - {fileID: 2160763506216245760}
-  - {fileID: 1122774534639963967}
   - {fileID: 2442841277893375978}
+  - {fileID: 673131373}
+  - {fileID: 775329214}
+  - {fileID: 8425992157096846107}
+  - {fileID: 1122774534639963967}
   - {fileID: 398075442}
   - {fileID: 1075957626}
   - {fileID: 1923710148}
-  - {fileID: 673131373}
-  - {fileID: 775329214}
   - {fileID: 589799540}
   - {fileID: 88332612}
   - {fileID: 1417752297}

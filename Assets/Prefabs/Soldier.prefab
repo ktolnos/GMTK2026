@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: index
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1956581072528391137, guid: e511474ebcdfa474497bd8214d482ffe, type: 3}
+      propertyPath: playerName
+      value: Soldier
+      objectReference: {fileID: 0}
     - target: {fileID: 3405475559147969970, guid: e511474ebcdfa474497bd8214d482ffe, type: 3}
       propertyPath: m_Sprite
       value: 
