@@ -13,12 +13,14 @@ public class Gun: MonoBehaviour
 
     public SpriteAnimator.Animation shootAnimation;
     public SpriteAnimator targetAnimator;
+    public int fps = 4;
 
     [SerializeField] private AudioSource shotSource;
     [SerializeField] private AudioContainer shotAudio;
 
     [NonSerialized] public float lastShotStep = -1000;
     public bool isAnimating;
+    public bool hideParentDuringAttackAnimation = false;
 
     public void Shoot(Vector2 direction)
     {
@@ -51,10 +53,15 @@ public class Gun: MonoBehaviour
     private IEnumerator ShootAnimated(Vector2 direction) {
         isAnimating = true;
         targetAnimator.pause = true;
+        var fixedUpdates = (int)(1f / (fps * Time.fixedDeltaTime));
         for (int i = 0; i < shootAnimation.frames.Length; i++)
         {
             targetAnimator.spriteRenderer.sprite = shootAnimation.frames[i];
-            yield return new WaitForFixedUpdate();
+            for (int j = 0; j < fixedUpdates; j++)
+            {
+                yield return new WaitForFixedUpdate();
+            }
+            
         }
         targetAnimator.pause = false;
         ShootImpl(direction);

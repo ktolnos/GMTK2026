@@ -14,13 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DefaultNamespace.PlayerSprites
   idle:
     frames:
-    - {fileID: 1538298404319793793, guid: 188664ef59a8141489817d1d83c61edb, type: 3}
-    - {fileID: -8984292708282352461, guid: 188664ef59a8141489817d1d83c61edb, type: 3}
+    - {fileID: -98942914064957477, guid: 721ec5e2a23952a49b30e49928453178, type: 3}
+    - {fileID: -9072475754817533579, guid: 721ec5e2a23952a49b30e49928453178, type: 3}
     fps: 2
   walk:
     frames:
-    - {fileID: 3348276922482517349, guid: 188664ef59a8141489817d1d83c61edb, type: 3}
-    - {fileID: -7873303376382930142, guid: 188664ef59a8141489817d1d83c61edb, type: 3}
-    - {fileID: -3026752951706196183, guid: 188664ef59a8141489817d1d83c61edb, type: 3}
-    - {fileID: -7425896917961295793, guid: 188664ef59a8141489817d1d83c61edb, type: 3}
+    - {fileID: -5943382487338637236, guid: 721ec5e2a23952a49b30e49928453178, type: 3}
+    - {fileID: -6592082217391695064, guid: 721ec5e2a23952a49b30e49928453178, type: 3}
+    - {fileID: -5943382487338637236, guid: 721ec5e2a23952a49b30e49928453178, type: 3}
+    - {fileID: -6592082217391695064, guid: 721ec5e2a23952a49b30e49928453178, type: 3}
     fps: 6

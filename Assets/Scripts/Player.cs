@@ -25,6 +25,7 @@ public class Player : MonoBehaviour
     public int lastInteractStep = -100;
     public Direction direction;
     public bool isMoving;
+    public bool isAttacking;
     public int lastShotStep = -100;
 
     private string historySavePath;
@@ -130,7 +131,6 @@ public class Player : MonoBehaviour
         {
             wasControlledStep = GM.Step;
         }
-        
         ApplyHistory(history[GM.Step]);
     }
 

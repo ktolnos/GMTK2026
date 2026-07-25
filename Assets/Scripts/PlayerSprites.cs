@@ -7,5 +7,6 @@ namespace DefaultNamespace
     {
         public SpriteAnimator.Animation idle;
         public SpriteAnimator.Animation walk;
+        public SpriteAnimator.Animation attack;
     }
 }

@@ -1497,6 +1497,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1179011984}
   m_CullTransparentMesh: 1
+--- !u!114 &1211688790 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8421701019163742695, guid: e511474ebcdfa474497bd8214d482ffe, type: 3}
+  m_PrefabInstance: {fileID: 2160763506216245760}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0acde274ecaf3354dbee0081d952c8cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpriteAnimator
 --- !u!1 &1246321734
 GameObject:
   m_ObjectHideFlags: 0
@@ -2193,6 +2204,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1956581072528391137, guid: e511474ebcdfa474497bd8214d482ffe, type: 3}
+      propertyPath: icon
+      value: 
+      objectReference: {fileID: 6162690038519790203, guid: 721ec5e2a23952a49b30e49928453178, type: 3}
+    - target: {fileID: 3405475559147969970, guid: e511474ebcdfa474497bd8214d482ffe, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 2766828608552868361, guid: 721ec5e2a23952a49b30e49928453178, type: 3}
     - target: {fileID: 4565894188822126784, guid: e511474ebcdfa474497bd8214d482ffe, type: 3}
       propertyPath: m_LocalPosition.x
       value: -4.51
@@ -2233,6 +2252,90 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5150098456460008506, guid: e511474ebcdfa474497bd8214d482ffe, type: 3}
+      propertyPath: fps
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 5150098456460008506, guid: e511474ebcdfa474497bd8214d482ffe, type: 3}
+      propertyPath: targetAnimator
+      value: 
+      objectReference: {fileID: 1211688790}
+    - target: {fileID: 5150098456460008506, guid: e511474ebcdfa474497bd8214d482ffe, type: 3}
+      propertyPath: shootAnimation.fps
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5150098456460008506, guid: e511474ebcdfa474497bd8214d482ffe, type: 3}
+      propertyPath: hideParentDuringAttackAnimation
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5150098456460008506, guid: e511474ebcdfa474497bd8214d482ffe, type: 3}
+      propertyPath: shootAnimation.frames.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5150098456460008506, guid: e511474ebcdfa474497bd8214d482ffe, type: 3}
+      propertyPath: 'shootAnimation.frames.Array.data[0]'
+      value: 
+      objectReference: {fileID: 7574853658240754093, guid: 32346536b4751bf4e9545b0e660846e9, type: 3}
+    - target: {fileID: 5150098456460008506, guid: e511474ebcdfa474497bd8214d482ffe, type: 3}
+      propertyPath: 'shootAnimation.frames.Array.data[1]'
+      value: 
+      objectReference: {fileID: -8100473613320127495, guid: 32346536b4751bf4e9545b0e660846e9, type: 3}
+    - target: {fileID: 5150098456460008506, guid: e511474ebcdfa474497bd8214d482ffe, type: 3}
+      propertyPath: 'shootAnimation.frames.Array.data[2]'
+      value: 
+      objectReference: {fileID: -6116953333340515686, guid: 32346536b4751bf4e9545b0e660846e9, type: 3}
+    - target: {fileID: 5150098456460008506, guid: e511474ebcdfa474497bd8214d482ffe, type: 3}
+      propertyPath: 'shootAnimation.frames.Array.data[3]'
+      value: 
+      objectReference: {fileID: -6116953333340515686, guid: 32346536b4751bf4e9545b0e660846e9, type: 3}
+    - target: {fileID: 5150098456460008506, guid: e511474ebcdfa474497bd8214d482ffe, type: 3}
+      propertyPath: 'shootAnimation.frames.Array.data[4]'
+      value: 
+      objectReference: {fileID: 6928384631527501767, guid: 32346536b4751bf4e9545b0e660846e9, type: 3}
+    - target: {fileID: 5150098456460008506, guid: e511474ebcdfa474497bd8214d482ffe, type: 3}
+      propertyPath: 'shootAnimation.frames.Array.data[5]'
+      value: 
+      objectReference: {fileID: -1045139219631679114, guid: 721ec5e2a23952a49b30e49928453178, type: 3}
+    - target: {fileID: 5150098456460008506, guid: e511474ebcdfa474497bd8214d482ffe, type: 3}
+      propertyPath: 'shootAnimation.frames.Array.data[6]'
+      value: 
+      objectReference: {fileID: -1045139219631679114, guid: 721ec5e2a23952a49b30e49928453178, type: 3}
+    - target: {fileID: 5150098456460008506, guid: e511474ebcdfa474497bd8214d482ffe, type: 3}
+      propertyPath: 'shootAnimation.frames.Array.data[7]'
+      value: 
+      objectReference: {fileID: -1045139219631679114, guid: 721ec5e2a23952a49b30e49928453178, type: 3}
+    - target: {fileID: 5150098456460008506, guid: e511474ebcdfa474497bd8214d482ffe, type: 3}
+      propertyPath: 'shootAnimation.frames.Array.data[8]'
+      value: 
+      objectReference: {fileID: -1045139219631679114, guid: 721ec5e2a23952a49b30e49928453178, type: 3}
+    - target: {fileID: 5150098456460008506, guid: e511474ebcdfa474497bd8214d482ffe, type: 3}
+      propertyPath: 'shootAnimation.frames.Array.data[9]'
+      value: 
+      objectReference: {fileID: -1045139219631679114, guid: 721ec5e2a23952a49b30e49928453178, type: 3}
+    - target: {fileID: 5150098456460008506, guid: e511474ebcdfa474497bd8214d482ffe, type: 3}
+      propertyPath: 'shootAnimation.frames.Array.data[10]'
+      value: 
+      objectReference: {fileID: -1045139219631679114, guid: 721ec5e2a23952a49b30e49928453178, type: 3}
+    - target: {fileID: 5150098456460008506, guid: e511474ebcdfa474497bd8214d482ffe, type: 3}
+      propertyPath: 'shootAnimation.frames.Array.data[11]'
+      value: 
+      objectReference: {fileID: -1045139219631679114, guid: 721ec5e2a23952a49b30e49928453178, type: 3}
+    - target: {fileID: 5150098456460008506, guid: e511474ebcdfa474497bd8214d482ffe, type: 3}
+      propertyPath: 'shootAnimation.frames.Array.data[12]'
+      value: 
+      objectReference: {fileID: -1045139219631679114, guid: 721ec5e2a23952a49b30e49928453178, type: 3}
+    - target: {fileID: 5150098456460008506, guid: e511474ebcdfa474497bd8214d482ffe, type: 3}
+      propertyPath: 'shootAnimation.frames.Array.data[13]'
+      value: 
+      objectReference: {fileID: -1045139219631679114, guid: 721ec5e2a23952a49b30e49928453178, type: 3}
+    - target: {fileID: 5150098456460008506, guid: e511474ebcdfa474497bd8214d482ffe, type: 3}
+      propertyPath: 'shootAnimation.frames.Array.data[14]'
+      value: 
+      objectReference: {fileID: -1045139219631679114, guid: 721ec5e2a23952a49b30e49928453178, type: 3}
+    - target: {fileID: 5150098456460008506, guid: e511474ebcdfa474497bd8214d482ffe, type: 3}
+      propertyPath: 'shootAnimation.frames.Array.data[15]'
+      value: 
+      objectReference: {fileID: -1045139219631679114, guid: 721ec5e2a23952a49b30e49928453178, type: 3}
     - target: {fileID: 8414315639620039648, guid: e511474ebcdfa474497bd8214d482ffe, type: 3}
       propertyPath: textColor.b
       value: 0.49056602
