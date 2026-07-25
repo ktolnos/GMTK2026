@@ -99,7 +99,7 @@ public class Player : MonoBehaviour
             isControlled = false;
         }
 
-        if (history.Count < GM.Step)
+        while (history.Count < GM.Step + 1)
         {
             history.Add(new HistoryEntry());
         }
