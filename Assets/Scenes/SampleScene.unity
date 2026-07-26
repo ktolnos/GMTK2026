@@ -2471,7 +2471,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 6.1041665
+  orthographic size: 6
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -3641,7 +3641,8 @@ MonoBehaviour:
   wholeLoop: 1
   maxTime: 15
   endLoopOnDestroy: 0
-  buildupAudioSeconds: 0
+  buildupAudioSeconds: 10
+  tickTackSounds: 1
 --- !u!1 &1587918600
 GameObject:
   m_ObjectHideFlags: 0
@@ -4798,7 +4799,7 @@ MonoBehaviour:
   prefab: {fileID: 340432138923178290, guid: 85e189ce8fa1d0b449649fa547734d44, type: 3}
   playersParent: {fileID: 425261862}
   movement:
-    m_Name: 
+    m_Name: Movement
     m_Type: 0
     m_ExpectedControlType: 
     m_Id: c3e6aac9-fb4b-4aa2-a888-f0ffa9ba99a2
@@ -4807,7 +4808,7 @@ MonoBehaviour:
     m_SingletonActionBindings: []
     m_Flags: 0
   select:
-    m_Name: 
+    m_Name: Select
     m_Type: 0
     m_ExpectedControlType: 
     m_Id: 34ddbae9-016a-4807-850e-5ac15d464f52

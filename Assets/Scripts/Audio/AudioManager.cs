@@ -12,6 +12,7 @@ public class AudioManager : MonoBehaviour {
     [SerializeField] private AudioSource musicSource;
     [SerializeField] private AudioSource uiSource;
     [SerializeField] private AudioSource bombSource;
+    [SerializeField] private AudioSource clockSource;
     [SerializeField] private AudioSource positionalAudioSourcePrefab;
     [SerializeField] private int positionalAudioSourcesPoolSize = 20;
 
@@ -30,6 +31,10 @@ public class AudioManager : MonoBehaviour {
     [SerializeField] private AudioContainer footstepsLightMetalRunAudio;
     [SerializeField] private AudioContainer footstepsStoneWalkAudio;
     [SerializeField] private AudioContainer footstepsStoneRunAudio;
+
+    [Header("Clock Sounds")]
+    [SerializeField] private AudioContainer clockTickAudio;
+    [SerializeField] private AudioContainer clockTackAudio;
 
     [Header("Bomb Sounds")]
     [SerializeField] private AudioContainer bombBuildupAudio;
@@ -77,6 +82,14 @@ public class AudioManager : MonoBehaviour {
 
     public void PlayBombExplosion() {
         bombExplosionAudio.Play(bombSource);
+    }
+
+    public void PlayClockTick() {
+        clockTickAudio.Play(bombSource);
+    }
+
+    public void PlayClockTack() {
+        clockTackAudio.Play(bombSource);
     }
 
     public void PlayMusic(AudioContainer audio) {

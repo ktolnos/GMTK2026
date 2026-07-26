@@ -1,4 +1,3 @@
-using System;
 using TMPro;
 using UnityEngine;
 
@@ -8,9 +7,11 @@ public class Clock : MonoBehaviour
     public bool wholeLoop = true;
     public int maxTime = 15;
     public bool endLoopOnDestroy = false;
-    [SerializeField] private float buildupAudioSeconds = 9.5f;
+    [SerializeField] private int buildupAudioSeconds = 10;
+    [SerializeField] private bool tickTackSounds = false;
 
     private bool buildUpAudioStarted = false;
+    private int prevSeconds = -1;
 
     private void Update()
     {
@@ -23,13 +24,24 @@ public class Clock : MonoBehaviour
         {
             seconds = maxTime - GM.Step / GM.StepsPerSecond;
         }
+        if (seconds == prevSeconds) {
+            return;
+        }
         if (!buildUpAudioStarted && endLoopOnDestroy && seconds <= buildupAudioSeconds && buildupAudioSeconds > 0) 
         {
             buildUpAudioStarted = true;
             AudioManager.I.PlayBombBuildup();
         }
+        if (tickTackSounds && GM.isPlaying) {
+            if (seconds % 2 == 0) {
+                AudioManager.I.PlayClockTick();
+            } else {
+                AudioManager.I.PlayClockTack();
+            }
+        }
 
         clockText.text = $"0:{seconds:D2}";
+        prevSeconds = seconds;
     }
 
     private void OnDestroy()
