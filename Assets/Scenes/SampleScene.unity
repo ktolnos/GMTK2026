@@ -12677,6 +12677,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2386762197597796951, guid: d0bbf5a134f460c4698799611a09303f, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 2386762197597796951, guid: d0bbf5a134f460c4698799611a09303f, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 2386762197597796951, guid: d0bbf5a134f460c4698799611a09303f, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 2386762197597796951, guid: d0bbf5a134f460c4698799611a09303f, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4812704257963341986, guid: d0bbf5a134f460c4698799611a09303f, type: 3}
       propertyPath: managedReferences[3823255337006530666].m_Indices.Array.size
       value: 801
