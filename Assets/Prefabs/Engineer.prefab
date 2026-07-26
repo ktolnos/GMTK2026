@@ -17,6 +17,10 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1956581072528391137, guid: e511474ebcdfa474497bd8214d482ffe, type: 3}
+      propertyPath: speed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1956581072528391137, guid: e511474ebcdfa474497bd8214d482ffe, type: 3}
       propertyPath: playerName
       value: Engineer
       objectReference: {fileID: 0}
@@ -155,3 +159,4 @@ MonoBehaviour:
   typingSpeed: 1
   newCharacterSprite: {fileID: 0}
   newCharacterTextColor: {r: 1, g: 1, b: 1, a: 1}
+  DialogMenu: {fileID: 0}

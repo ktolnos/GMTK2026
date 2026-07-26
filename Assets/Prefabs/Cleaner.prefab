@@ -53,9 +53,11 @@ MonoBehaviour:
     frames: []
     fps: 0
   targetAnimator: {fileID: 0}
+  fps: 4
   shotSource: {fileID: 2486779650790456975}
   shotAudio: {fileID: 11400000, guid: 98179f1105a395848a8aef6270e1a5d0, type: 2}
   isAnimating: 0
+  hideParentDuringAttackAnimation: 0
 --- !u!82 &2486779650790456975
 AudioSource:
   m_ObjectHideFlags: 0
@@ -412,14 +414,15 @@ MonoBehaviour:
   lastInteractStep: -100
   direction: 0
   isMoving: 0
+  isAttacking: 0
   lastShotStep: -100
-  collider: {fileID: 0}
   playerName: Janitor
   description: '[Space] Mop strike with extra wet damage
 
 
     [E] Opens most doors'
   icon: {fileID: -3591552613031203118, guid: 188664ef59a8141489817d1d83c61edb, type: 3}
+  collider: {fileID: 0}
 --- !u!212 &3405475559147969970
 SpriteRenderer:
   serializedVersion: 3
