@@ -149,10 +149,10 @@ public class GM: MonoBehaviour
     
     public static void ResetLoop()
     {
-        if (Time.realtimeSinceStartup - lastResetTime < 0.5f)
-        {
-            return;
-        }
+        // if (Time.realtimeSinceStartup - lastResetTime < 0.5f)
+        // {
+        //     return;
+        // }
         lastResetTime = Time.realtimeSinceStartup;
         AudioManager.I.OnResetLoop();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
