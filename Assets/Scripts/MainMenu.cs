@@ -1,3 +1,4 @@
+using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -19,5 +20,23 @@ public class MainMenu : MonoBehaviour
     {
         Debug.Log("Starting Game");
         SceneManager.LoadScene("SampleScene");
+    }
+
+    public void DeleteSaves()
+    {
+        var saveFilePath = Application.persistentDataPath + "/";
+        if (Directory.Exists(saveFilePath))
+        {
+            Directory.Delete(saveFilePath, true);
+            Directory.CreateDirectory(saveFilePath);
+            Debug.Log("Save file deleted.");
+        }
+        else
+        {
+            Debug.LogWarning("No save file found to delete.");
+        }
+        PlayerPrefs.DeleteAll();
+        GM.currentDifficulty = GM.Difficulty.Normal;
+        SceneManager.LoadScene("Menu");
     }
 }

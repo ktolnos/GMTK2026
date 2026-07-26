@@ -187,7 +187,7 @@ public class GM: MonoBehaviour
         {
             Debug.LogWarning("No save file found to delete.");
         }
-
+        PlayerPrefs.DeleteAll();
         skipSave = true;
         if (Application.isPlaying)
         {

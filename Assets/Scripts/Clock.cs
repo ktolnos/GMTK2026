@@ -12,9 +12,23 @@ public class Clock : MonoBehaviour
 
     private bool buildUpAudioStarted = false;
     private int prevSeconds = -1;
+    public bool showTimeFromExplosion = false;
+    public ExplodeAtTime explosion;
+
+    private void Start()
+    {
+        if (showTimeFromExplosion)
+        {
+            maxTime = Mathf.RoundToInt(explosion.time / GM.ReferenceDeltaTime);
+        }
+    }
 
     private void Update()
     {
+        if (showTimeFromExplosion && explosion.isDefused)
+        {
+            return;
+        }
         int seconds;
         if (wholeLoop)
         {

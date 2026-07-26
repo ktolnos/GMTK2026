@@ -14,6 +14,18 @@ public class DifficultySelectorButton: MonoBehaviour
         all.Add(this);
         button = GetComponent<Button>();
         button.onClick.AddListener(OnClick);
+        var difficulty = PlayerPrefs.GetString("difficulty");
+        if (difficulty == "Easy")
+        {
+            GM.currentDifficulty = GM.Difficulty.Easy;
+        } 
+        else if (difficulty == "Medium")
+        {
+            GM.currentDifficulty = GM.Difficulty.Normal;
+        } else if (difficulty == "Hard") 
+        {
+            GM.currentDifficulty = GM.Difficulty.Hard;
+        }
     }
 
     private void Update()
@@ -27,5 +39,6 @@ public class DifficultySelectorButton: MonoBehaviour
     private void OnClick()
     {
         GM.currentDifficulty = difficulty;
+        PlayerPrefs.SetString("difficulty", GM.currentDifficulty.ToString());
     }
 }

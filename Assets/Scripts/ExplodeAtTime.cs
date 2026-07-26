@@ -7,6 +7,11 @@ public class ExplodeAtTime : MonoBehaviour
 {
     public GameObject explosionPrefab;
     public float time;
+    public bool difficultyControlsTime = false;
+    public float easyTime;
+    public float normalTime;
+    public float hardTime;
+    
     public float shakeTime;
     [Tooltip("No effect. Use destroyDelayTicks instead")] public float selfDestroyTime = -1;
     public float explosionDestroyTime = 1f;
@@ -26,6 +31,20 @@ public class ExplodeAtTime : MonoBehaviour
         if (endOfLoop)
         {
             time = GM.LoopSeconds;
+        } else if (difficultyControlsTime)
+        {
+            switch (GM.currentDifficulty)
+            {
+                case GM.Difficulty.Easy:
+                    time = easyTime;
+                    break;
+                case GM.Difficulty.Normal:
+                    time = normalTime;
+                    break;
+                case GM.Difficulty.Hard:
+                    time = hardTime;
+                    break;
+            }
         }
 
         time -= Random.value * randomOffset;
