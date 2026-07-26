@@ -20,6 +20,7 @@ public class Computer : MonoBehaviour
     public Color overlayUnlockableColor = Color.green;
     public Color overlayLockedColor = Color.red;
     public LineRenderer lineRenderer;
+    public GameObject noEnergyIndicator;
 
     private bool canBeInteractedWith = false;
     private SpriteRenderer overlaySpriteRenderer;
@@ -27,7 +28,8 @@ public class Computer : MonoBehaviour
     private bool isInteracting = false;
     private List<LineRenderer> lineRenderers = new List<LineRenderer>();
     private bool interactRequested;
-    public GameObject noEnergyIndicator;
+    private Player player;
+    
 
     void Start()
     {
@@ -51,9 +53,10 @@ public class Computer : MonoBehaviour
         {
             return;
         }
-        if (other.TryGetComponent(out Player player))
+        if (other.TryGetComponent(out Player potentialPlayer))
         {
-            interactRequested |= other.GetComponent<Player>().lastInteractStep >= GM.Step - 10;
+            player = potentialPlayer;
+            interactRequested |= player.lastInteractStep >= GM.Step - 10;
             canBeInteractedWith |= unlockableByPlayers.Contains(player.name);
             if (canBeInteractedWith || !isLocked || isActivated)
             {
@@ -123,6 +126,7 @@ public class Computer : MonoBehaviour
 
     IEnumerator Activate()
     {
+        player.gun.Shoot(Vector2.up);
         foreach (var i in destroyOnActivate)
         {
             LineRenderer lr = Instantiate(lineRenderer, i.transform.position, i.transform.rotation);

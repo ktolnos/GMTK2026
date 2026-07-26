@@ -1104,6 +1104,46 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4712339873379126768, guid: 6b3ef7757a62c2448a80d6cdca489bf8, type: 3}
+      propertyPath: fps
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4712339873379126768, guid: 6b3ef7757a62c2448a80d6cdca489bf8, type: 3}
+      propertyPath: targetAnimator
+      value: 
+      objectReference: {fileID: 775329215}
+    - target: {fileID: 4712339873379126768, guid: 6b3ef7757a62c2448a80d6cdca489bf8, type: 3}
+      propertyPath: shootAnimation.frames.Array.size
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4712339873379126768, guid: 6b3ef7757a62c2448a80d6cdca489bf8, type: 3}
+      propertyPath: 'shootAnimation.frames.Array.data[0]'
+      value: 
+      objectReference: {fileID: -2013235622817575795, guid: 924e7d9c16e52074e9ee32d1bf7606da, type: 3}
+    - target: {fileID: 4712339873379126768, guid: 6b3ef7757a62c2448a80d6cdca489bf8, type: 3}
+      propertyPath: 'shootAnimation.frames.Array.data[1]'
+      value: 
+      objectReference: {fileID: -1777764449564196233, guid: 924e7d9c16e52074e9ee32d1bf7606da, type: 3}
+    - target: {fileID: 4712339873379126768, guid: 6b3ef7757a62c2448a80d6cdca489bf8, type: 3}
+      propertyPath: 'shootAnimation.frames.Array.data[2]'
+      value: 
+      objectReference: {fileID: -6417227366206118678, guid: 924e7d9c16e52074e9ee32d1bf7606da, type: 3}
+    - target: {fileID: 4712339873379126768, guid: 6b3ef7757a62c2448a80d6cdca489bf8, type: 3}
+      propertyPath: 'shootAnimation.frames.Array.data[3]'
+      value: 
+      objectReference: {fileID: -5558179542084415361, guid: 924e7d9c16e52074e9ee32d1bf7606da, type: 3}
+    - target: {fileID: 4712339873379126768, guid: 6b3ef7757a62c2448a80d6cdca489bf8, type: 3}
+      propertyPath: 'shootAnimation.frames.Array.data[4]'
+      value: 
+      objectReference: {fileID: 3841021720197573083, guid: 924e7d9c16e52074e9ee32d1bf7606da, type: 3}
+    - target: {fileID: 4712339873379126768, guid: 6b3ef7757a62c2448a80d6cdca489bf8, type: 3}
+      propertyPath: 'shootAnimation.frames.Array.data[5]'
+      value: 
+      objectReference: {fileID: -2436393041658922553, guid: 924e7d9c16e52074e9ee32d1bf7606da, type: 3}
+    - target: {fileID: 4712339873379126768, guid: 6b3ef7757a62c2448a80d6cdca489bf8, type: 3}
+      propertyPath: 'shootAnimation.frames.Array.data[6]'
+      value: 
+      objectReference: {fileID: 1384845732071125227, guid: 924e7d9c16e52074e9ee32d1bf7606da, type: 3}
     - target: {fileID: 8275623911399023146, guid: 6b3ef7757a62c2448a80d6cdca489bf8, type: 3}
       propertyPath: textColor.b
       value: 0.23270428
@@ -1132,6 +1172,17 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1383159853}
   m_SourcePrefab: {fileID: 100100000, guid: 6b3ef7757a62c2448a80d6cdca489bf8, type: 3}
+--- !u!114 &775329215 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8269364363454234669, guid: 6b3ef7757a62c2448a80d6cdca489bf8, type: 3}
+  m_PrefabInstance: {fileID: 775329214}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1383159842}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0acde274ecaf3354dbee0081d952c8cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpriteAnimator
 --- !u!114 &1000683103 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5861146544743312581, guid: 12ad19160e7d6d44bb18a6d471aac75b, type: 3}

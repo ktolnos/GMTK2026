@@ -27,17 +27,18 @@ public class Player : MonoBehaviour
     public bool isMoving;
     public bool isAttacking;
     public int lastShotStep = -100;
+    [NonSerialized] public Gun gun;
+    public string playerName;
+    [TextArea] public string description;
+    public Sprite icon;
 
     private string historySavePath;
     private string stateSavePath;
     private SaveState saveState;
 
-    private Gun gun;
+
     public CircleCollider2D collider;
 
-    public string playerName;
-    [TextArea] public string description;
-    public Sprite icon;
     private Health health;
     private float wasControlledStep = -100;
     private int closedDoorCollisionStep = -100;
