@@ -2476,11 +2476,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-<<<<<<< HEAD
-  orthographic size: 6.1041665
-=======
   orthographic size: 7.25
->>>>>>> origin/dev
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -4680,8 +4676,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-<<<<<<< HEAD
-=======
     - target: {fileID: 3994187126821224454, guid: d0bbf5a134f460c4698799611a09303f, type: 3}
       propertyPath: m_TileSpriteArray.Array.data[3].m_Data
       value: 
@@ -7934,7 +7928,6 @@ PrefabInstance:
       propertyPath: m_Tiles.Array.data[506].second.m_TileObjectToInstantiateIndex
       value: 65535
       objectReference: {fileID: 0}
->>>>>>> origin/dev
     - target: {fileID: 8867986862493897381, guid: d0bbf5a134f460c4698799611a09303f, type: 3}
       propertyPath: m_Name
       value: Level
