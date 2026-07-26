@@ -13,6 +13,10 @@ PrefabInstance:
       value: 27
       objectReference: {fileID: 0}
     - target: {fileID: 982188459132268051, guid: 3e0d096ca43cc22498c881090cdb6696, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 8490a94db31427447993dbd0f09686e0, type: 2}
+    - target: {fileID: 982188459132268051, guid: 3e0d096ca43cc22498c881090cdb6696, type: 3}
       propertyPath: m_fontColor.b
       value: 0.5764706
       objectReference: {fileID: 0}
@@ -29,8 +33,16 @@ PrefabInstance:
       value: 27
       objectReference: {fileID: 0}
     - target: {fileID: 982188459132268051, guid: 3e0d096ca43cc22498c881090cdb6696, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: -253793770719105175, guid: 8490a94db31427447993dbd0f09686e0, type: 2}
+    - target: {fileID: 982188459132268051, guid: 3e0d096ca43cc22498c881090cdb6696, type: 3}
       propertyPath: m_fontColor32.rgba
       value: 4287889115
+      objectReference: {fileID: 0}
+    - target: {fileID: 982188459132268051, guid: 3e0d096ca43cc22498c881090cdb6696, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1876199538649315915, guid: 3e0d096ca43cc22498c881090cdb6696, type: 3}
       propertyPath: m_LocalPosition.x
@@ -154,3 +166,4 @@ MonoBehaviour:
   randomOffset: 0
   explodeWalls: 1
   wallsExplosionRadius: 1
+  isDefused: 0

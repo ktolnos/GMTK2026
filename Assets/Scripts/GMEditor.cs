@@ -20,6 +20,13 @@ public class GMEditor : Editor
         {
             EditorUtility.RevealInFinder(Application.persistentDataPath);
         }
+        if (GUILayout.Button("Unlock All [in play mode]"))
+        {
+            foreach (var player in Player.players)
+            {
+                player.isUnlocked = true;
+            }
+        }
     }
         
 }
