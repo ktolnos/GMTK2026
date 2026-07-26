@@ -14,9 +14,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DefaultNamespace.PlayerSprites
   idle:
     frames:
-    - {fileID: -98942914064957477, guid: 721ec5e2a23952a49b30e49928453178, type: 3}
-    - {fileID: -9072475754817533579, guid: 721ec5e2a23952a49b30e49928453178, type: 3}
-    fps: 2
+    - {fileID: 5785414457254503258, guid: edfe96c9af6cd2c41bfa7cf10006237a, type: 3}
+    - {fileID: -7674553479245485296, guid: edfe96c9af6cd2c41bfa7cf10006237a, type: 3}
+    - {fileID: 4606479838594884094, guid: edfe96c9af6cd2c41bfa7cf10006237a, type: 3}
+    - {fileID: -2621817624101347598, guid: edfe96c9af6cd2c41bfa7cf10006237a, type: 3}
+    - {fileID: 5785414457254503258, guid: edfe96c9af6cd2c41bfa7cf10006237a, type: 3}
+    - {fileID: -7674553479245485296, guid: edfe96c9af6cd2c41bfa7cf10006237a, type: 3}
+    - {fileID: 4606479838594884094, guid: edfe96c9af6cd2c41bfa7cf10006237a, type: 3}
+    - {fileID: -2621817624101347598, guid: edfe96c9af6cd2c41bfa7cf10006237a, type: 3}
+    - {fileID: 5785414457254503258, guid: edfe96c9af6cd2c41bfa7cf10006237a, type: 3}
+    - {fileID: -7674553479245485296, guid: edfe96c9af6cd2c41bfa7cf10006237a, type: 3}
+    - {fileID: 4606479838594884094, guid: edfe96c9af6cd2c41bfa7cf10006237a, type: 3}
+    - {fileID: -2621817624101347598, guid: edfe96c9af6cd2c41bfa7cf10006237a, type: 3}
+    - {fileID: 2112934731412248389, guid: edfe96c9af6cd2c41bfa7cf10006237a, type: 3}
+    - {fileID: -2191896439973680243, guid: edfe96c9af6cd2c41bfa7cf10006237a, type: 3}
+    - {fileID: -1346654558198695007, guid: edfe96c9af6cd2c41bfa7cf10006237a, type: 3}
+    - {fileID: 3783393650141708964, guid: edfe96c9af6cd2c41bfa7cf10006237a, type: 3}
+    - {fileID: 8174506603258151292, guid: edfe96c9af6cd2c41bfa7cf10006237a, type: 3}
+    - {fileID: -1536497678282270145, guid: edfe96c9af6cd2c41bfa7cf10006237a, type: 3}
+    - {fileID: -8077839618197546641, guid: edfe96c9af6cd2c41bfa7cf10006237a, type: 3}
+    fps: 4
   walk:
     frames:
     - {fileID: -5943382487338637236, guid: 721ec5e2a23952a49b30e49928453178, type: 3}
@@ -24,3 +41,6 @@ MonoBehaviour:
     - {fileID: -5943382487338637236, guid: 721ec5e2a23952a49b30e49928453178, type: 3}
     - {fileID: -6592082217391695064, guid: 721ec5e2a23952a49b30e49928453178, type: 3}
     fps: 6
+  attack:
+    frames: []
+    fps: 0
