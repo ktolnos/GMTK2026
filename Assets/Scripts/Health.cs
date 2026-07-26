@@ -12,6 +12,8 @@ public class Health: MonoBehaviour
     public float stunEnd = 0;
     public bool clean = false;
 
+    [SerializeField] private AudioContainer deathAudio;
+
     public bool triggerTimedExplosionOnDeath;
 
     public void Awake(){
@@ -39,6 +41,10 @@ public class Health: MonoBehaviour
             if (triggerTimedExplosionOnDeath)
             {
                 GetComponent<ExplodeAtTime>().StartExplosion();
+            }
+            if (deathAudio != null) 
+            {
+                GM.AudioManager.PlayAtPosition(deathAudio, transform.position);
             }
         }
         if (damageType == "mokriyUron" && stunEnd <= GM.Step)
