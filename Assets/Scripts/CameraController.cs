@@ -7,7 +7,8 @@ public class CameraController: MonoBehaviour
     public static CameraController I;
     public Camera mainCamera;
 
-    private float shakeEndTime = -100;
+    private float shakeSecondsLeft = 0f;
+    private float shakeDuration;
     private Vector3 cameraPosSmoothDampVel;
     
     private void Awake()
@@ -28,9 +29,11 @@ public class CameraController: MonoBehaviour
         );
         transform.position = Vector3.SmoothDamp(transform.position, targetPos, ref cameraPosSmoothDampVel, .1f);
 
-        if (Time.time < shakeEndTime)
+        if (shakeSecondsLeft > 0f)
         {
-            mainCamera.transform.localPosition = Random.insideUnitCircle * 0.1f;
+            var shakeIntensity = shakeSecondsLeft / shakeDuration;
+            mainCamera.transform.localPosition = 0.2f * shakeIntensity * Random.insideUnitCircle;
+            shakeSecondsLeft -= Time.deltaTime;
         }
         else
         {
@@ -40,6 +43,7 @@ public class CameraController: MonoBehaviour
     
     public void Shake(float duration)
     {
-        shakeEndTime = Time.time + duration;
+        shakeSecondsLeft = duration;
+        shakeDuration = duration;
     }
 }
