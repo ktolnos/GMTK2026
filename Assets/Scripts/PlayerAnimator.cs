@@ -39,7 +39,6 @@ public class PlayerAnimator: MonoBehaviour
         {
             spriteAnimator.animation = sprites.idle;
         }
-
-        spriteAnimator.spriteRenderer.flipX = player.direction == Direction.Left;
+        player.transform.localScale = new Vector3(player.direction == Direction.Left ? -1 : 1, 1, 1);
     }
 }
