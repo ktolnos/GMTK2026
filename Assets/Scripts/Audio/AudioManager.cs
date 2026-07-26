@@ -1,10 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
+using static UnityEngine.Rendering.DebugUI;
 
 public class AudioManager : MonoBehaviour {
 
     public static AudioManager I;
 
+    [SerializeField] private AudioMixer mixer;
     [SerializeField] private AudioSource musicSource;
     [SerializeField] private AudioSource uiSource;
     [SerializeField] private AudioSource bombSource;
@@ -101,5 +105,9 @@ public class AudioManager : MonoBehaviour {
         if (positionalAudioSourceIndex >= positionalAudioSourcesPoolSize) {
             positionalAudioSourceIndex = 0;
         }
+    }
+
+    public void ChangeVolume(float value) {
+        mixer.SetFloat("MasterVolume", Mathf.Log10(Mathf.Clamp(value, 0.0001f, 1f)) * 20f);
     }
 }

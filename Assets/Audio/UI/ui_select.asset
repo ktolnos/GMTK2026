@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: ui_select
   m_EditorClassIdentifier: Assembly-CSharp::AudioContainer
   <Clips>k__BackingField:
-  - {fileID: 8300000, guid: 38480c6e630260646839fbfb6a9b34ad, type: 3}
-  <VolumeScale>k__BackingField: 0.6
+  - {fileID: 8300000, guid: c702fad7460150241a709a2e611b2eff, type: 3}
+  <VolumeScale>k__BackingField: 0.5
   <PitchOffset>k__BackingField: 0.2
