@@ -209,7 +209,7 @@ public class Player : MonoBehaviour
         if (health.currentHealth <= 0)
         {
             UIManager.I.ShowResetText();
-            if (GM.Step - wasControlledStep < 5)
+            if (GM.Step - wasControlledStep < 50)
             {
                 var deathAnimTime = 1000;
                 GM.lastResetTime = Time.realtimeSinceStartup + deathAnimTime / 1000f;
