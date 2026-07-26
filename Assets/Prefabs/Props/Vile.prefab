@@ -186,6 +186,9 @@ MonoBehaviour:
   explodeWalls: 1
   wallsExplosionRadius: 2
   isDefused: 0
+  explodeWallsDelayTicks: 12
+  explosionAudio1: {fileID: 11400000, guid: 758a0cfe7fa3c0e49bae4eed66c0cc43, type: 2}
+  explosionAudio2: {fileID: 11400000, guid: c2b4d9a86f7ed8842bf3789ea0a0042b, type: 2}
 --- !u!114 &4211470030239099950
 MonoBehaviour:
   m_ObjectHideFlags: 0

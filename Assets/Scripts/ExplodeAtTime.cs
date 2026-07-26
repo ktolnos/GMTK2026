@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Linq;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using Random = UnityEngine.Random;
@@ -10,7 +8,7 @@ public class ExplodeAtTime : MonoBehaviour
     public GameObject explosionPrefab;
     public float time;
     public float shakeTime;
-    public float selfDestroyTime = -1;
+    [Tooltip("No effect. Use destroyDelayTicks instead")] public float selfDestroyTime = -1;
     public float explosionDestroyTime = 1f;
     private bool isExploding = false;
     public bool endOfLoop;
@@ -18,6 +16,10 @@ public class ExplodeAtTime : MonoBehaviour
     public bool explodeWalls;
     public float wallsExplosionRadius;
     public bool isDefused = false;
+    [SerializeField] private float destroyDelayTicks = 12;
+
+    [SerializeField] private AudioContainer explosionAudio1;
+    [SerializeField] private AudioContainer explosionAudio2;
 
     private void Start()
     {
@@ -55,17 +57,29 @@ public class ExplodeAtTime : MonoBehaviour
                 Destroy(explosion, explosionDestroyTime);
             }
         }
-        
+
         if (shakeTime > 0)
         {
             CameraController.I.Shake(shakeTime);
         }
-        
-        if (selfDestroyTime > 0)
-        {
-           yield return new WaitForSeconds(selfDestroyTime);
+
+        //if (selfDestroyTime > 0)
+        //{
+        //   yield return new WaitForSeconds(selfDestroyTime);
+        //}
+        //Destroy(gameObject, selfDestroyTime);
+
+        if (explosionAudio1 != null) {
+            GM.AudioManager.PlayAtPosition(explosionAudio1, transform.position);
         }
-        Destroy(gameObject, selfDestroyTime);
+        for (int t = 0; t < destroyDelayTicks; t++) 
+        {
+            yield return new WaitForFixedUpdate();
+        }
+        if (explosionAudio2 != null) {
+            GM.AudioManager.PlayAtPosition(explosionAudio2, transform.position);
+        }
+        Destroy(gameObject);
 
         if (explodeWalls)
         {
