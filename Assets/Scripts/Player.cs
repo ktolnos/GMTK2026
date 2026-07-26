@@ -212,12 +212,7 @@ public class Player : MonoBehaviour
             UIManager.I.ShowResetText();
             if (GM.Step - wasControlledStep < 50)
             {
-                GM.isPlaying = false;
-                var deathAnimTime = 1000;
-                GM.lastResetTime = Time.realtimeSinceStartup + deathAnimTime / 1000f;
-                await Task.Delay(deathAnimTime);
-                GM.lastResetTime = 0;
-                GM.ResetLoop();
+                GM.I.ResetLoopWithWait();
             }
         }
     }

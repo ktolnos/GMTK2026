@@ -32,7 +32,7 @@ public class GM: MonoBehaviour
 
     public static int StepsPerSecond = 50;
     public static float ReferenceDeltaTime = 1f / StepsPerSecond;
-    public static int LoopSteps = LoopSeconds * StepsPerSecond;
+    public static int LoopSteps => LoopSeconds * StepsPerSecond;
     public static int Step = 0;
     private InputAction loopResetAction;
     private InputAction nextAction;
@@ -58,6 +58,8 @@ public class GM: MonoBehaviour
         {
             lastResetTime = -100;
         }
+
+        Time.fixedDeltaTime = 0.02f;
     }
     
     private void Start()
@@ -129,6 +131,20 @@ public class GM: MonoBehaviour
     {
         isPlaying = false;
         StartCoroutine(FinalExplosion());
+    }
+
+    public void ResetLoopWithWait()
+    {
+        StartCoroutine(ResetLoopCoroutine());
+    }
+
+    private IEnumerator ResetLoopCoroutine()
+    {
+        isPlaying = false;
+        lastResetTime = Time.realtimeSinceStartup + 1000f;
+        yield return new WaitForSeconds(1);
+        lastResetTime = 0;
+        ResetLoop();
     }
     
     public static void ResetLoop()
