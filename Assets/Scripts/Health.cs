@@ -13,6 +13,7 @@ public class Health: MonoBehaviour
     public bool clean = false;
 
     [SerializeField] private AudioContainer deathAudio;
+    [SerializeField] private AudioContainer stunAudio;
 
     public bool triggerTimedExplosionOnDeath;
 
@@ -49,6 +50,9 @@ public class Health: MonoBehaviour
         }
         if (damageType == "mokriyUron" && stunEnd <= GM.Step)
         {
+            if (stunAudio != null) {
+                GM.AudioManager.PlayAtPosition(stunAudio, transform.position);
+            }
             if (clean)
             {
                 var effect = Instantiate(deathEffect, transform.position, transform.rotation);

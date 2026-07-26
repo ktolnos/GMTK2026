@@ -142,6 +142,7 @@ MonoBehaviour:
   stunEnd: 0
   clean: 0
   deathAudio: {fileID: 11400000, guid: 59be7a5071baaab4c9220a2f677a7541, type: 2}
+  stunAudio: {fileID: 11400000, guid: ee71652cb978ae84293ac69091bfcee0, type: 2}
   triggerTimedExplosionOnDeath: 0
 --- !u!50 &4517071429502956574
 Rigidbody2D:
