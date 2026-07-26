@@ -23,7 +23,7 @@ public class Clock : MonoBehaviour
         {
             seconds = maxTime - GM.Step / GM.StepsPerSecond;
         }
-        if (!buildUpAudioStarted && endLoopOnDestroy && seconds <= buildupAudioSeconds) 
+        if (!buildUpAudioStarted && endLoopOnDestroy && seconds <= buildupAudioSeconds && buildupAudioSeconds > 0) 
         {
             buildUpAudioStarted = true;
             AudioManager.I.PlayBombBuildup();

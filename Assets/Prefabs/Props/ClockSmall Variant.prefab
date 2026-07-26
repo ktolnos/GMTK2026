@@ -96,6 +96,10 @@ PrefabInstance:
       propertyPath: wholeLoop
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5546318406875143942, guid: 3e0d096ca43cc22498c881090cdb6696, type: 3}
+      propertyPath: buildupAudioSeconds
+      value: -1
+      objectReference: {fileID: 0}
     - target: {fileID: 6380073429532590959, guid: 3e0d096ca43cc22498c881090cdb6696, type: 3}
       propertyPath: m_Size.x
       value: 0.8
@@ -167,3 +171,6 @@ MonoBehaviour:
   explodeWalls: 1
   wallsExplosionRadius: 1
   isDefused: 0
+  destroyDelayTicks: 12
+  explosionAudio1: {fileID: 0}
+  explosionAudio2: {fileID: 0}
