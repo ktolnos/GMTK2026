@@ -53,7 +53,7 @@ public class Gun: MonoBehaviour
     private IEnumerator ShootAnimated(Vector2 direction) {
         isAnimating = true;
         targetAnimator.pause = true;
-        var fixedUpdates = (int)(1f / (fps * Time.fixedDeltaTime));
+        var fixedUpdates = (int)(1f / (fps * GM.ReferenceDeltaTime));
         for (int i = 0; i < shootAnimation.frames.Length; i++)
         {
             targetAnimator.spriteRenderer.sprite = shootAnimation.frames[i];

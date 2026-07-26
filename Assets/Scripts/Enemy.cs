@@ -100,7 +100,7 @@ public class Enemy : MonoBehaviour
                     dir = diff.x > 0 ? Vector3.right : Vector3.left;
                 }
                 isMoving = true;
-                rb.MovePosition(rb.position + dir * speed * Time.fixedDeltaTime);
+                rb.MovePosition(rb.position + dir * speed * GM.ReferenceDeltaTime);
                 direction = dir;
             }
             else
@@ -113,7 +113,7 @@ public class Enemy : MonoBehaviour
         {
             var target = waypoints[waypointIndex].position;
             var direction = (target - transform.position).normalized;
-            var step = speed * Time.fixedDeltaTime;
+            var step = speed * GM.ReferenceDeltaTime;
             var requiredStep = (target - transform.position).magnitude;
             if (requiredStep < step)
             {

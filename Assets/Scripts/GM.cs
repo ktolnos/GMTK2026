@@ -12,6 +12,7 @@ public class GM: MonoBehaviour
     public static GM I;
     public static int LoopSeconds = 59;
     public static int StepsPerSecond = 50;
+    public static float ReferenceDeltaTime = 1f / StepsPerSecond;
     public static int LoopSteps = LoopSeconds * StepsPerSecond;
     public static int Step = 0;
     private InputAction loopResetAction;
@@ -59,12 +60,12 @@ public class GM: MonoBehaviour
     //     if (fastForwardAction.IsPressed())
     //     {
     //         Time.timeScale = 2f;
-    //         Time.fixedDeltaTime = 0.01f;
+    //         Time.fixedDeltaTime = ReferenceDeltaTime / 2f;
     //     }
     //     else
     //     {
     //         Time.timeScale = 1f;
-    //         Time.fixedDeltaTime = 0.02f;
+    //         Time.fixedDeltaTime = ReferenceDeltaTime;
     //     }
     // }
 

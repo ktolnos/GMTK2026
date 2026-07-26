@@ -82,7 +82,12 @@ public class Player : MonoBehaviour
             };
         }
     }
-    
+
+    private void Start()
+    {
+        isSynced = true;
+    }
+
     void FixedUpdate()
     {
         if (!GM.isPlaying)
@@ -119,7 +124,7 @@ public class Player : MonoBehaviour
             }
             history[GM.Step] = new HistoryEntry()
             {
-                movement =  moveVelocity * Time.fixedDeltaTime,
+                movement =  moveVelocity * GM.ReferenceDeltaTime,
                 position = rb.position,
                 lastShotStep = shot ? GM.Step : GM.Step > 0 ? history[GM.Step-1].lastShotStep : -100,
                 lastInteractStep = interact ? GM.Step : GM.Step > 0 ? history[GM.Step-1].lastInteractStep : -100,
@@ -145,7 +150,7 @@ public class Player : MonoBehaviour
         }
 
         var contactedClosedDoorsPotentialDesync =
-            GM.Step - entry.lastClosedDoorCollisionStep < 5 &&
+            GM.Step - closedDoorCollisionStep < 2 &&
             entry.lastClosedDoorCollisionStep != closedDoorCollisionStep;
         if (isSynced && !contactedClosedDoorsPotentialDesync)
         {
@@ -157,6 +162,11 @@ public class Player : MonoBehaviour
             {
                 isSynced = false;
                 Debug.Log("Desync detected for player " + gameObject.name + " at step " + GM.Step);
+            }
+            else
+            {
+                rb.MovePosition(entry.position);
+                isSynced = true;
             }
         }
 
