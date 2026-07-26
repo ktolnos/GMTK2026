@@ -8,6 +8,9 @@ public class WiresSpawner: MonoBehaviour
     private Player player;
     public TileBase poweredWire;
     public TileBase unpoweredWire;
+
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioContainer placeWireAudio;
     
     private void Awake()
     {
@@ -33,5 +36,7 @@ public class WiresSpawner: MonoBehaviour
         }
         tm.SetTile(cell, unpoweredWire);
         Level.I.RefreshPowerGrid(cell);
+
+        placeWireAudio.PlayOneShot(audioSource);
     }
 }

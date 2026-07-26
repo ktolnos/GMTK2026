@@ -145,6 +145,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WiresSpawner
   poweredWire: {fileID: 11400000, guid: 3509432042c3a0e4abdece62aba7e8fb, type: 2}
   unpoweredWire: {fileID: 11400000, guid: e76f6e8de69523b45b6273fb44588b67, type: 2}
+  audioSource: {fileID: 5722985814231376782}
+  placeWireAudio: {fileID: 11400000, guid: 1d3a99ebfec4fa6448d62597e78ca1f1, type: 2}
 --- !u!114 &8646802257890517346
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -165,3 +167,8 @@ MonoBehaviour:
   newCharacterBackgroundColor: {r: 1, g: 1, b: 1, a: 1}
   DialogMenu: {fileID: 0}
   backgroundImage: {fileID: 0}
+--- !u!82 &5722985814231376782 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 2486779650790456975, guid: e511474ebcdfa474497bd8214d482ffe, type: 3}
+  m_PrefabInstance: {fileID: 7921534515759324417}
+  m_PrefabAsset: {fileID: 0}
