@@ -343,6 +343,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7899977055338596368, guid: ef58aeb28fea3b54e9520c484bc2dc72, type: 3}
+      propertyPath: fps
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7899977055338596368, guid: ef58aeb28fea3b54e9520c484bc2dc72, type: 3}
       propertyPath: warning
       value: 
       objectReference: {fileID: 7018635645776346350}
