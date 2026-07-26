@@ -45,7 +45,7 @@ public class Dialogue : MonoBehaviour
         if (!isOpen) return;
         if (interactAction.WasPressedThisFrame())
         {
-            GM.AudioManager.PlayUIAltClick();
+            AudioManager.I.PlayUIAltClick();
             if (isTyping)
             {
                 StopAllCoroutines();
@@ -122,7 +122,7 @@ public class Dialogue : MonoBehaviour
         for (var i = 0; i < sentence.Length; i++)
         {
             textComponent.maxVisibleCharacters = i;
-            GM.AudioManager.PlayUITyping();
+            AudioManager.I.PlayUITyping();
             yield return new WaitForSecondsRealtime(typingSpeed);
         }
         textComponent.maxVisibleCharacters = sentence.Length;

@@ -137,7 +137,7 @@ public class Enemy : MonoBehaviour
         }
         if (footstepAudioSource != null && isMoving && Time.time >= nextFootstepAt) {
             var groundMaterial = Level.I.GetGroundMaterialAt(transform.position);
-            var footstepsAudioContainer = GM.AudioManager.GetFootstepsAudioContainer(groundMaterial, isHeavyFootsteps);
+            var footstepsAudioContainer = AudioManager.I.GetFootstepsAudioContainer(groundMaterial, isHeavyFootsteps);
             footstepsAudioContainer.PlayOneShot(footstepAudioSource);
             nextFootstepAt = Time.time + footstepDelaySeconds;
         }

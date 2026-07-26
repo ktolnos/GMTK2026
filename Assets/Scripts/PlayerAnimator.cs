@@ -30,7 +30,7 @@ public class PlayerAnimator: MonoBehaviour
             spriteAnimator.animation = sprites.walk;
             if (Time.time >= nextFootstepAt) {
                 var groundMaterial = Level.I.GetGroundMaterialAt(player.transform.position);
-                var footstepsAudioContainer = GM.AudioManager.GetFootstepsAudioContainer(groundMaterial, isHeavyFootsteps);
+                var footstepsAudioContainer = AudioManager.I.GetFootstepsAudioContainer(groundMaterial, isHeavyFootsteps);
                 footstepsAudioContainer.PlayOneShot(footstepAudioSource);
                 nextFootstepAt = Time.time + footstepDelaySeconds;
             }

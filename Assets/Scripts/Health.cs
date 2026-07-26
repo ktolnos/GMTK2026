@@ -45,13 +45,13 @@ public class Health: MonoBehaviour
             }
             if (deathAudio != null) 
             {
-                GM.AudioManager.PlayAtPosition(deathAudio, transform.position);
+                AudioManager.I.PlayAtPosition(deathAudio, transform.position);
             }
         }
         if (damageType == "mokriyUron" && stunEnd <= GM.Step)
         {
             if (stunAudio != null) {
-                GM.AudioManager.PlayAtPosition(stunAudio, transform.position);
+                AudioManager.I.PlayAtPosition(stunAudio, transform.position);
             }
             if (clean)
             {

@@ -38,7 +38,7 @@ public class Bullet : MonoBehaviour
         }
         if (destroyOnCollision) 
         {
-            GM.AudioManager.PlayAtPosition(impactAudio, transform.position);
+            AudioManager.I.PlayAtPosition(impactAudio, transform.position);
             Destroy(gameObject);
         }
         if (collision.transform.gameObject.TryGetComponent(out Health health))

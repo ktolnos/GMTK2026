@@ -26,7 +26,7 @@ public class Clock : MonoBehaviour
         if (!buildUpAudioStarted && endLoopOnDestroy && seconds <= buildupAudioSeconds) 
         {
             buildUpAudioStarted = true;
-            GM.AudioManager.PlayBombBuildup();
+            AudioManager.I.PlayBombBuildup();
         }
 
         clockText.text = $"0:{seconds:D2}";

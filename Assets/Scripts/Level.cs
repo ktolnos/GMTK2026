@@ -34,7 +34,7 @@ public class Level: MonoBehaviour
 
     private void Start() 
     {
-        GM.AudioManager.PlayMusic(ambience);
+        AudioManager.I.PlayMusic(ambience);
     }
 
     public bool IsPowered(Vector2 pos)
@@ -150,7 +150,6 @@ public class Level: MonoBehaviour
         } else if (stoneFloor.Any(tb => ReferenceEquals(tile, tb))) {
             return GroundMaterial.Stone;
         } else {
-            Debug.LogWarning($"Unknown ground material at cell {cell}");
             return GroundMaterial.Stone;
         }
     }

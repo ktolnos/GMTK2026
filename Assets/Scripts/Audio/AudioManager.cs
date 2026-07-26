@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour {
 
+    public static AudioManager I;
+
     [SerializeField] private AudioSource musicSource;
     [SerializeField] private AudioSource uiSource;
     [SerializeField] private AudioSource bombSource;
@@ -28,6 +30,15 @@ public class AudioManager : MonoBehaviour {
     [Header("Bomb Sounds")]
     [SerializeField] private AudioContainer bombBuildupAudio;
     [SerializeField] private AudioContainer bombExplosionAudio;
+
+    private void Awake() {
+        if (I != null) {
+            DestroyImmediate(gameObject);
+        } else {
+            I = this;
+            DontDestroyOnLoad(gameObject);
+        }
+    }
 
     private int positionalAudioSourceIndex = 0;
     private readonly List<AudioSource> positionalAudioSources = new();

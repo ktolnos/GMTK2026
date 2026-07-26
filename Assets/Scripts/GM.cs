@@ -23,11 +23,9 @@ public class GM: MonoBehaviour
     public bool skipSave;
     
     public Light2D globalLight;
-    [SerializeField] private AudioManager audioManager;
 
     public static Player ActivePlayer => Player.players[activePlayerIndex];
     public static bool isPlaying = false;
-    public static AudioManager AudioManager => I.audioManager;
 
     public static float lastResetTime = 0;
     
@@ -132,7 +130,7 @@ public class GM: MonoBehaviour
 
     private IEnumerator FinalExplosion()
     {
-        audioManager.PlayBombExplosion();
+        AudioManager.I.PlayBombExplosion();
         var startTime = Time.time;
         var animationTime = 1f;
         var animationTailTime = .5f;

@@ -70,14 +70,14 @@ public class ExplodeAtTime : MonoBehaviour
         //Destroy(gameObject, selfDestroyTime);
 
         if (explosionAudio1 != null) {
-            GM.AudioManager.PlayAtPosition(explosionAudio1, transform.position);
+            AudioManager.I.PlayAtPosition(explosionAudio1, transform.position);
         }
         for (int t = 0; t < destroyDelayTicks; t++) 
         {
             yield return new WaitForFixedUpdate();
         }
         if (explosionAudio2 != null) {
-            GM.AudioManager.PlayAtPosition(explosionAudio2, transform.position);
+            AudioManager.I.PlayAtPosition(explosionAudio2, transform.position);
         }
         Destroy(gameObject);
 
