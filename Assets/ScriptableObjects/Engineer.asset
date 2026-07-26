@@ -14,13 +14,34 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DefaultNamespace.PlayerSprites
   idle:
     frames:
-    - {fileID: 2794048480989124112, guid: 97561b9fa3fa56746a5a36ff282cb422, type: 3}
-    - {fileID: -4626222684284389788, guid: 97561b9fa3fa56746a5a36ff282cb422, type: 3}
+    - {fileID: -6981229468129994335, guid: afa539d2748da934e942daf05c02c3dc, type: 3}
+    - {fileID: 4025820931758669272, guid: afa539d2748da934e942daf05c02c3dc, type: 3}
+    - {fileID: -6981229468129994335, guid: afa539d2748da934e942daf05c02c3dc, type: 3}
+    - {fileID: 4025820931758669272, guid: afa539d2748da934e942daf05c02c3dc, type: 3}
+    - {fileID: -6981229468129994335, guid: afa539d2748da934e942daf05c02c3dc, type: 3}
+    - {fileID: 4025820931758669272, guid: afa539d2748da934e942daf05c02c3dc, type: 3}
+    - {fileID: -6981229468129994335, guid: afa539d2748da934e942daf05c02c3dc, type: 3}
+    - {fileID: 4025820931758669272, guid: afa539d2748da934e942daf05c02c3dc, type: 3}
+    - {fileID: -6981229468129994335, guid: afa539d2748da934e942daf05c02c3dc, type: 3}
+    - {fileID: 4025820931758669272, guid: afa539d2748da934e942daf05c02c3dc, type: 3}
+    - {fileID: -6981229468129994335, guid: afa539d2748da934e942daf05c02c3dc, type: 3}
+    - {fileID: 4025820931758669272, guid: afa539d2748da934e942daf05c02c3dc, type: 3}
+    - {fileID: -6620497504884850007, guid: afa539d2748da934e942daf05c02c3dc, type: 3}
+    - {fileID: -1988062416351178461, guid: afa539d2748da934e942daf05c02c3dc, type: 3}
+    - {fileID: 7756106274465192280, guid: afa539d2748da934e942daf05c02c3dc, type: 3}
+    - {fileID: -8771836274772930499, guid: afa539d2748da934e942daf05c02c3dc, type: 3}
+    - {fileID: 6129509755615128471, guid: afa539d2748da934e942daf05c02c3dc, type: 3}
+    - {fileID: 5351314625055916071, guid: afa539d2748da934e942daf05c02c3dc, type: 3}
+    - {fileID: 5351314625055916071, guid: afa539d2748da934e942daf05c02c3dc, type: 3}
+    - {fileID: 766347744106122407, guid: afa539d2748da934e942daf05c02c3dc, type: 3}
     fps: 4
   walk:
     frames:
-    - {fileID: -8912520357164549628, guid: 97561b9fa3fa56746a5a36ff282cb422, type: 3}
-    - {fileID: 8966963182000257849, guid: 97561b9fa3fa56746a5a36ff282cb422, type: 3}
-    - {fileID: -1361555342716024925, guid: 97561b9fa3fa56746a5a36ff282cb422, type: 3}
-    - {fileID: -569505456005512590, guid: 97561b9fa3fa56746a5a36ff282cb422, type: 3}
+    - {fileID: 7249995563337151952, guid: afa539d2748da934e942daf05c02c3dc, type: 3}
+    - {fileID: 7696806257107937644, guid: afa539d2748da934e942daf05c02c3dc, type: 3}
+    - {fileID: 4365463347986139588, guid: afa539d2748da934e942daf05c02c3dc, type: 3}
+    - {fileID: 7696806257107937644, guid: afa539d2748da934e942daf05c02c3dc, type: 3}
     fps: 6
+  attack:
+    frames: []
+    fps: 0

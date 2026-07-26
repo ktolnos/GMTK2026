@@ -9,6 +9,11 @@ public class SpriteAnimator: MonoBehaviour
     public bool loop = true;
     public SpriteRenderer spriteRenderer;
     [NonSerialized] public bool pause;
+
+    private Animation lastAnimation;
+    private float animationStartTime;
+    private float elapsed = 0;
+
     private void Awake()
     {
         if (spriteRenderer == null)
@@ -31,7 +36,13 @@ public class SpriteAnimator: MonoBehaviour
         {
             return;
         }
-        spriteRenderer.sprite = animation.frames[(int)(Time.time *  animation.fps) % animation.frames.Length];
+        if(lastAnimation != animation)
+        {
+            animationStartTime = Time.time;
+        }
+        elapsed = Time.time - animationStartTime;
+        spriteRenderer.sprite = animation.frames[(int)(elapsed * animation.fps) % animation.frames.Length];        
+        lastAnimation = animation;
     }
     
     [Serializable]

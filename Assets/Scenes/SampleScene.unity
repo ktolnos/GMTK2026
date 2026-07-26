@@ -875,7 +875,7 @@ PrefabInstance:
     - target: {fileID: 1813638735968104161, guid: ed1f5f3f4a88ed54e9ed146d6db40841, type: 3}
       propertyPath: playerSprite
       value: 
-      objectReference: {fileID: 1772364267850981507, guid: 53ac658475b9f734697c4b7902c2a50d, type: 3}
+      objectReference: {fileID: 4025820931758669272, guid: afa539d2748da934e942daf05c02c3dc, type: 3}
     - target: {fileID: 5959284023109352897, guid: ed1f5f3f4a88ed54e9ed146d6db40841, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.71
@@ -916,6 +916,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8559616325475509984, guid: ed1f5f3f4a88ed54e9ed146d6db40841, type: 3}
+      propertyPath: icon
+      value: 
+      objectReference: {fileID: 4365463347986139588, guid: afa539d2748da934e942daf05c02c3dc, type: 3}
     - target: {fileID: 8646802257890517346, guid: ed1f5f3f4a88ed54e9ed146d6db40841, type: 3}
       propertyPath: DialogMenu
       value: 
@@ -935,7 +939,7 @@ PrefabInstance:
     - target: {fileID: 8646802257890517346, guid: ed1f5f3f4a88ed54e9ed146d6db40841, type: 3}
       propertyPath: newCharacterSprite
       value: 
-      objectReference: {fileID: 1772364267850981507, guid: 53ac658475b9f734697c4b7902c2a50d, type: 3}
+      objectReference: {fileID: 4025820931758669272, guid: afa539d2748da934e942daf05c02c3dc, type: 3}
     - target: {fileID: 8646802257890517346, guid: ed1f5f3f4a88ed54e9ed146d6db40841, type: 3}
       propertyPath: replica.Array.size
       value: 2
@@ -1047,7 +1051,7 @@ PrefabInstance:
     - target: {fileID: 2106109548635138603, guid: 6b3ef7757a62c2448a80d6cdca489bf8, type: 3}
       propertyPath: icon
       value: 
-      objectReference: {fileID: -568871305586799898, guid: 3afad2ff891c26b4888ddbbae40352e1, type: 3}
+      objectReference: {fileID: -2436393041658922553, guid: 924e7d9c16e52074e9ee32d1bf7606da, type: 3}
     - target: {fileID: 2106109548635138603, guid: 6b3ef7757a62c2448a80d6cdca489bf8, type: 3}
       propertyPath: playerName
       value: Hackerman
@@ -1115,7 +1119,7 @@ PrefabInstance:
     - target: {fileID: 8275623911399023146, guid: 6b3ef7757a62c2448a80d6cdca489bf8, type: 3}
       propertyPath: playerSprite
       value: 
-      objectReference: {fileID: -1887431466044049191, guid: 1085ae7810a32554cb36c472ffe12b44, type: 3}
+      objectReference: {fileID: -2436393041658922553, guid: 924e7d9c16e52074e9ee32d1bf7606da, type: 3}
     - target: {fileID: 8794259716190938461, guid: 6b3ef7757a62c2448a80d6cdca489bf8, type: 3}
       propertyPath: m_Name
       value: Hackerman
@@ -1931,9 +1935,9 @@ MonoBehaviour:
   - text: Wazzap chrone?
     playerSide: 0
   typingSpeed: 0.02
-  newCharacterSprite: {fileID: -1887431466044049191, guid: 1085ae7810a32554cb36c472ffe12b44, type: 3}
+  newCharacterSprite: {fileID: -2436393041658922553, guid: 924e7d9c16e52074e9ee32d1bf7606da, type: 3}
   newCharacterTextColor: {r: 0.07450981, g: 0.21960786, b: 0.23137257, a: 1}
-  DialogMenu: {fileID: 0}
+  DialogMenu: {fileID: 255766553}
 --- !u!1 &1452265705
 GameObject:
   m_ObjectHideFlags: 0
@@ -2634,7 +2638,7 @@ PrefabInstance:
     - target: {fileID: 1956581072528391137, guid: e511474ebcdfa474497bd8214d482ffe, type: 3}
       propertyPath: icon
       value: 
-      objectReference: {fileID: 6162690038519790203, guid: 721ec5e2a23952a49b30e49928453178, type: 3}
+      objectReference: {fileID: -8100473613320127495, guid: 32346536b4751bf4e9545b0e660846e9, type: 3}
     - target: {fileID: 3405475559147969970, guid: e511474ebcdfa474497bd8214d482ffe, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -2778,7 +2782,7 @@ PrefabInstance:
     - target: {fileID: 8414315639620039648, guid: e511474ebcdfa474497bd8214d482ffe, type: 3}
       propertyPath: playerSprite
       value: 
-      objectReference: {fileID: -9072475754817533579, guid: 721ec5e2a23952a49b30e49928453178, type: 3}
+      objectReference: {fileID: 5162193211349886037, guid: 32346536b4751bf4e9545b0e660846e9, type: 3}
     - target: {fileID: 8941395654994605207, guid: e511474ebcdfa474497bd8214d482ffe, type: 3}
       propertyPath: m_Name
       value: Cleaner
@@ -2811,7 +2815,7 @@ PrefabInstance:
     - target: {fileID: -8722391049643992439, guid: a8b6588cd714168419eee6175e68a8bf, type: 3}
       propertyPath: newCharacterSprite
       value: 
-      objectReference: {fileID: 6576961328237346034, guid: 38d1ee83fbf549a48814b95cab5d3786, type: 3}
+      objectReference: {fileID: -3307790214512197625, guid: 452592e3b8caf6b44b4105727bb63347, type: 3}
     - target: {fileID: -8722391049643992439, guid: a8b6588cd714168419eee6175e68a8bf, type: 3}
       propertyPath: newCharacterTextColor.b
       value: 0.2392157
@@ -2824,6 +2828,10 @@ PrefabInstance:
       propertyPath: newCharacterTextColor.r
       value: 0.16078432
       objectReference: {fileID: 0}
+    - target: {fileID: 1520797333404207570, guid: a8b6588cd714168419eee6175e68a8bf, type: 3}
+      propertyPath: icon
+      value: 
+      objectReference: {fileID: -5361472825222029744, guid: 452592e3b8caf6b44b4105727bb63347, type: 3}
     - target: {fileID: 3557994968673325811, guid: a8b6588cd714168419eee6175e68a8bf, type: 3}
       propertyPath: m_LocalPosition.x
       value: -12.48
@@ -2883,7 +2891,7 @@ PrefabInstance:
     - target: {fileID: 8860971347509314003, guid: a8b6588cd714168419eee6175e68a8bf, type: 3}
       propertyPath: playerSprite
       value: 
-      objectReference: {fileID: 6576961328237346034, guid: 38d1ee83fbf549a48814b95cab5d3786, type: 3}
+      objectReference: {fileID: -3307790214512197625, guid: 452592e3b8caf6b44b4105727bb63347, type: 3}
     m_RemovedComponents:
     - {fileID: 0}
     m_RemovedGameObjects: []
