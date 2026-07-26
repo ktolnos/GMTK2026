@@ -8401,7 +8401,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1344326091}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1677914804}
+        m_TargetAssemblyTypeName: GM, Assembly-CSharp
+        m_MethodName: OpenMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1344326091
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12549,11 +12561,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1479174362787997509, guid: d0bbf5a134f460c4698799611a09303f, type: 3}
       propertyPath: hardTime
-      value: 20
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 1479174362787997509, guid: d0bbf5a134f460c4698799611a09303f, type: 3}
       propertyPath: normalTime
-      value: 30
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 1479174362787997509, guid: d0bbf5a134f460c4698799611a09303f, type: 3}
       propertyPath: difficultyControlsTime
