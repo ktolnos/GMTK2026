@@ -85,11 +85,11 @@ public class AudioManager : MonoBehaviour {
     }
 
     public void PlayClockTick() {
-        clockTickAudio.Play(bombSource);
+        clockTickAudio.Play(clockSource);
     }
 
     public void PlayClockTack() {
-        clockTackAudio.Play(bombSource);
+        clockTackAudio.Play(clockSource);
     }
 
     public void PlayMusic(AudioContainer audio) {
@@ -122,5 +122,9 @@ public class AudioManager : MonoBehaviour {
 
     public void ChangeVolume(float value) {
         mixer.SetFloat("MasterVolume", Mathf.Log10(Mathf.Clamp(value, 0.0001f, 1f)) * 20f);
+    }
+
+    public void OnResetLoop() {
+        bombSource.Stop();
     }
 }

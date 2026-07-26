@@ -137,6 +137,7 @@ public class GM: MonoBehaviour
             return;
         }
         lastResetTime = Time.realtimeSinceStartup;
+        AudioManager.I.OnResetLoop();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
