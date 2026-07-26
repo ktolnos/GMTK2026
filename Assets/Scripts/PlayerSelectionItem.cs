@@ -24,8 +24,10 @@ public class PlayerSelectionItem: MonoBehaviour, IPointerEnterHandler
 
     public void Setup(Player player)
     {
+        button.onClick.RemoveAllListeners();
         button.onClick.AddListener(() =>
             {
+                AudioManager.I.PlayUIClick();
                 StartGameWithPlayer(player);
             }
         );
@@ -38,6 +40,7 @@ public class PlayerSelectionItem: MonoBehaviour, IPointerEnterHandler
     public void OnPointerEnter(PointerEventData eventData)
     {
         GM.SelectPlayer(player);
+        AudioManager.I.PlayUISelect();
     }
 
     public static void StartGameWithPlayer(Player player)

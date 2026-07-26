@@ -4726,7 +4726,7 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: 5e93295429224e947a49befb70246cd9, type: 3}
     - target: {fileID: 8646802257890517346, guid: ed1f5f3f4a88ed54e9ed146d6db40841, type: 3}
       propertyPath: replica.Array.size
-      value: 2
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8646802257890517346, guid: ed1f5f3f4a88ed54e9ed146d6db40841, type: 3}
       propertyPath: sentences.Array.size
@@ -4758,7 +4758,39 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8646802257890517346, guid: ed1f5f3f4a88ed54e9ed146d6db40841, type: 3}
       propertyPath: replica.Array.data[1].text
-      value: Wazzap chrone?
+      value: Hello, mate!
+      objectReference: {fileID: 0}
+    - target: {fileID: 8646802257890517346, guid: ed1f5f3f4a88ed54e9ed146d6db40841, type: 3}
+      propertyPath: replica.Array.data[2].text
+      value: Have you noticed that we're stuck in a time loop?
+      objectReference: {fileID: 0}
+    - target: {fileID: 8646802257890517346, guid: ed1f5f3f4a88ed54e9ed146d6db40841, type: 3}
+      propertyPath: replica.Array.data[3].text
+      value: Any ideas what's happening?
+      objectReference: {fileID: 0}
+    - target: {fileID: 8646802257890517346, guid: ed1f5f3f4a88ed54e9ed146d6db40841, type: 3}
+      propertyPath: replica.Array.data[4].text
+      value: 'Well.... '
+      objectReference: {fileID: 0}
+    - target: {fileID: 8646802257890517346, guid: ed1f5f3f4a88ed54e9ed146d6db40841, type: 3}
+      propertyPath: replica.Array.data[5].text
+      value: Piligrims who are awake from stasis for a year become chronomancers.
+      objectReference: {fileID: 0}
+    - target: {fileID: 8646802257890517346, guid: ed1f5f3f4a88ed54e9ed146d6db40841, type: 3}
+      propertyPath: replica.Array.data[6].text
+      value: And what are they?
+      objectReference: {fileID: 0}
+    - target: {fileID: 8646802257890517346, guid: ed1f5f3f4a88ed54e9ed146d6db40841, type: 3}
+      propertyPath: replica.Array.data[7].text
+      value: Inside our body is chip that controlls our life condition.
+      objectReference: {fileID: 0}
+    - target: {fileID: 8646802257890517346, guid: ed1f5f3f4a88ed54e9ed146d6db40841, type: 3}
+      propertyPath: replica.Array.data[8].text
+      value: If we all die the system will reboot us shortly before death.
+      objectReference: {fileID: 0}
+    - target: {fileID: 8646802257890517346, guid: ed1f5f3f4a88ed54e9ed146d6db40841, type: 3}
+      propertyPath: replica.Array.data[9].text
+      value: Woah, that means that ther's something serious...
       objectReference: {fileID: 0}
     - target: {fileID: 8646802257890517346, guid: ed1f5f3f4a88ed54e9ed146d6db40841, type: 3}
       propertyPath: newCharacterBackgroundColor.b
@@ -4778,6 +4810,26 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8646802257890517346, guid: ed1f5f3f4a88ed54e9ed146d6db40841, type: 3}
       propertyPath: replica.Array.data[1].playerSide
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8646802257890517346, guid: ed1f5f3f4a88ed54e9ed146d6db40841, type: 3}
+      propertyPath: replica.Array.data[2].playerSide
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8646802257890517346, guid: ed1f5f3f4a88ed54e9ed146d6db40841, type: 3}
+      propertyPath: replica.Array.data[3].playerSide
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8646802257890517346, guid: ed1f5f3f4a88ed54e9ed146d6db40841, type: 3}
+      propertyPath: replica.Array.data[4].playerSide
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8646802257890517346, guid: ed1f5f3f4a88ed54e9ed146d6db40841, type: 3}
+      propertyPath: replica.Array.data[6].playerSide
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8646802257890517346, guid: ed1f5f3f4a88ed54e9ed146d6db40841, type: 3}
+      propertyPath: replica.Array.data[7].playerSide
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -8591,9 +8643,19 @@ MonoBehaviour:
   textComponent: {fileID: 573256535}
   dialogueImage: {fileID: 1257812327}
   replica:
-  - text: Sync, shipkin!
+  - text: What's up man?
     playerSide: 1
-  - text: Wazzap chrone?
+  - text: Jacked in!
+    playerSide: 0
+  - text: Any ideas why robots are trying to kill us?
+    playerSide: 1
+  - text: 'Our core Ai has gone crazy and now it''s blowing up our reactor. '
+    playerSide: 0
+  - text: Shit....
+    playerSide: 1
+  - text: Can you straighten his mind?
+    playerSide: 1
+  - text: 'Obviously, but i need to hack into main computer near reactor... '
     playerSide: 0
   typingSpeed: 0.02
   newCharacterSprite: {fileID: 21300000, guid: 73f0c8fdf367c4842b8283f97fc821e5, type: 3}
@@ -12295,6 +12357,10 @@ PrefabInstance:
     - target: {fileID: -8722391049643992439, guid: a8b6588cd714168419eee6175e68a8bf, type: 3}
       propertyPath: newCharacterTextColor.r
       value: 0.16078432
+      objectReference: {fileID: 0}
+    - target: {fileID: -8722391049643992439, guid: a8b6588cd714168419eee6175e68a8bf, type: 3}
+      propertyPath: replica.Array.data[6].text
+      value: Seem's like those psycho robots are attacking us
       objectReference: {fileID: 0}
     - target: {fileID: -8722391049643992439, guid: a8b6588cd714168419eee6175e68a8bf, type: 3}
       propertyPath: replica.Array.data[8].text
@@ -23606,6 +23672,10 @@ PrefabInstance:
     - target: {fileID: 5246635253401008408, guid: d0bbf5a134f460c4698799611a09303f, type: 3}
       propertyPath: m_LocalPosition.y
       value: -4.731
+      objectReference: {fileID: 0}
+    - target: {fileID: 6103216071139483606, guid: d0bbf5a134f460c4698799611a09303f, type: 3}
+      propertyPath: tickTackSounds
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7133995004873310990, guid: d0bbf5a134f460c4698799611a09303f, type: 3}
       propertyPath: m_Tiles.Array.size

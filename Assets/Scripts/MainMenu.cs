@@ -39,4 +39,12 @@ public class MainMenu : MonoBehaviour
         GM.currentDifficulty = GM.Difficulty.Normal;
         SceneManager.LoadScene("Menu");
     }
+
+    public void PlayUIClick() {
+        AudioManager.I.PlayUIClick();
+    }
+
+    public void PlayUISelect() {
+        AudioManager.I.PlayUISelect();
+    }
 }
