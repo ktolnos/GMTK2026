@@ -39,14 +39,16 @@ public class Clock : MonoBehaviour
                 AudioManager.I.PlayClockTack();
             }
         }
+        var minutes = seconds / 60;
+        var second = seconds % 60;
 
-        clockText.text = $"0:{seconds:D2}";
+        clockText.text = $"{minutes:D1}:{second:D2}";
         prevSeconds = seconds;
     }
 
     private void OnDestroy()
     {
-        if (endLoopOnDestroy && GM.isPlaying && GM.I != null && buildupAudioSeconds > 0)
+        if (endLoopOnDestroy && GM.isPlaying && GM.I != null && buildupAudioSeconds > 0 && gameObject.scene.isLoaded)
         {
             GM.I.TriggerFinalExplosion();
         }

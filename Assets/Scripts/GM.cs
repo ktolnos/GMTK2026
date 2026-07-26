@@ -9,8 +9,27 @@ using UnityEngine.SceneManagement;
 
 public class GM: MonoBehaviour
 {
+    
     public static GM I;
-    public static int LoopSeconds = 59;
+    public static Difficulty currentDifficulty = Difficulty.Normal;
+    public static int LoopSeconds
+    {
+        get
+        {
+            switch (currentDifficulty)
+            {
+                case Difficulty.Easy:
+                    return 120;
+                case Difficulty.Normal:
+                    return 59;
+                case Difficulty.Hard:
+                    return 45;
+                default:
+                    return 59;
+            }
+        }
+    }
+
     public static int StepsPerSecond = 50;
     public static float ReferenceDeltaTime = 1f / StepsPerSecond;
     public static int LoopSteps = LoopSeconds * StepsPerSecond;
@@ -174,5 +193,17 @@ public class GM: MonoBehaviour
         {
             ResetLoop();
         }
+    }
+
+    public void OpenMenu()
+    {
+        SceneManager.LoadScene("Menu");
+    }
+    
+    public enum Difficulty
+    {
+        Easy,
+        Normal,
+        Hard
     }
 }

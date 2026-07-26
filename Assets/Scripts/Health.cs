@@ -17,6 +17,10 @@ public class Health: MonoBehaviour
 
     public bool triggerTimedExplosionOnDeath;
 
+    private int invincibilityDuration = 20;
+
+    private int lastTakeDamageStep = -100;
+
     public void Awake(){
         currentHealth = maxHealth;
     }
@@ -24,6 +28,10 @@ public class Health: MonoBehaviour
 
     public void TakeDamage(float damage, string damageType = "physical")
     {
+        if (GM.Step < lastTakeDamageStep + invincibilityDuration)
+        {
+            return;
+        }
         currentHealth -= damage;
         if (currentHealth <= 0f)
         {

@@ -26,6 +26,7 @@ public class Enemy : MonoBehaviour
     private Player targetPlayer;
     private Health health;
     private float nextFootstepAt = 0f;
+    private float sawPlayerStep = -100;
 
     private void Awake()
     {
@@ -74,39 +75,51 @@ public class Enemy : MonoBehaviour
         }
         
         var seesPlayer = targetPlayer != null;
+        if (!seesPlayer)
+        {
+            sawPlayerStep = -100;
+        }
         if (warning)
         {
             warning.SetActive(seesPlayer);
         }
         if (seesPlayer)
         {
-            Vector2 diff = (Vector2)targetPlayer.transform.position + targetPlayer.collider.offset - (Vector2)gun.transform.position;
-            if(closestDistance <= attackDistance){
-                gun.Shoot(diff.x > 0 ? Vector3.right : Vector3.left);
-            }
-            if(stayDuringAttack && !stayStill)
+            if (sawPlayerStep <= 0)
             {
-                stayStill = true;
+                sawPlayerStep = GM.Step;
             }
-            if (Mathf.Abs(diff.y) > 0.02f || Mathf.Abs(diff.x) > 2f)
+
+            if (GM.Step >= sawPlayerStep + reactionTime)
             {
-                Vector2 dir;
-                if (Mathf.Abs(diff.y) > 0.1f)
+                Vector2 diff = (Vector2)targetPlayer.transform.position + targetPlayer.collider.offset - (Vector2)gun.transform.position;
+                if(closestDistance <= attackDistance){
+                    gun.Shoot(diff.x > 0 ? Vector3.right : Vector3.left);
+                }
+                if(stayDuringAttack && !stayStill)
                 {
-                    dir = diff.y > 0 ? Vector3.up : Vector3.down;
+                    stayStill = true;
+                }
+                if (Mathf.Abs(diff.y) > 0.02f || Mathf.Abs(diff.x) > 2f)
+                {
+                    Vector2 dir;
+                    if (Mathf.Abs(diff.y) > 0.1f)
+                    {
+                        dir = diff.y > 0 ? Vector3.up : Vector3.down;
+                    }
+                    else
+                    {
+                        dir = diff.x > 0 ? Vector3.right : Vector3.left;
+                    }
+                    isMoving = true;
+                    rb.MovePosition(rb.position + dir * speed * GM.ReferenceDeltaTime);
+                    direction = dir;
                 }
                 else
                 {
-                    dir = diff.x > 0 ? Vector3.right : Vector3.left;
+                    isMoving = false;
+                    direction = Vector2.zero;
                 }
-                isMoving = true;
-                rb.MovePosition(rb.position + dir * speed * GM.ReferenceDeltaTime);
-                direction = dir;
-            }
-            else
-            {
-                isMoving = false;
-                direction = Vector2.zero;
             }
         }
         else if (waypoints.Length > 0)
@@ -146,6 +159,23 @@ public class Enemy : MonoBehaviour
             isMoving = false;
             direction = Vector2.zero;
             rb.MovePosition(transform.position);
+        }
+    }
+    
+    
+    private static int reactionTime {
+        get
+        {
+            switch (GM.currentDifficulty)
+            {
+                case GM.Difficulty.Easy:
+                    return 10;
+                case GM.Difficulty.Normal:
+                    return 5;
+                case GM.Difficulty.Hard:
+                    return 0;
+            }
+            return 5;
         }
     }
 }
