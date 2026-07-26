@@ -199,6 +199,7 @@ public class GM: MonoBehaviour
     public void OpenMenu()
     {
         SceneManager.LoadScene("Menu");
+        AudioManager.I.PlayUIClose();
     }
     
     public enum Difficulty

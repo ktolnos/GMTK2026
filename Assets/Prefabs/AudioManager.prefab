@@ -565,7 +565,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1412ed3194d9e794697c078053c14e0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AudioManager
-  mixer: {fileID: 0}
+  mixer: {fileID: 24100000, guid: 9f149845e4090364993d184e58a83b4d, type: 2}
   musicSource: {fileID: 3616670636856502667}
   uiSource: {fileID: 875335149285252116}
   bombSource: {fileID: 8618819571527739597}

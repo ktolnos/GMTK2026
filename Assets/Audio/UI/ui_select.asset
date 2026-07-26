@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AudioContainer
   <Clips>k__BackingField:
   - {fileID: 8300000, guid: c702fad7460150241a709a2e611b2eff, type: 3}
-  <VolumeScale>k__BackingField: 0.5
+  <VolumeScale>k__BackingField: 0.2
   <PitchOffset>k__BackingField: 0.2
