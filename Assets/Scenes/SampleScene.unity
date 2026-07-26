@@ -12617,6 +12617,10 @@ PrefabInstance:
       propertyPath: explosion
       value: 
       objectReference: {fileID: 8425992157096846108}
+    - target: {fileID: 268640246488112154, guid: d0bbf5a134f460c4698799611a09303f, type: 3}
+      propertyPath: showTimeFromExplosion
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 287922729409158369, guid: d0bbf5a134f460c4698799611a09303f, type: 3}
       propertyPath: m_LocalPosition.x
       value: -6.49
