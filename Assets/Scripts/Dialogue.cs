@@ -50,6 +50,7 @@ public class Dialogue : MonoBehaviour
             {
                 StopAllCoroutines();
                 textComponent.text = replica[index].text;
+                textComponent.maxVisibleCharacters = replica[index].text.Length;
                 isTyping = false;
                 return;
             }
