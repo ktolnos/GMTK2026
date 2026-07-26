@@ -20,8 +20,9 @@ public class Dialogue : MonoBehaviour
    public DialogueLine[] replica;
    public float typingSpeed;
    public Sprite newCharacterSprite;
-   public Color newCharacterTextColor = Color.white;
+   public Color newCharacterBackgroundColor = Color.white;
    public GameObject DialogMenu;
+   public Image backgroundImage;
 
 
    private int index = 0;
@@ -31,7 +32,7 @@ public class Dialogue : MonoBehaviour
    private bool pendingOpen = false;
    private bool isTyping = false;
    private Sprite playerSprite;
-   private Color playerTextColor;
+   private Color backgroundColor;
 
    void Start()
    {
@@ -71,8 +72,8 @@ public class Dialogue : MonoBehaviour
       DialogMenu.SetActive(true);
       StartCoroutine(TypeSentence(replica[index].text));
       playerSprite = dialogueStarter.playerSprite;
-      playerTextColor = dialogueStarter.textColor;
-      textComponent.color = playerTextColor;
+      backgroundColor = dialogueStarter.backgroundColor;
+      backgroundImage.color = backgroundColor;
       dialogueImage.sprite = playerSprite;
    }
 
@@ -106,10 +107,10 @@ public class Dialogue : MonoBehaviour
         if (replica[index].playerSide)
         {
             dialogueImage.sprite = playerSprite;
-            textComponent.color = playerTextColor;
+            backgroundImage.color = backgroundColor;
         }else{
             dialogueImage.sprite = newCharacterSprite;
-            textComponent.color = newCharacterTextColor;
+            backgroundImage.color = newCharacterBackgroundColor;
         }
         isTyping = true;
         foreach (char letter in sentence.ToCharArray())

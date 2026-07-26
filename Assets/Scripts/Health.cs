@@ -10,6 +10,7 @@ public class Health: MonoBehaviour
     public float deathEffectDuration = 1f;
     public float stunDuration = 1;
     public float stunEnd = 0;
+    public bool clean = false;
 
     public bool triggerTimedExplosionOnDeath;
 
@@ -42,6 +43,11 @@ public class Health: MonoBehaviour
         }
         if (damageType == "mokriyUron" && stunEnd <= GM.Step)
         {
+            if (clean)
+            {
+                var effect = Instantiate(deathEffect, transform.position, transform.rotation);
+                Destroy(gameObject);
+            }
             stunEnd = GM.Step + stunDuration*50;
             if(stunEffect != null)
             {
