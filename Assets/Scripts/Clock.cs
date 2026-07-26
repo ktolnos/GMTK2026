@@ -34,7 +34,7 @@ public class Clock : MonoBehaviour
 
     private void OnDestroy()
     {
-        if (endLoopOnDestroy && GM.isPlaying && GM.I != null)
+        if (endLoopOnDestroy && GM.isPlaying && GM.I != null && buildupAudioSeconds > 0)
         {
             GM.I.TriggerFinalExplosion();
         }

@@ -103,6 +103,10 @@ PrefabInstance:
       propertyPath: shotCameraShakeIntensity
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5895438123672570972, guid: e511474ebcdfa474497bd8214d482ffe, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.474
+      objectReference: {fileID: 0}
     - target: {fileID: 7325902018742923132, guid: e511474ebcdfa474497bd8214d482ffe, type: 3}
       propertyPath: m_Color.b
       value: 0.6761006

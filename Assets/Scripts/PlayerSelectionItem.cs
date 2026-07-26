@@ -12,7 +12,7 @@ public class PlayerSelectionItem: MonoBehaviour, IPointerEnterHandler
     public TextMeshProUGUI playerName;
     public TextMeshProUGUI playerDescription;
     
-    private Player player;
+    public Player player;
 
     private void Awake()
     {
@@ -26,9 +26,7 @@ public class PlayerSelectionItem: MonoBehaviour, IPointerEnterHandler
     {
         button.onClick.AddListener(() =>
             {
-                GM.SelectPlayer(player);
-                PlayerSelectionUI.I.Hide();
-                GM.StartLoop();
+                StartGameWithPlayer(player);
             }
         );
         this.player = player;
@@ -40,6 +38,13 @@ public class PlayerSelectionItem: MonoBehaviour, IPointerEnterHandler
     public void OnPointerEnter(PointerEventData eventData)
     {
         GM.SelectPlayer(player);
+    }
+
+    public static void StartGameWithPlayer(Player player)
+    {
+        GM.SelectPlayer(player);
+        PlayerSelectionUI.I.Hide();
+        GM.StartLoop();
     }
 
 }

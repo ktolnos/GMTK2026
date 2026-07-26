@@ -92,6 +92,7 @@ MonoBehaviour:
   image: {fileID: 0}
   playerName: {fileID: 0}
   playerDescription: {fileID: 0}
+  player: {fileID: 0}
 --- !u!1 &1161805673541852224
 GameObject:
   m_ObjectHideFlags: 0
@@ -192,10 +193,10 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 0.7019608}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 0.49803922}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 0.9254902}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_SelectedColor: {r: 1, g: 1, b: 1, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -231,6 +232,7 @@ MonoBehaviour:
   image: {fileID: 1231642691748254004}
   playerName: {fileID: 7887285286433528682}
   playerDescription: {fileID: 5824070392162599895}
+  player: {fileID: 0}
 --- !u!1 &3144103943748885835
 GameObject:
   m_ObjectHideFlags: 0

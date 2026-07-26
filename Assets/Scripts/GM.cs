@@ -74,24 +74,35 @@ public class GM: MonoBehaviour
             Step++;
             if (loopResetAction.WasReleasedThisFrame())
             {
+                isPlaying = false;
                 ResetLoop();
             }
         }
         
         if (nextAction.WasPerformedThisFrame())
         {
-            do
-            {
-                activePlayerIndex = (activePlayerIndex + 1) % Player.players.Length;
-            } while (ActivePlayer == null || !ActivePlayer.isUnlocked);
+           SelectNext();
         }
         if (previousAction.WasPerformedThisFrame())
         {
-            do
-            {
-                activePlayerIndex = (activePlayerIndex - 1 + Player.players.Length) % Player.players.Length;
-            } while (ActivePlayer == null || !ActivePlayer.isUnlocked);
+            SelectPrevious();
         }
+    }
+
+    public void SelectNext()
+    {
+        do
+        {
+            activePlayerIndex = (activePlayerIndex + 1) % Player.players.Length;
+        } while (ActivePlayer == null || !ActivePlayer.isUnlocked);
+    }
+
+    public void SelectPrevious()
+    {
+        do
+        {
+            activePlayerIndex = (activePlayerIndex - 1 + Player.players.Length) % Player.players.Length;
+        } while (ActivePlayer == null || !ActivePlayer.isUnlocked);
     }
 
     public void TriggerFinalExplosion()
@@ -104,7 +115,6 @@ public class GM: MonoBehaviour
     {
         if (Time.realtimeSinceStartup - lastResetTime < 0.5f)
         {
-            Debug.Log("Double reset: time = " + Time.realtimeSinceStartup + " last reset = " + lastResetTime);
             return;
         }
         lastResetTime = Time.realtimeSinceStartup;

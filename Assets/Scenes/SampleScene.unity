@@ -627,7 +627,7 @@ Transform:
   m_GameObject: {fileID: 398075440}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.41, y: -0.41, z: -11}
+  m_LocalPosition: {x: -4.51, y: -3.57, z: -11}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1679,6 +1679,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   prefab: {fileID: 3112704365173361983, guid: 4a534acd34b52c441b428ad1e1420099, type: 3}
+  panel: {fileID: 1653459820}
   container: {fileID: 2122428915}
 --- !u!1001 &771480239
 PrefabInstance:
@@ -3553,8 +3554,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4287823577
+  m_fontColor: {r: 0.8509804, g: 0.99607843, b: 0.57254905, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -4796,6 +4797,24 @@ MonoBehaviour:
   panel: {fileID: 6788391595095093821}
   prefab: {fileID: 340432138923178290, guid: 85e189ce8fa1d0b449649fa547734d44, type: 3}
   playersParent: {fileID: 425261862}
+  movement:
+    m_Name: 
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: c3e6aac9-fb4b-4aa2-a888-f0ffa9ba99a2
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  select:
+    m_Name: 
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 34ddbae9-016a-4807-850e-5ac15d464f52
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
 --- !u!1001 &8425992157096846107
 PrefabInstance:
   m_ObjectHideFlags: 0
