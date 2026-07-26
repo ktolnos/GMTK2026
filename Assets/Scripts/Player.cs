@@ -138,7 +138,7 @@ public class Player : MonoBehaviour
             wasControlledStep = GM.Step;
         }
         var pos = transform.position;
-        pos.z = -pos.y*0.0001f;
+        pos.z = -1 + pos.y*0.00001f;
         transform.position = pos;
         ApplyHistory(history[GM.Step]);
     }

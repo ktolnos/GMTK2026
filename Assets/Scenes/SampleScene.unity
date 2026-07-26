@@ -4557,6 +4557,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 8793f6f78216f544aa84e1aee69eb652, type: 3}
     - target: {fileID: -8722391049643992439, guid: a8b6588cd714168419eee6175e68a8bf, type: 3}
+      propertyPath: replica.Array.size
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: -8722391049643992439, guid: a8b6588cd714168419eee6175e68a8bf, type: 3}
       propertyPath: newCharacterTextColor.b
       value: 0.2392157
       objectReference: {fileID: 0}
@@ -4569,6 +4573,14 @@ PrefabInstance:
       value: 0.16078432
       objectReference: {fileID: 0}
     - target: {fileID: -8722391049643992439, guid: a8b6588cd714168419eee6175e68a8bf, type: 3}
+      propertyPath: replica.Array.data[8].text
+      value: 'Roger that. I will do everything EXACTLY like before. '
+      objectReference: {fileID: 0}
+    - target: {fileID: -8722391049643992439, guid: a8b6588cd714168419eee6175e68a8bf, type: 3}
+      propertyPath: replica.Array.data[9].text
+      value: We're in a some kind of Vicious Loop or something...
+      objectReference: {fileID: 0}
+    - target: {fileID: -8722391049643992439, guid: a8b6588cd714168419eee6175e68a8bf, type: 3}
       propertyPath: newCharacterBackgroundColor.b
       value: 0.13333334
       objectReference: {fileID: 0}
@@ -4579,6 +4591,10 @@ PrefabInstance:
     - target: {fileID: -8722391049643992439, guid: a8b6588cd714168419eee6175e68a8bf, type: 3}
       propertyPath: newCharacterBackgroundColor.r
       value: 0.1137255
+      objectReference: {fileID: 0}
+    - target: {fileID: -8722391049643992439, guid: a8b6588cd714168419eee6175e68a8bf, type: 3}
+      propertyPath: replica.Array.data[9].playerSide
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 780285344174365190, guid: a8b6588cd714168419eee6175e68a8bf, type: 3}
       propertyPath: maxHealth
@@ -4788,6 +4804,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 287922729409158369, guid: d0bbf5a134f460c4698799611a09303f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -6.49
+      objectReference: {fileID: 0}
     - target: {fileID: 1638338361261457720, guid: d0bbf5a134f460c4698799611a09303f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
