@@ -64,6 +64,10 @@ PrefabInstance:
       propertyPath: shotAudio
       value: 
       objectReference: {fileID: 11400000, guid: fbcad59ba84f0714190a361a37a63d19, type: 2}
+    - target: {fileID: 5150098456460008506, guid: e511474ebcdfa474497bd8214d482ffe, type: 3}
+      propertyPath: shotCameraShakeIntensity
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8941395654994605207, guid: e511474ebcdfa474497bd8214d482ffe, type: 3}
       propertyPath: m_Name
       value: Hackerman

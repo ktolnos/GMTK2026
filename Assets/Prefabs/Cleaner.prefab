@@ -56,6 +56,7 @@ MonoBehaviour:
   fps: 4
   shotSource: {fileID: 2486779650790456975}
   shotAudio: {fileID: 11400000, guid: 98179f1105a395848a8aef6270e1a5d0, type: 2}
+  shotCameraShakeIntensity: 0.5
   isAnimating: 0
   hideParentDuringAttackAnimation: 0
 --- !u!82 &2486779650790456975
@@ -602,6 +603,7 @@ MonoBehaviour:
   stunEnd: 0
   clean: 0
   deathAudio: {fileID: 11400000, guid: 216d0daeef72cdd428bba34f5669b200, type: 2}
+  stunAudio: {fileID: 0}
   triggerTimedExplosionOnDeath: 0
 --- !u!114 &8414315639620039648
 MonoBehaviour:

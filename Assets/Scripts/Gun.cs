@@ -1,7 +1,5 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering.Universal;
 using System;
 
 public class Gun: MonoBehaviour
@@ -17,10 +15,18 @@ public class Gun: MonoBehaviour
 
     [SerializeField] private AudioSource shotSource;
     [SerializeField] private AudioContainer shotAudio;
+    [SerializeField] private float shotCameraShakeIntensity = 0f;
 
     [NonSerialized] public float lastShotStep = -1000;
     public bool isAnimating;
     public bool hideParentDuringAttackAnimation = false;
+
+    private Player owner;
+
+    private void Awake() 
+    {
+        owner = GetComponentInParent<Player>();
+    }
 
     public void Shoot(Vector2 direction)
     {
@@ -34,6 +40,10 @@ public class Gun: MonoBehaviour
             ShootImpl(direction);
         }
         shotAudio.Play(shotSource);
+        if (owner != null && owner.isControlled) 
+        {
+            CameraController.I.Shake(.1f, transform.position, intensity: shotCameraShakeIntensity);
+        }
     }
 
     private void ShootImpl(Vector2 direction)

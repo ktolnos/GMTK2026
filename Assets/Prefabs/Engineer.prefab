@@ -99,6 +99,10 @@ PrefabInstance:
       propertyPath: bulletPrefab
       value: 
       objectReference: {fileID: -5129076564039896904, guid: 61f20ca4ba5c9454daf6c00bb754cbe3, type: 3}
+    - target: {fileID: 5150098456460008506, guid: e511474ebcdfa474497bd8214d482ffe, type: 3}
+      propertyPath: shotCameraShakeIntensity
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7325902018742923132, guid: e511474ebcdfa474497bd8214d482ffe, type: 3}
       propertyPath: m_Color.b
       value: 0.6761006
@@ -158,5 +162,6 @@ MonoBehaviour:
   replica: []
   typingSpeed: 1
   newCharacterSprite: {fileID: 0}
-  newCharacterTextColor: {r: 1, g: 1, b: 1, a: 1}
+  newCharacterBackgroundColor: {r: 1, g: 1, b: 1, a: 1}
   DialogMenu: {fileID: 0}
+  backgroundImage: {fileID: 0}

@@ -105,8 +105,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 6875887957246599435, guid: 9e75cf4b027705c489f293c5ff4cac94, type: 3}
     - target: {fileID: 5150098456460008506, guid: e511474ebcdfa474497bd8214d482ffe, type: 3}
+      propertyPath: shooterKnockback
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5150098456460008506, guid: e511474ebcdfa474497bd8214d482ffe, type: 3}
       propertyPath: stepsBetweenBullets
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5150098456460008506, guid: e511474ebcdfa474497bd8214d482ffe, type: 3}
+      propertyPath: shotCameraShakeIntensity
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 5895438123672570972, guid: e511474ebcdfa474497bd8214d482ffe, type: 3}
       propertyPath: m_LocalPosition.x
@@ -176,4 +184,6 @@ MonoBehaviour:
     playerSide: 1
   typingSpeed: 0.02
   newCharacterSprite: {fileID: 3938834146804672134, guid: 452592e3b8caf6b44b4105727bb63347, type: 3}
-  newCharacterTextColor: {r: 0.3372549, g: 0.42352945, b: 0.5254902, a: 1}
+  newCharacterBackgroundColor: {r: 1, g: 1, b: 1, a: 1}
+  DialogMenu: {fileID: 0}
+  backgroundImage: {fileID: 0}
