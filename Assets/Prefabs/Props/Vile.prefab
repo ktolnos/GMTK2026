@@ -178,13 +178,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ExplodeAtTime
   explosionPrefab: {fileID: 5669723346973264015, guid: f2463c7dcfb6d364090b908be824fffa, type: 3}
   time: 3
-  shakeTime: 0.2
+  shakeTime: 0.3
   selfDestroyTime: 0.2
   explosionDestroyTime: 0.5
   endOfLoop: 1
   randomOffset: 0
   explodeWalls: 1
   wallsExplosionRadius: 2
+  isDefused: 0
 --- !u!114 &4211470030239099950
 MonoBehaviour:
   m_ObjectHideFlags: 0
