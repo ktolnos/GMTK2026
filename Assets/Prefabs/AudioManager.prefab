@@ -397,6 +397,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6131686185243879602}
   - component: {fileID: 5861146544743312581}
+  - component: {fileID: 3058964359649560777}
   m_Layer: 0
   m_Name: AudioManager
   m_TagString: Untagged
@@ -444,6 +445,7 @@ MonoBehaviour:
   uiSelectAudio: {fileID: 11400000, guid: c77c728d8d689aa42a189fec8e1a008d, type: 2}
   uiCloseAudio: {fileID: 11400000, guid: 906ac5357277bba41ac3e8482149f30d, type: 2}
   uiErrorAudio: {fileID: 11400000, guid: aff60a1512b502e4894e423a34700269, type: 2}
+  uiTypingAudio: {fileID: 11400000, guid: a9ae849ddfd093342b975e26d4e1fcbe, type: 2}
   footstepsHeavyMetalWalkAudio: {fileID: 11400000, guid: 464369d748fae5b4d8afcb73149d0360, type: 2}
   footstepsHeavyMetalRunAudio: {fileID: 11400000, guid: bbaebfa098bffb34e820c5f238d0ef21, type: 2}
   footstepsLightMetalWalkAudio: {fileID: 11400000, guid: d64060d2424bed54ca9bc2fc941cdb59, type: 2}
@@ -452,3 +454,27 @@ MonoBehaviour:
   footstepsStoneRunAudio: {fileID: 11400000, guid: 1e16987b3918eae448cd9eaf9041b37d, type: 2}
   bombBuildupAudio: {fileID: 11400000, guid: 4794c30d5ac24f14eb715dd6c1f2580b, type: 2}
   bombExplosionAudio: {fileID: 11400000, guid: e7261103c10eeef4981494280780b3ee, type: 2}
+--- !u!167 &3058964359649560777
+AudioReverbZone:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7030155287825684780}
+  m_Enabled: 1
+  m_MinDistance: 1000
+  m_MaxDistance: 1000
+  m_ReverbPreset: 3
+  m_Room: -1000
+  m_RoomHF: -454
+  m_DecayTime: 0.4
+  m_DecayHFRatio: 0.83
+  m_Reflections: -1646
+  m_ReflectionsDelay: 0.002
+  m_Reverb: 53
+  m_ReverbDelay: 0.003
+  m_HFReference: 5000
+  m_Diffusion: 100
+  m_Density: 100
+  m_LFReference: 250
+  m_RoomLF: 0

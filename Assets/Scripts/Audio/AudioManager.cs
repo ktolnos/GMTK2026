@@ -15,6 +15,7 @@ public class AudioManager : MonoBehaviour {
     [SerializeField] private AudioContainer uiSelectAudio;
     [SerializeField] private AudioContainer uiCloseAudio;
     [SerializeField] private AudioContainer uiErrorAudio;
+    [SerializeField] private AudioContainer uiTypingAudio;
 
     [Header("Footsteps")]
     [SerializeField] private AudioContainer footstepsHeavyMetalWalkAudio;
@@ -49,6 +50,10 @@ public class AudioManager : MonoBehaviour {
 
     public void PlayUIError() {
         uiErrorAudio.PlayOneShot(uiSource);
+    }
+
+    public void PlayUITyping() {
+        uiTypingAudio.PlayOneShot(uiSource);
     }
 
     public void PlayBombBuildup() {
