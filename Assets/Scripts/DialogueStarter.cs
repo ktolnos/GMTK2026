@@ -6,7 +6,7 @@ public class DialogStarter : MonoBehaviour
 {
 
     public Sprite playerSprite;
-    public Color textColor = Color.white;
+    public Color backgroundColor = Color.white;
 
     void OnTriggerEnter2D(Collider2D other)
     {
