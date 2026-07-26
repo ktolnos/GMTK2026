@@ -600,6 +600,8 @@ MonoBehaviour:
   deathEffectDuration: 0.5
   stunDuration: 0
   stunEnd: 0
+  clean: 0
+  deathAudio: {fileID: 11400000, guid: 216d0daeef72cdd428bba34f5669b200, type: 2}
   triggerTimedExplosionOnDeath: 0
 --- !u!114 &8414315639620039648
 MonoBehaviour:
@@ -614,7 +616,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DialogStarter
   playerSprite: {fileID: 0}
-  textColor: {r: 1, g: 1, b: 1, a: 1}
+  backgroundColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &9003546904402465473
 GameObject:
   m_ObjectHideFlags: 0

@@ -140,6 +140,8 @@ MonoBehaviour:
   deathEffectDuration: 1
   stunDuration: 3
   stunEnd: 0
+  clean: 0
+  deathAudio: {fileID: 11400000, guid: 59be7a5071baaab4c9220a2f677a7541, type: 2}
   triggerTimedExplosionOnDeath: 0
 --- !u!50 &4517071429502956574
 Rigidbody2D:
@@ -257,9 +259,11 @@ MonoBehaviour:
     frames: []
     fps: 0
   targetAnimator: {fileID: 0}
+  fps: 4
   shotSource: {fileID: 7644957617549231831}
   shotAudio: {fileID: 11400000, guid: f45ee280effe3214fbf189e597ebf5c8, type: 2}
   isAnimating: 0
+  hideParentDuringAttackAnimation: 0
 --- !u!82 &7644957617549231831
 AudioSource:
   m_ObjectHideFlags: 0

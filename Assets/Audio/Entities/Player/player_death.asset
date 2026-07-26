@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a94eed0d41eba1f43a981c1058b2c79b, type: 3}
   m_Name: player_death
   m_EditorClassIdentifier: Assembly-CSharp::AudioContainer
-  <Clips>k__BackingField: []
+  <Clips>k__BackingField:
+  - {fileID: 8300000, guid: fbfa477baec2d70468da0fa26a2c8eae, type: 3}
   <VolumeScale>k__BackingField: 1
   <PitchOffset>k__BackingField: 0
