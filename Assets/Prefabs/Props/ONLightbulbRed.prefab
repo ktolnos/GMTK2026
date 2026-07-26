@@ -84,7 +84,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: -489706064, guid: e8b9c97bbc5f1ed4faa8579830102737, type: 3}
-  m_Color: {r: 1, g: 0.26415092, b: 0.26415092, a: 1}
+  m_Color: {r: 1, g: 0.32863474, b: 0.17295581, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -162,7 +162,7 @@ MonoBehaviour:
   m_SelectionSources:
     rid: 8674709677151617394
   m_FalloffIntensity: 0
-  m_Color: {r: 1, g: 0.23113209, b: 0.23113209, a: 1}
+  m_Color: {r: 1, g: 0.25565425, b: 0, a: 1}
   m_Intensity: 1
   m_LightVolumeIntensity: 1
   m_LightVolumeEnabled: 0
