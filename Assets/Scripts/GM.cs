@@ -50,6 +50,7 @@ public class GM: MonoBehaviour
     
     private void Awake()
     {
+        DifficultySelectorButton.UpdateDifficulty();
         Step = 0;
         isPlaying = false;
         I = this;

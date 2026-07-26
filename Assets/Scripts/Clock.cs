@@ -17,9 +17,9 @@ public class Clock : MonoBehaviour
 
     private void Start()
     {
-        if (showTimeFromExplosion)
+        if (showTimeFromExplosion && !wholeLoop)
         {
-            maxTime = Mathf.RoundToInt(explosion.time / GM.ReferenceDeltaTime);
+            maxTime = Mathf.RoundToInt(explosion.GetTime());
         }
     }
 

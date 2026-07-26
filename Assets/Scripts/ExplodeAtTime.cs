@@ -26,8 +26,10 @@ public class ExplodeAtTime : MonoBehaviour
     [SerializeField] private AudioContainer explosionAudio1;
     [SerializeField] private AudioContainer explosionAudio2;
 
-    private void Start()
+
+    public float GetTime()
     {
+        float time = this.time;
         if (endOfLoop)
         {
             time = GM.LoopSeconds;
@@ -48,6 +50,12 @@ public class ExplodeAtTime : MonoBehaviour
         }
 
         time -= Random.value * randomOffset;
+        return time;
+    }
+    
+    private void Start()
+    {
+        time = GetTime();
     }
 
     public void FixedUpdate()
