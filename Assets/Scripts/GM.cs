@@ -132,15 +132,18 @@ public class GM: MonoBehaviour
 
     private IEnumerator FinalExplosion()
     {
+        audioManager.PlayBombExplosion();
         var startTime = Time.time;
         var animationTime = 1f;
-        CameraController.I.Shake(animationTime);
+        var animationTailTime = .5f;
+        CameraController.I.Shake(animationTime + animationTailTime, intensity: 3f, effectFalloff: false);
         while (Time.time - startTime < animationTime)
         {
             var t = (Time.time - startTime) / animationTime;
-            globalLight.intensity = 1 + 50 * t;
+            globalLight.intensity = 1 + 80 * t;
             yield return null;
         }
+        yield return new WaitForSeconds(animationTailTime);
         ResetLoop();
     }
 

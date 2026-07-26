@@ -7,8 +7,12 @@ public class CameraController: MonoBehaviour
     public static CameraController I;
     public Camera mainCamera;
 
-    private float shakeSecondsLeft = 0f;
+    [SerializeField] private Vector2 shakeDistanceMinMax = new(6f, 18f);
+
     private float shakeDuration;
+    private float shakeIntensity;
+    private bool shakeEffectFalloff;
+    private float shakeSecondsLeft = 0f;
     private Vector3 cameraPosSmoothDampVel;
     
     private void Awake()
@@ -31,8 +35,8 @@ public class CameraController: MonoBehaviour
 
         if (shakeSecondsLeft > 0f)
         {
-            var shakeIntensity = shakeSecondsLeft / shakeDuration;
-            mainCamera.transform.localPosition = 0.2f * shakeIntensity * Random.insideUnitCircle;
+            var falloffIntensity = shakeEffectFalloff ? (shakeSecondsLeft / shakeDuration) : 1f;
+            mainCamera.transform.localPosition = .3f * shakeIntensity * falloffIntensity * Random.insideUnitCircle;
             shakeSecondsLeft -= Time.deltaTime;
         }
         else
@@ -41,9 +45,15 @@ public class CameraController: MonoBehaviour
         }
     }
     
-    public void Shake(float duration)
+    public void Shake(float duration, Vector2? position = null, float intensity = 1f, bool effectFalloff = true)
     {
-        shakeSecondsLeft = duration;
         shakeDuration = duration;
+        if (position.HasValue) {
+            var distanceToCamera = Vector2.Distance(transform.position, position.Value);
+            intensity *= Mathf.Clamp01((shakeDistanceMinMax.y - distanceToCamera) / (shakeDistanceMinMax.y - shakeDistanceMinMax.x));
+        }
+        shakeIntensity = intensity;
+        shakeEffectFalloff = effectFalloff;
+        shakeSecondsLeft = duration;
     }
 }

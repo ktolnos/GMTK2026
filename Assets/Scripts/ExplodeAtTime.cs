@@ -60,7 +60,7 @@ public class ExplodeAtTime : MonoBehaviour
 
         if (shakeTime > 0)
         {
-            CameraController.I.Shake(shakeTime);
+            CameraController.I.Shake(shakeTime, transform.position);
         }
 
         //if (selfDestroyTime > 0)

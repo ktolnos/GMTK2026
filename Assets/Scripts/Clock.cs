@@ -8,6 +8,9 @@ public class Clock : MonoBehaviour
     public bool wholeLoop = true;
     public int maxTime = 15;
     public bool endLoopOnDestroy = false;
+    [SerializeField] private float buildupAudioSeconds = 9.5f;
+
+    private bool buildUpAudioStarted = false;
 
     private void Update()
     {
@@ -19,6 +22,11 @@ public class Clock : MonoBehaviour
         else
         {
             seconds = maxTime - GM.Step / GM.StepsPerSecond;
+        }
+        if (!buildUpAudioStarted && endLoopOnDestroy && seconds <= buildupAudioSeconds) 
+        {
+            buildUpAudioStarted = true;
+            GM.AudioManager.PlayBombBuildup();
         }
 
         clockText.text = $"0:{seconds:D2}";

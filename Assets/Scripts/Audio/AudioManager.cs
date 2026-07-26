@@ -5,6 +5,7 @@ public class AudioManager : MonoBehaviour {
 
     [SerializeField] private AudioSource musicSource;
     [SerializeField] private AudioSource uiSource;
+    [SerializeField] private AudioSource bombSource;
     [SerializeField] private AudioSource positionalAudioSourcePrefab;
     [SerializeField] private int positionalAudioSourcesPoolSize = 20;
 
@@ -22,6 +23,10 @@ public class AudioManager : MonoBehaviour {
     [SerializeField] private AudioContainer footstepsLightMetalRunAudio;
     [SerializeField] private AudioContainer footstepsStoneWalkAudio;
     [SerializeField] private AudioContainer footstepsStoneRunAudio;
+
+    [Header("Bomb Sounds")]
+    [SerializeField] private AudioContainer bombBuildupAudio;
+    [SerializeField] private AudioContainer bombExplosionAudio;
 
     private int positionalAudioSourceIndex = 0;
     private readonly List<AudioSource> positionalAudioSources = new();
@@ -44,6 +49,14 @@ public class AudioManager : MonoBehaviour {
 
     public void PlayUIError() {
         uiErrorAudio.PlayOneShot(uiSource);
+    }
+
+    public void PlayBombBuildup() {
+        bombBuildupAudio.Play(bombSource);
+    }
+
+    public void PlayBombExplosion() {
+        bombExplosionAudio.Play(bombSource);
     }
 
     public void PlayMusic(AudioContainer audio) {

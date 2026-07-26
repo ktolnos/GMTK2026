@@ -291,6 +291,7 @@ MonoBehaviour:
   wholeLoop: 1
   maxTime: 15
   endLoopOnDestroy: 0
+  buildupAudioSeconds: 9.5
 --- !u!61 &7934936331391040230
 BoxCollider2D:
   m_ObjectHideFlags: 0
