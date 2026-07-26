@@ -95,7 +95,6 @@ public class Player : MonoBehaviour
             return;
         }
         rb.linearVelocity = Vector2.zero;
-        rb.rotation = 0;
         var moveInput = movementAction.ReadValue<Vector2>();
         var moveVelocity = moveInput * speed;
 
