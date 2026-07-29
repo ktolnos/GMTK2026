@@ -12,27 +12,10 @@ public class GM: MonoBehaviour
     
     public static GM I;
     public static Difficulty currentDifficulty = Difficulty.Normal;
-    public static int LoopSeconds
-    {
-        get
-        {
-            switch (currentDifficulty)
-            {
-                case Difficulty.Easy:
-                    return 120;
-                case Difficulty.Normal:
-                    return 59;
-                case Difficulty.Hard:
-                    return 45;
-                default:
-                    return 59;
-            }
-        }
-    }
-
+    public static int LoopSeconds => 10;
     public static int StepsPerSecond = 50;
     public static float ReferenceDeltaTime = 1f / StepsPerSecond;
-    public static int LoopSteps => LoopSeconds * StepsPerSecond;
+    public static int LoopSteps => Mathf.CeilToInt(LoopSeconds * StepsPerSecond);
     public static int Step = 0;
     private InputAction loopResetAction;
     private InputAction nextAction;
@@ -45,8 +28,6 @@ public class GM: MonoBehaviour
 
     public static Player ActivePlayer => Player.players[activePlayerIndex];
     public static bool isPlaying = false;
-
-    public static float lastResetTime = 0;
     
     private void Awake()
     {
@@ -54,17 +35,13 @@ public class GM: MonoBehaviour
         Step = 0;
         isPlaying = false;
         I = this;
-        if (lastResetTime > Time.realtimeSinceStartup)
-        {
-            lastResetTime = -100;
-        }
 
         Time.fixedDeltaTime = 0.02f;
     }
     
     private void Start()
     {
-        PlayerSelectionUI.I.Show();
+        // PlayerSelectionUI.I.Show();
     }
 
     private void OnEnable()
@@ -74,20 +51,6 @@ public class GM: MonoBehaviour
         previousAction = InputSystem.actions.FindAction("Previous");
         fastForwardAction =  InputSystem.actions.FindAction("Sprint");
     }
-
-    // private void Update()
-    // {
-    //     if (fastForwardAction.IsPressed())
-    //     {
-    //         Time.timeScale = 2f;
-    //         Time.fixedDeltaTime = ReferenceDeltaTime / 2f;
-    //     }
-    //     else
-    //     {
-    //         Time.timeScale = 1f;
-    //         Time.fixedDeltaTime = ReferenceDeltaTime;
-    //     }
-    // }
 
     private void FixedUpdate()
     {
@@ -108,6 +71,17 @@ public class GM: MonoBehaviour
         if (previousAction.WasPerformedThisFrame())
         {
             SelectPrevious();
+        }
+        
+        if (fastForwardAction.IsPressed())
+        {
+            // Time.timeScale = 2f;
+            // Time.fixedDeltaTime = ReferenceDeltaTime / 2f;
+        }
+        else
+        {
+            // Time.timeScale = 1f;
+            // Time.fixedDeltaTime = ReferenceDeltaTime;
         }
     }
 
@@ -141,19 +115,12 @@ public class GM: MonoBehaviour
     private IEnumerator ResetLoopCoroutine()
     {
         isPlaying = false;
-        lastResetTime = Time.realtimeSinceStartup + 1000f;
         yield return new WaitForSeconds(1);
-        lastResetTime = 0;
         ResetLoop();
     }
     
     public static void ResetLoop()
     {
-        // if (Time.realtimeSinceStartup - lastResetTime < 0.5f)
-        // {
-        //     return;
-        // }
-        lastResetTime = Time.realtimeSinceStartup;
         AudioManager.I.OnResetLoop();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
