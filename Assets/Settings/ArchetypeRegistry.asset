@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ef45f2856561c4498e8797a9a40cb18, type: 3}
+  m_Name: ArchetypeRegistry
+  m_EditorClassIdentifier: Assembly-CSharp::Chronomancers.Sim.Runtime.ArchetypeRegistry
+  entries:
+  - id: 1
+    prefab: {fileID: 5018445439198205991, guid: 6d9f87af2fd88a34cb234ff474e1e4db, type: 3}
+    maxIdle: 64
+  - id: 2
+    prefab: {fileID: 1769644839450620887, guid: d37d62d7d00dff94bb13c352309df432, type: 3}
+    maxIdle: 4
