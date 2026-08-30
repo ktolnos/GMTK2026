@@ -11,7 +11,7 @@ namespace Chronomancers.Sim
     /// time that step landed on. Density is therefore emergent and inversely proportional to the
     /// body's rate: a bullet-time character stores several samples per loop-second and so replays
     /// at full fidelity no matter who is watching it. Nothing is ever decimated, and reading at a
-    /// faster rate simply skips samples — which is what the bracketing search does anyway.
+    /// faster rate simply applies multiple steps per frame.
     /// </para>
     /// </summary>
     public sealed class BodyTimeline
@@ -19,8 +19,19 @@ namespace Chronomancers.Sim
         /// <summary>Reserved id for the sample-time index itself.</summary>
         public const int TimesChannelId = -1;
 
+        /// <summary>Reserved id for the per-sample <see cref="Form"/> index.</summary>
+        public const int FormsChannelId = -2;
+
         readonly List<Span> _spans = new();
         readonly ChannelBuffer<LoopTime> _times = new(TimesChannelId);
+
+        /// <summary>
+        /// Whether the body was in the world at each sample. Core infrastructure rather than an ordinary
+        /// channel, because <see cref="Exists"/> has to answer from it and Core knows nothing about the
+        /// game's channel ids.
+        /// </summary>
+        readonly ChannelBuffer<byte> _forms = new(FormsChannelId);
+
         readonly Dictionary<int, IChannelBuffer> _channels = new();
 
         int _active = -1;
@@ -42,11 +53,13 @@ namespace Chronomancers.Sim
         public int Archetype { get; private set; }
 
         /// <summary>
-        /// What spawned this body, and when. <see cref="SimId.None"/> for an authored scene body.
+        /// What released this body into <see cref="Form.Manifest"/>, and when. <see cref="SimId.None"/>
+        /// for an authored scene body.
         /// <para>
         /// A body has exactly one origin, so this belongs here rather than needing a separate event.
-        /// The spawn is legitimate only while the origin still exists at <see cref="OriginAt"/> —
-        /// otherwise it could not have happened, and the body must be voided.
+        /// Since matter is conserved, it is not a claim about the body existing — it is a claim about the
+        /// body being <i>let go</i>, and it holds only while the origin still exists at
+        /// <see cref="OriginAt"/> (rule 8).
         /// </para>
         /// </summary>
         public SimId Origin { get; private set; }
@@ -73,7 +86,7 @@ namespace Chronomancers.Sim
             Archetype = archetype;
         }
 
-        /// <summary>Records what spawned this body. Idempotent; conflicting values throw.</summary>
+        /// <summary>Records what released this body. Idempotent; conflicting values throw.</summary>
         public void DeclareOrigin(SimId origin, LoopTime at)
         {
             if (Origin.IsValid && (Origin != origin || OriginAt != at))
@@ -81,17 +94,6 @@ namespace Chronomancers.Sim
                     $"{Body} already originates from {Origin} at {OriginAt}; cannot redeclare as {origin} at {at}");
             Origin = origin;
             OriginAt = at;
-        }
-
-        /// <summary>Records what destroyed the body, on the void span currently being written.</summary>
-        public void SetVoidCause(SimId causedBy, LoopTime causedAt)
-        {
-            var span = ActiveSpanOrThrow();
-            if (span.Kind != SpanKind.Void)
-                throw new InvalidOperationException($"{Body}: only a void span has a cause");
-            span.CausedBy = causedBy;
-            span.CausedAt = causedAt;
-            _spans[_active] = span;
         }
 
         public ChannelBuffer<TState> Channel<TState>(int channelId) where TState : unmanaged
@@ -109,7 +111,7 @@ namespace Chronomancers.Sim
 
         // ------------------------------------------------------------------ recording
 
-        public void BeginSpan(int seq, int layerId, int dir, SpanKind kind, LoopTime at)
+        public void BeginSpan(int seq, int layerId, int dir, LoopTime at)
         {
             if (_active >= 0)
                 throw new InvalidOperationException($"{Body} is already recording ({_spans[_active]})");
@@ -121,7 +123,6 @@ namespace Chronomancers.Sim
                 Seq = seq,
                 LayerId = layerId,
                 Dir = (sbyte)dir,
-                Kind = kind,
                 Min = at,
                 Max = at,
                 Start = _times.Count,
@@ -139,11 +140,9 @@ namespace Chronomancers.Sim
         /// caller bug and throws rather than silently growing the buffer.
         /// </para>
         /// </summary>
-        public int WriteSample(LoopTime at)
+        public int WriteSample(LoopTime at, Form form = Form.Manifest)
         {
             var span = ActiveSpanOrThrow();
-            if (span.Kind != SpanKind.Recorded)
-                throw new InvalidOperationException($"{Body}: a Void span holds no samples; use Extend");
 
             if (span.Count > 0)
             {
@@ -158,6 +157,8 @@ namespace Chronomancers.Sim
             var index = _times.Count;
             _times.Grow(index + 1);
             _times.Set(index, at);
+            _forms.Grow(index + 1);
+            _forms.Set(index, (byte)form);
             foreach (var channel in _channels.Values) channel.Grow(index + 1);
 
             span.Count++;
@@ -167,27 +168,28 @@ namespace Chronomancers.Sim
         }
 
         /// <summary>
-        /// Grows the active void span's authority to <paramref name="at"/>. This is how destruction
-        /// propagates as the cursor moves — void spans carry no samples, so they have nothing else to
-        /// grow by. Recorded spans widen from their samples instead and never need this.
+        /// Widens the active span's authority to <paramref name="at"/> without adding a sample —
+        /// "nothing changed here".
+        /// <para>
+        /// This is how a death propagates as the cursor moves. A latent body has no state worth sampling
+        /// once per step, but its span still has to keep outranking whatever older recording says it was
+        /// in the world, so it grows by authority alone, over exactly the loop time actually traversed.
+        /// </para>
         /// </summary>
         public void Extend(LoopTime at)
         {
             var span = ActiveSpanOrThrow();
-            if (span.Kind != SpanKind.Void)
-                throw new InvalidOperationException($"{Body}: only void spans are extended; recorded spans widen from their samples");
             Widen(ref span, at);
             _spans[_active] = span;
         }
 
         /// <summary>
-        /// Closes the active span. A recorded span that never took a sample is dropped rather than
-        /// kept: it would claim authority over an instant while having no state to report there.
-        /// (Void spans legitimately hold no samples.)
+        /// Closes the active span. A span that never took a sample is dropped rather than kept: it
+        /// would claim authority over an instant while having no state to report there.
         /// </summary>
         public void EndSpan()
         {
-            if (_active >= 0 && _spans[_active].Kind == SpanKind.Recorded && _spans[_active].Count == 0)
+            if (_active >= 0 && _spans[_active].Count == 0)
                 _spans.RemoveAt(_active);
             _active = -1;
         }
@@ -223,13 +225,30 @@ namespace Chronomancers.Sim
         }
 
         /// <summary>
-        /// Whether the body exists at <paramref name="at"/>. No covering span and an explicit void
-        /// span both mean "no"; the difference is that a void span outranks older recordings.
+        /// Whether the body is in the world at <paramref name="at"/>.
+        /// <para>
+        /// No covering span and a covering span whose sample reads <see cref="Form.Latent"/> both mean
+        /// "no". The difference is that the recorded one outranks older spans by <see cref="Span.Seq"/>,
+        /// which is how a death propagates back over loop time the body used to occupy.
+        /// </para>
         /// </summary>
-        public bool Exists(LoopTime at)
+        public bool Exists(LoopTime at) => FormAt(at) == Form.Manifest;
+
+        /// <summary>
+        /// The body's <see cref="Form"/> at <paramref name="at"/>. Snapped to the sample at or before
+        /// the instant, never interpolated — half-present is not a state anything was ever in.
+        /// </summary>
+        public Form FormAt(LoopTime at)
         {
             var index = Resolve(at);
-            return index >= 0 && _spans[index].Kind == SpanKind.Recorded;
+            if (index < 0) return Form.Latent;
+
+            var span = _spans[index];
+            if (!span.HasSamples) return Form.Latent;
+
+            var k = LowerBound(in span, at);
+            if (k < 0) k = 0; // `at` precedes every sample, because Extend widened Min past them
+            return (Form)_forms[Physical(in span, k)];
         }
 
         /// <summary>
@@ -241,19 +260,19 @@ namespace Chronomancers.Sim
         /// </para>
         /// <list type="bullet">
         /// <item>past the end of a take — the frontier, so <c>true</c>: the body carries on and records;</item>
-        /// <item>past the end of a <i>void</i> — it was destroyed, so <c>false</c>: it must stay dead, or
-        /// rewinding and replaying past its death would resurrect it;</item>
-        /// <item>outside its origin — a bullet below its muzzle, so <c>false</c>: rule 8 allows a span to
-        /// grow only <i>away</i> from where the body came into being, never back across it.</item>
+        /// <item>past the end of a range it spent <i>latent</i> — it was destroyed, so <c>false</c>: it must
+        /// stay dead, or rewinding and replaying past its death would resurrect it;</item>
+        /// <item>outside its origin — a bullet below its muzzle, so <c>false</c>: it was latent there, and
+        /// recording would manifest it with nothing to account for the transition (rule 8).</item>
         /// </list>
         /// </summary>
         public bool AtFrontier(LoopTime at, int dir)
         {
-            // Covered by anything, recorded or void, means this is not a frontier at all.
+            // Covered by any span at all means this is not a frontier.
             if (Resolve(at) >= 0) return false;
 
-            // The nearest span edge the way we came from. Every span counts, not just recorded ones — the
-            // nearest edge is what decides whether the body was alive when we left its history.
+            // The nearest span edge the way we came from — that edge is what decides whether the body was
+            // in the world when we left its history.
             var found = false;
             var edge = 0;
             foreach (var span in _spans)
@@ -266,21 +285,26 @@ namespace Chronomancers.Sim
             }
 
             if (!found) return false; // no history behind us: never existed here
-            if (!Exists(LoopTime.FromRaw(edge))) return false; // destroyed at that edge, so it stays destroyed
+            if (!Exists(LoopTime.FromRaw(edge))) return false; // latent at that edge, so it stays latent
 
-            // Rule 8: the origin is a wall, and what it forbids is growing back *across* the muzzle. So the
-            // test is whether this body already has history on the far side of its origin from where we are
-            // heading — if it does, extending would carry it back over the muzzle.
+            // Past the origin, the body was latent — a bullet below its muzzle was still in the gun. So
+            // recording here would not extend a performance, it would manifest a body in a range where it
+            // had no independent existence, with nothing on the other side of the transition to account
+            // for it. That is the one thing rule 8 forbids outright.
             //
-            // Not the direction the origin's span happened to be recorded in, which is too crude. A body whose
-            // history is still only the origin instant itself has no far side yet and may grow either way,
-            // and the turnstile depends on that: the machine's copy is emitted while the cursor runs forward,
-            // then records backwards once you take it over. Both readings are legitimate — forwards it is one
-            // worldline walking into the machine and out of it again — so the first growth is what picks a side.
+            // The test is whether this body already has history on the far side of its origin from where
+            // we are heading: if it does, it has picked a side, and growing this way would carry it back
+            // across the muzzle. Not simply the direction the origin's span was recorded in, which is too
+            // crude — a body whose history is still only the origin instant itself has no far side yet and
+            // may grow either way. The turnstile depends on that: the machine's copy is emitted while the
+            // cursor runs forward, then records backwards once you take it over.
+            //
+            // Note this constrains where a span may *start*, never where one may stop. Truncating the end
+            // away from the muzzle is exactly what happens when somebody catches an inverted bullet in
+            // mid-air, and that is legal — see SimBullet.
             if (Origin.IsValid)
                 foreach (var span in _spans)
                 {
-                    if (span.Kind != SpanKind.Recorded) continue;
                     var acrossTheMuzzle = dir > 0
                         ? span.Min.Raw < OriginAt.Raw
                         : span.Max.Raw > OriginAt.Raw;
@@ -299,6 +323,7 @@ namespace Chronomancers.Sim
 
             var span = _spans[spanIndex];
             if (!span.HasSamples) return result;
+            if (FormAt(at) != Form.Manifest) return result; // latent: no state to report
             if (!_channels.TryGetValue(channelId, out var raw)) return result;
 
             var buffer = (ChannelBuffer<TState>)raw;
@@ -435,6 +460,7 @@ namespace Chronomancers.Sim
             var sampleStart = _spans[first].Start;
             _spans.RemoveRange(first, _spans.Count - first);
             _times.Truncate(sampleStart);
+            _forms.Truncate(sampleStart);
             foreach (var channel in _channels.Values) channel.Truncate(sampleStart);
             _active = -1;
         }
@@ -454,14 +480,12 @@ namespace Chronomancers.Sim
                 w.Write(span.Min.Raw);
                 w.Write(span.Max.Raw);
                 w.Write(span.Dir);
-                w.Write((byte)span.Kind);
                 w.Write(span.Start);
                 w.Write(span.Count);
-                w.Write(span.CausedBy.Value);
-                w.Write(span.CausedAt.Raw);
             }
 
             _times.WriteTo(w);
+            _forms.WriteTo(w);
 
             w.Write(_channels.Count);
             foreach (var pair in _channels)
@@ -489,14 +513,12 @@ namespace Chronomancers.Sim
                     Min = LoopTime.FromRaw(r.ReadInt32()),
                     Max = LoopTime.FromRaw(r.ReadInt32()),
                     Dir = r.ReadSByte(),
-                    Kind = (SpanKind)r.ReadByte(),
                     Start = r.ReadInt32(),
                     Count = r.ReadInt32(),
-                    CausedBy = new SimId(r.ReadInt32()),
-                    CausedAt = LoopTime.FromRaw(r.ReadInt32()),
                 });
 
             _times.ReadFrom(r);
+            _forms.ReadFrom(r);
 
             var channelCount = r.ReadInt32();
             for (var i = 0; i < channelCount; i++)

@@ -75,11 +75,9 @@ namespace Chronomancers.Sim.Runtime
             var theirs = other.GetComponentInParent<SimBody>();
             if (theirs == null || theirs == this || !theirs.IsRecording) return;
 
-            // A projectile refuses: re-recording it in the cursor's direction would overwrite the end of
-            // its span holding the muzzle. It handles contact itself instead (rule 8).
-            foreach (var component in _components)
-                if (!component.AcceptsContactClaim) return;
-
+            // Nothing refuses any more. A bullet used to, because claiming it mid-flight truncates the end
+            // of its span away from the muzzle — but origin is read forwards, so an inverted bullet caught
+            // in mid-air is a legal outcome and not a seam to prevent (rule 8).
             Runner.RequestClaim(Id, $"touched by recording body {theirs.name}");
         }
 

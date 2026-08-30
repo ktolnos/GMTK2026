@@ -5,58 +5,21 @@ using System.IO;
 namespace Chronomancers.Sim
 {
     /// <summary>
-    /// Why a body's recorded outcome no longer adds up. The two failures want opposite repairs, so the
-    /// caller has to know which one it is found.
-    /// </summary>
-    public enum CausalityBreak : byte
-    {
-        /// <summary>It still adds up.</summary>
-        None = 0,
-
-        /// <summary>
-        /// Whatever spawned this body no longer exists at the instant it did. <b>Void the body</b>:
-        /// something with no cause never happened, so there is nothing to re-simulate.
-        /// </summary>
-        OriginGone = 1,
-
-        /// <summary>
-        /// Whatever destroyed this body no longer exists at the instant it did. <b>Claim the body</b>:
-        /// being un-killed leaves something that has to live on from here, so it revives inert.
-        /// </summary>
-        CauseGone = 2,
-    }
-
-    /// <summary>One flagged body and the repair it needs. See <see cref="CausalityBreak"/>.</summary>
-    public readonly struct BrokenCausality
-    {
-        public readonly SimId Id;
-        public readonly CausalityBreak Reason;
-
-        public BrokenCausality(SimId id, CausalityBreak reason)
-        {
-            Id = id;
-            Reason = reason;
-        }
-
-        public override string ToString() => $"{Id} {Reason}";
-    }
-
-    /// <summary>
     /// The whole history: every body's spans.
     /// <para>
-    /// Undo is layered. A layer groups one takeover together with every claim, void and divergence it
+    /// Undo is layered. A layer groups one takeover together with every claim and divergence it
     /// cascaded, and popping it truncates all of them at once. Because layers pop LIFO, a layer's
     /// spans are always a suffix of the recording order, so undo is a truncation rather than a
     /// rewrite — cheap enough to keep the entire undo stack rather than the two copies the design
     /// originally called for.
     /// </para>
     /// <para>
-    /// There is no event log. Everything a log would have carried is single-valued and therefore fits
-    /// on the thing it describes: a body has exactly one origin, and a destruction has exactly one
-    /// cause. Anything genuinely per-instant — "this HP drop came from that bullet" — is instead
-    /// detected by the component that owns the channel, which notices a recorded change it cannot
-    /// account for and diverges. That is the same mechanism as a body finding its recorded position
-    /// inside a door that is now shut.
+    /// There is no event log. The one thing a log would have carried that is single-valued — a body's
+    /// origin, what released it and when — fits on the body itself. Everything else is detected rather
+    /// than recorded: the component that owns a channel notices a change it cannot account for and
+    /// diverges, which is the same mechanism whether the unaccountable thing is an HP drop with no
+    /// damage dealer, a position inside a door that is now shut, or a push from something that is no
+    /// longer there.
     /// </para>
     /// </summary>
     public sealed class Timeline
@@ -97,35 +60,18 @@ namespace Chronomancers.Sim
         /// Claims <paramref name="id"/> into recording from <paramref name="at"/> onward, in the
         /// cursor's current direction. Player takeover, contact with something already recording, and
         /// any component finding its recorded state unaccountable all route through here — there is
-        /// only one mechanism. A claimed body without a controller is inert: no intent, but it keeps
-        /// its momentum, still coasts, is still pushed, and still dies.
-        /// </summary>
-        public int Claim(SimId id, int dir, LoopTime at) => BeginSpan(id, dir, SpanKind.Recorded, at);
-
-        /// <summary>Destroys <paramref name="id"/> from <paramref name="at"/> onward, with no cause.</summary>
-        public int Void(SimId id, int dir, LoopTime at) => Void(id, dir, at, SimId.None, at);
-
-        /// <summary>
-        /// Destroys <paramref name="id"/> from <paramref name="at"/> onward, growing with the cursor
-        /// via <see cref="BodyTimeline.Extend"/>. Overrides older recordings, which is how a death
-        /// propagates into loop time the body used to occupy.
+        /// only one mechanism, and it is also the only repair. A claimed body without a controller is
+        /// inert: no intent, but it keeps its momentum, still coasts, is still pushed, and still dies.
         /// <para>
-        /// <paramref name="causedBy"/> is what did it, at <paramref name="causedAt"/> — normally one
-        /// unit before <paramref name="at"/>, since a body exists at the instant it is destroyed. Pass
-        /// <see cref="SimId.None"/> for an uncaused destruction.
+        /// Destruction is not a separate operation. A body goes out of the world by recording samples
+        /// that read <see cref="Form.Latent"/>, which outrank an older span saying otherwise by
+        /// <see cref="Span.Seq"/> like any other re-recording (rule 7).
         /// </para>
         /// </summary>
-        public int Void(SimId id, int dir, LoopTime at, SimId causedBy, LoopTime causedAt)
-        {
-            var seq = BeginSpan(id, dir, SpanKind.Void, at);
-            if (causedBy.IsValid) Body(id).SetVoidCause(causedBy, causedAt);
-            return seq;
-        }
-
-        int BeginSpan(SimId id, int dir, SpanKind kind, LoopTime at)
+        public int Claim(SimId id, int dir, LoopTime at)
         {
             var seq = ++_seq;
-            Body(id).BeginSpan(seq, _layer, dir, kind, at);
+            Body(id).BeginSpan(seq, _layer, dir, at);
             return seq;
         }
 
@@ -134,7 +80,7 @@ namespace Chronomancers.Sim
         /// <summary>Records how to instantiate a body. See <see cref="BodyTimeline.Archetype"/>.</summary>
         public void Declare(SimId id, int archetype) => Body(id).Declare(archetype);
 
-        /// <summary>Records what spawned a body. See <see cref="BodyTimeline.Origin"/>.</summary>
+        /// <summary>Records what released a body. See <see cref="BodyTimeline.Origin"/>.</summary>
         public void DeclareOrigin(SimId id, SimId origin, LoopTime at) => Body(id).DeclareOrigin(origin, at);
 
         // ------------------------------------------------------------------ playback
@@ -142,7 +88,7 @@ namespace Chronomancers.Sim
         public bool Exists(SimId id, LoopTime at) => _bodies.TryGetValue(id, out var body) && body.Exists(at);
 
         /// <summary>
-        /// Every body that exists at <paramref name="at"/>, ascending by id.
+        /// Every body in the world at <paramref name="at"/>, ascending by id.
         /// <para>
         /// This is the entire input to materialization: the live set is <i>derived</i> from the
         /// timeline each step and reconciled against what is currently instantiated — never
@@ -203,66 +149,42 @@ namespace Chronomancers.Sim
         }
 
         /// <summary>
-        /// Whether the timeline's account of this body at <paramref name="at"/> still hangs together:
-        /// if it was spawned, whatever spawned it still exists at its origin instant; if it was
-        /// destroyed here, whatever destroyed it still exists at that instant.
+        /// Whether this body was legitimately let go: if something released it, that something still
+        /// exists at the instant it did.
         /// <para>
-        /// False is a divergence trigger — the recorded outcome could not have happened, so the body
-        /// must be claimed and re-simulated. Only the checks that are answerable from the timeline
-        /// alone live here; everything else (a position now inside a shut door, an HP drop with no
-        /// damage dealer to be found) is the owning component's job, and takes the same action.
+        /// False is a divergence trigger — the release could not have happened, so the body is claimed
+        /// and goes back to being latent (rule 8). This is the only check answerable from the timeline
+        /// alone. Everything else — a position now inside a shut door, an HP drop with no damage dealer,
+        /// a push from something no longer there — belongs to the component that owns the channel, and
+        /// takes the same action.
+        /// </para>
+        /// <para>
+        /// Existence of the origin is <i>necessary but never sufficient</i>. Whether the release
+        /// actually happened is spatial, and belongs to whatever did the releasing: a character that
+        /// still exists but never walked into the reversal machine passes this check.
         /// </para>
         /// </summary>
-        public bool CausalityHolds(SimId id, LoopTime at) => Check(id, at) == CausalityBreak.None;
-
-        /// <summary>
-        /// <see cref="CausalityHolds"/> with the reason, since a broken origin and a broken cause need
-        /// opposite repairs.
-        /// <para>
-        /// Note that a broken origin is reported in preference to a broken cause: a body that was never
-        /// spawned must not be revived, so there is no point asking how it died.
-        /// </para>
-        /// <para>
-        /// Existence of the other party is <i>necessary but never sufficient</i>. It is the part
-        /// answerable from the timeline alone; whether the spawn actually happened is spatial, and
-        /// belongs to the spawning component. A character that still exists but never walked into the
-        /// reversal machine passes this check.
-        /// </para>
-        /// </summary>
-        public CausalityBreak Check(SimId id, LoopTime at)
+        public bool OriginHolds(SimId id)
         {
-            if (!_bodies.TryGetValue(id, out var body)) return CausalityBreak.None;
-
-            if (body.Origin.IsValid && !Exists(body.Origin, body.OriginAt)) return CausalityBreak.OriginGone;
-
-            var spanIndex = body.Resolve(at);
-            if (spanIndex < 0) return CausalityBreak.None;
-
-            var span = body.GetSpan(spanIndex);
-            if (span.Kind != SpanKind.Void || !span.CausedBy.IsValid) return CausalityBreak.None;
-            return Exists(span.CausedBy, span.CausedAt) ? CausalityBreak.None : CausalityBreak.CauseGone;
+            if (!_bodies.TryGetValue(id, out var body)) return true;
+            return !body.Origin.IsValid || Exists(body.Origin, body.OriginAt);
         }
 
         /// <summary>
-        /// Every body whose recorded outcome at <paramref name="at"/> no longer adds up, ascending by
-        /// id.
+        /// Every body whose release no longer has anything behind it, ascending by id.
         /// <para>
-        /// The two failures want opposite repairs. A spawn whose origin is gone is <b>voided</b> —
-        /// something with no cause never happened, so there is nothing to re-simulate, and the void is
-        /// an ordinary span outranking the recording it covers. A destruction whose cause is gone is
-        /// <b>claimed</b> — the body has to live on from there, so it revives inert.
+        /// Note there is no instant parameter: an origin is a single instant recorded on the body, so
+        /// whether it still holds does not depend on where the cursor is.
         /// </para>
         /// </summary>
-        public void CollectBrokenCausality(LoopTime at, List<BrokenCausality> into)
+        public void CollectBrokenOrigins(List<SimId> into)
         {
             into.Clear();
             foreach (var pair in _bodies)
-            {
-                var reason = Check(pair.Key, at);
-                if (reason != CausalityBreak.None) into.Add(new BrokenCausality(pair.Key, reason));
-            }
+                if (!OriginHolds(pair.Key))
+                    into.Add(pair.Key);
 
-            into.Sort(static (a, b) => a.Id.Value.CompareTo(b.Id.Value));
+            into.Sort(static (a, b) => a.Value.CompareTo(b.Value));
         }
 
         // ------------------------------------------------------------------ undo

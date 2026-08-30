@@ -144,8 +144,8 @@ namespace Chronomancers.Sim.Runtime
             var expect = LoopTime.FromRaw(sampled.A.ExpectRaw);
 
             // If the user does not exist at all then the copy's origin is gone, and the timeline check has
-            // already voided it (CausalityBreak.OriginGone) — the cheap necessary condition doing its job.
-            // Nothing exploded, and nothing should: an unmade trip is not a paradox.
+            // already taken the copy back out of the world (Timeline.OriginHolds) — the cheap necessary
+            // condition doing its job. Nothing exploded, and nothing should: an unmade trip is not a paradox.
             if (!userTimeline.Exists(expect)) return;
 
             var pose = userTimeline.Sample<PoseState>(SimChannels.Pose, expect);
@@ -158,7 +158,7 @@ namespace Chronomancers.Sim.Runtime
         }
 
         /// <summary>
-        /// The forward-only consequence. Voids everything that can die, from the cursor onward — which is
+        /// The forward-only consequence. Kills everything that can die, from the cursor onward — which is
         /// legal precisely because it points the way the cursor is already going.
         /// </summary>
         void Detonate(string why)
@@ -168,7 +168,7 @@ namespace Chronomancers.Sim.Runtime
 
             foreach (var pair in Runner.Live)
                 if (pair.Value.GetComponent<SimHealth>() != null)
-                    Runner.RequestVoid(pair.Key, "paradox: the machine was never reached");
+                    Runner.RequestKill(pair.Key, "paradox: the machine was never reached");
         }
 
         internal override void OnClaimed(int dir) => _detonated = false;

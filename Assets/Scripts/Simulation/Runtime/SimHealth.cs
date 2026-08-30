@@ -63,7 +63,10 @@ namespace Chronomancers.Sim.Runtime
             if (!IsRecording || amount <= 0) return;
 
             _hp = Mathf.Max(0, _hp - amount);
-            if (_hp == 0) Runner.RequestKill(Body.Id, from, "hit points reached zero");
+            // Rule 7 wants a corpse here — Manifest with zero HP — rather than a body that leaves the
+            // world. Kept as-is for now because a corpse is content (art, collider, whether it blocks)
+            // rather than a timeline concern, and the timeline is indifferent either way.
+            if (_hp == 0) Runner.RequestKill(Body.Id, "hit points reached zero");
         }
     }
 }

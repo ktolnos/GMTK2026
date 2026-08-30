@@ -47,12 +47,24 @@ namespace Chronomancers.Sim.Runtime
         readonly List<SimBody> _characters = new();
         readonly List<SimDamageSource> _damageSources = new();
 
-        /// <summary>Bodies with a span currently open, and which kind it is.</summary>
-        readonly Dictionary<SimId, SpanKind> _open = new();
+        /// <summary>Bodies with a span currently open.</summary>
+        readonly HashSet<SimId> _open = new();
+
+        /// <summary>
+        /// Of those, the ones whose span is running latent — out of the world, but still growing so it
+        /// keeps outranking whatever older recording says otherwise (rule 7).
+        /// </summary>
+        readonly HashSet<SimId> _latent = new();
+
+        /// <summary>
+        /// Claimed and due to go latent at the next sample. This is the whole of "destruction": there is
+        /// no void span to open, only a form to record.
+        /// </summary>
+        readonly HashSet<SimId> _dying = new();
 
         readonly List<SimId> _existing = new();
         readonly HashSet<SimId> _existingSet = new();
-        readonly List<BrokenCausality> _broken = new();
+        readonly List<SimId> _broken = new();
         readonly List<SimId> _scratch = new();
         readonly List<int> _layers = new();
 
@@ -60,9 +72,7 @@ namespace Chronomancers.Sim.Runtime
         // collision callbacks fire during Physics2D.Simulate, and validation runs while the runner is
         // walking its body list — so none of them may touch the timeline directly.
         readonly List<PendingClaim> _claims = new();
-        readonly List<PendingVoid> _voids = new();
         readonly List<PendingSpawn> _spawns = new();
-        readonly List<PendingAbsorb> _absorbs = new();
         readonly HashSet<SimId> _seededThisStep = new();
 
         int _dir = 1;
@@ -105,10 +115,20 @@ namespace Chronomancers.Sim.Runtime
         public IReadOnlyList<SimBody> Characters => _characters;
         public IReadOnlyDictionary<SimId, SimBody> Live => _live;
         public int OpenSpanCount => _open.Count;
+
+        /// <summary>
+        /// Whether a physics step will run this frame — which is exactly whether anything is recording
+        /// (rule 4: no recording, no physics; a rewind through known territory touches the engine not at
+        /// all). Playback poses have to be applied differently either way: swept by
+        /// <c>Rigidbody2D.MovePosition</c> when a step is coming to carry it out, and written straight to
+        /// <c>Rigidbody2D.position</c> when none is, since a queued move nothing executes would leave
+        /// every played-back body standing still.
+        /// </summary>
+        public bool PhysicsWillStep => _open.Count > 0;
         public int UndoDepth => _layers.Count;
 
         public bool IsRecording(SimId id) =>
-            _open.TryGetValue(id, out var kind) && kind == SpanKind.Recorded;
+            _open.Contains(id) && !_latent.Contains(id);
 
         /// <summary>Intent for a body. Everything the player is not holding is inert (rule 11).</summary>
         public SimIntent IntentFor(SimBody body) => body == Controlled ? _intent : default;
@@ -280,7 +300,7 @@ namespace Chronomancers.Sim.Runtime
             if (_open.Count > 0) Physics2D.Simulate(Time.fixedDeltaTime);
 
             RecordStep(target);
-            ExtendVoids(target);
+            ExtendLatent(target);
         }
 
         /// <summary>Reconcile, apply, then check — the same three things at every instant visited.</summary>
@@ -303,9 +323,8 @@ namespace Chronomancers.Sim.Runtime
             Physics2D.SyncTransforms();
 
             _claims.Clear();
-            _voids.Clear();
             _spawns.Clear();
-            _absorbs.Clear();
+            _dying.Clear();
         }
 
         float ResolveRate()
@@ -446,16 +465,16 @@ namespace Chronomancers.Sim.Runtime
 
         /// <summary>
         /// Takes a body's GameObject away. Deliberately leaves <see cref="_open"/> alone: the usual
-        /// reason a body stops existing is that it was just voided, and that void span has to keep
+        /// reason a body leaves the world is that it just went latent, and that span has to keep
         /// growing with the cursor long after there is nothing left to look at (rule 7).
         /// </summary>
         void Release(SimId id)
         {
             if (!_live.TryGetValue(id, out var body)) return;
 
-            // A body that no longer exists cannot be at the recording frontier, so close a recorded span
-            // rather than leaking it open forever. Void spans are the exception the summary above describes.
-            if (_open.TryGetValue(id, out var kind) && kind == SpanKind.Recorded) CloseSpan(id);
+            // A body that is not in the world cannot be at the recording frontier, so close its span rather
+            // than leaking it open forever. Latent spans are the exception the summary above describes.
+            if (_open.Contains(id) && !_latent.Contains(id)) CloseSpan(id);
 
             _live.Remove(id);
             SetRecording(body, false);
@@ -505,19 +524,18 @@ namespace Chronomancers.Sim.Runtime
                 foreach (var component in pair.Value.Components)
                     component.Validate(at);
 
-            // The checks answerable from history alone (rule 9). The two failures want opposite repairs.
-            _timeline.CollectBrokenCausality(at, _broken);
-            foreach (var broken in _broken)
+            // The one check answerable from history alone (rule 8). A release with nothing behind it did
+            // not happen, so the body goes back to being latent — which is a claim like every other
+            // repair, not a mechanism of its own.
+            _timeline.CollectBrokenOrigins(_broken);
+            foreach (var id in _broken)
             {
-                if (broken.Reason == CausalityBreak.OriginGone)
-                {
-                    if (SpawnerIsStillCatchingUp(broken.Id)) continue;
-                    RequestVoid(broken.Id, "its origin no longer exists");
-                }
-                else
-                {
-                    RequestClaim(broken.Id, "whatever destroyed it no longer exists");
-                }
+                // Already out of the world: nothing to repair. Without this, a body whose origin stays
+                // broken would be claimed and killed again on every single step, since the origin check
+                // has no memory and keeps reporting it.
+                if (!_timeline.Exists(id, at)) continue;
+                if (SpawnerIsStillCatchingUp(id)) continue;
+                RequestKill(id, "whatever released it no longer exists");
             }
         }
 
@@ -526,13 +544,14 @@ namespace Chronomancers.Sim.Runtime
         /// <para>
         /// Spawns are drained before samples are captured, so at the instant a body is emitted its spawner's
         /// span still ends one step back. The origin check then reads "the spawner did not exist when it
-        /// spawned this" and voids the newborn immediately — which is why the reversal machine's copy appeared
-        /// and evaporated in the same breath.
+        /// released this" and kills the newborn immediately — which is why the reversal machine's copy
+        /// appeared and evaporated in the same breath. The repair is still destructive, so this guard is
+        /// still needed.
         /// </para>
         /// <para>
         /// Narrow on purpose: only while the spawner is recording <i>and</i> the origin instant is past the end
-        /// of its history, which is precisely the frontier. A spawner whose history at that instant was
-        /// genuinely voided still fails, as it must.
+        /// of its history, which is precisely the frontier. A spawner that was genuinely latent at that
+        /// instant still fails, as it must.
         /// </para>
         /// </summary>
         bool SpawnerIsStillCatchingUp(SimId spawned)
@@ -549,9 +568,9 @@ namespace Chronomancers.Sim.Runtime
         {
             if (!id.IsValid) return;
 
-            // Already recording: nothing to do. But a body with an open *void* span still needs claiming —
-            // that is exactly what reviving one looks like, so this may not reject on "has a span open".
-            if (_open.TryGetValue(id, out var kind) && kind == SpanKind.Recorded) return;
+            // Already recording: nothing to do. A body running latent still needs claiming — that is
+            // exactly what being un-killed looks like — so this may not reject on "has a span open".
+            if (_open.Contains(id) && !_latent.Contains(id)) return;
 
             foreach (var pending in _claims)
                 if (pending.Id == id) return;
@@ -560,35 +579,24 @@ namespace Chronomancers.Sim.Runtime
         }
 
         /// <summary>Destroys a body with no cause, from the cursor onward.</summary>
-        public void RequestVoid(SimId id, string reason) =>
-            RequestVoid(id, SimId.None, LoopTime.Zero, reason);
-
         /// <summary>
-        /// Destroys a body, naming what did it. The void begins one unit beyond the current instant,
-        /// because a body exists at the instant it is destroyed — otherwise anything it caused there
-        /// would lose its cause (rule 7).
+        /// Takes a body out of the world from the next sample onward: it is claimed, and the sample it
+        /// records reads <see cref="Form.Latent"/> instead of <see cref="Form.Manifest"/>.
+        /// <para>
+        /// This is the entirety of destruction. There is no void span, no cause recorded on it, and no
+        /// second repair path — a body that should not have died is simply claimed again, and finds
+        /// ordinary playback to inherit from because a latent span still carries samples (rule 7).
+        /// </para>
+        /// <para>
+        /// Deferred like every other command: kills are requested from collision callbacks that fire
+        /// inside <c>Physics2D.Simulate</c>.
+        /// </para>
         /// </summary>
-        public void RequestKill(SimId id, SimId causedBy, string reason) =>
-            RequestVoid(id, causedBy, _clock.Cursor, reason);
-
-        void RequestVoid(SimId id, SimId causedBy, LoopTime causedAt, string reason)
+        public void RequestKill(SimId id, string reason)
         {
             if (!id.IsValid) return;
-            foreach (var pending in _voids)
-                if (pending.Id == id) return;
-            _voids.Add(new PendingVoid { Id = id, CausedBy = causedBy, CausedAt = causedAt, Reason = reason });
-        }
-
-        /// <summary>
-        /// Records that a projectile was absorbed at this instant, without destroying anything. See
-        /// <see cref="ExecuteAbsorb"/> for why this cannot simply be a void.
-        /// </summary>
-        public void RequestAbsorb(SimId id)
-        {
-            if (!id.IsValid) return;
-            foreach (var pending in _absorbs)
-                if (pending.Id == id) return;
-            _absorbs.Add(new PendingAbsorb { Id = id });
+            _dying.Add(id);
+            RequestClaim(id, reason);
         }
 
         /// <summary>
@@ -596,10 +604,10 @@ namespace Chronomancers.Sim.Runtime
         /// instant, so nothing here depends on instantiation order.
         /// </summary>
         /// <param name="origin">
-        /// What the spawn is <i>caused by</i>, if that is not the spawner. They come apart for the
-        /// reversal machine: the id derives from the machine, because that is what makes it reproducible,
-        /// but the cause is the character who walked in. Naming the character means erasing them voids the
-        /// copy for free via <see cref="CausalityBreak.OriginGone"/>, without anyone checking geometry.
+        /// What released the body, if that is not the spawner. They come apart for the reversal machine:
+        /// the id derives from the machine, because that is what makes it reproducible, but what released
+        /// the copy is the character who walked in. Naming the character means erasing them takes the copy
+        /// with it for free via <see cref="Timeline.OriginHolds"/>, without anyone checking geometry.
         /// </param>
         /// <param name="handControlOver">
         /// Hand the player this body the instant it exists, in this same step.
@@ -633,12 +641,6 @@ namespace Chronomancers.Sim.Runtime
         {
             _seededThisStep.Clear();
 
-            foreach (var pending in _voids) ExecuteVoid(pending, at);
-            _voids.Clear();
-
-            foreach (var pending in _absorbs) ExecuteAbsorb(pending, at);
-            _absorbs.Clear();
-
             foreach (var pending in _claims) ExecuteClaim(pending, at);
             _claims.Clear();
         }
@@ -659,81 +661,27 @@ namespace Chronomancers.Sim.Runtime
             }
         }
 
-        /// <summary>
-        /// Rule 9's deferred repair, in one step: claim the projectile for a single sample, stamp the
-        /// flag, close the span again.
-        /// <para>
-        /// Voiding the low side of an absorbed bullet would erase its muzzle (rule 8), and writing the
-        /// high side is forbidden outright (rule 3) — so nothing is destroyed here at all. An ordinary
-        /// one-sample recording says "absorbed at this instant", and the tail is retired on a later
-        /// forward pass, when the cursor is moving in a direction that is allowed to write it.
-        /// </para>
-        /// </summary>
-        void ExecuteAbsorb(in PendingAbsorb pending, LoopTime at)
-        {
-            if (!_live.TryGetValue(pending.Id, out var body)) return;
-            if (_open.ContainsKey(pending.Id)) return;
-
-            OpenRecordedSpan(body, at);
-            CloseSpan(pending.Id);
-        }
-
-        void ExecuteVoid(in PendingVoid pending, LoopTime at)
-        {
-            // Voids drain before claims, so a body flagged both ways this step would be voided and then
-            // immediately revived. Destruction wins: whatever wanted to claim it will ask again next step
-            // if the reason still stands.
-            for (var i = _claims.Count - 1; i >= 0; i--)
-                if (_claims[i].Id == pending.Id)
-                    _claims.RemoveAt(i);
-
-            if (_open.ContainsKey(pending.Id)) CloseSpan(pending.Id);
-
-            // A caused destruction leaves the body present at the instant it died; an uncaused void —
-            // a spawn whose origin is gone — never happened at all, so it starts here.
-            var begins = pending.CausedBy.IsValid ? LoopTime.FromRaw(at.Raw + _dir) : at;
-
-            _timeline.Void(pending.Id, _dir, begins, pending.CausedBy, pending.CausedAt);
-            _open[pending.Id] = SpanKind.Void;
-
-            if (_live.TryGetValue(pending.Id, out var body)) SetRecording(body, false);
-
-            if (logRepairs)
-                Debug.Log($"void {Describe(pending.Id)} from {begins} dir {_dir:+0;-0}: {pending.Reason}");
-        }
-
         void ExecuteClaim(in PendingClaim pending, LoopTime at)
         {
-            var timeline = _timeline.Body(pending.Id);
+            var wasLatent = _latent.Contains(pending.Id);
 
-            var index = timeline.Resolve(at);
-            var reviving = index >= 0 && timeline.GetSpan(index).Kind == SpanKind.Void;
-
-            var seedAt = at;
-            if (reviving)
+            if (_open.Contains(pending.Id))
             {
-                // Rule 5: there is no playback inside a void, so a revived body inherits the state at
-                // the void's start — what it had when it died. The void grew with the cursor, so the
-                // death instant is whichever end it grew away from.
-                var span = timeline.GetSpan(index);
-                seedAt = LoopTime.FromRaw(span.Dir > 0 ? span.Min.Raw - 1 : span.Max.Raw + 1);
-            }
-
-            if (_open.TryGetValue(pending.Id, out var kind))
-            {
-                // Already recording: nothing to do. Still voiding: stop the void growing, because the
-                // recorded span about to open outranks it from here on (rule 6).
-                if (kind == SpanKind.Recorded) return;
+                // Already recording: nothing to do. Running latent: stop that span growing, because the
+                // one about to open outranks it from here on (rule 6).
+                if (!wasLatent) return;
                 CloseSpan(pending.Id);
             }
 
             var body = _live.TryGetValue(pending.Id, out var live) ? live : Materialize(pending.Id);
             if (body == null) return;
 
-            if (reviving)
+            if (wasLatent)
             {
-                // Seeded from just outside the void, where the older recording is authoritative again.
-                ApplyPlaybackTo(body, seedAt);
+                // Being un-killed. Unlike a void there *is* playback here — a latent span carries samples,
+                // and the last manifest one before it is what this reads — so rule 5's ordinary inheritance
+                // applies with no special case.
+                ApplyPlaybackTo(body, at);
                 body.gameObject.SetActive(true);
             }
 
@@ -741,7 +689,7 @@ namespace Chronomancers.Sim.Runtime
 
             if (logRepairs)
                 Debug.Log($"claim {Describe(pending.Id)} at {at} dir {_dir:+0;-0}" +
-                          $"{(reviving ? $" (revived, seeded from {seedAt})" : "")}: {pending.Reason}");
+                          $"{(wasLatent ? " (revived)" : "")}: {pending.Reason}");
         }
 
         string Describe(SimId id) => _live.TryGetValue(id, out var body) ? $"{body.name} {id}" : id.ToString();
@@ -792,11 +740,12 @@ namespace Chronomancers.Sim.Runtime
         void OpenRecordedSpan(SimBody body, LoopTime at)
         {
             _timeline.Claim(body.Id, _dir, at);
-            _open[body.Id] = SpanKind.Recorded;
+            _open.Add(body.Id);
+            _latent.Remove(body.Id);
             SetRecording(body, true);
 
             var timeline = _timeline.Body(body.Id);
-            var index = timeline.WriteSample(at);
+            var index = timeline.WriteSample(at, Form.Manifest);
             foreach (var component in body.Components) component.CaptureSample(timeline, index);
 
             _seededThisStep.Add(body.Id);
@@ -817,33 +766,54 @@ namespace Chronomancers.Sim.Runtime
 
         void RecordStep(LoopTime at)
         {
+            _scratch.Clear();
+
             foreach (var pair in _live)
             {
                 var body = pair.Value;
                 if (!body.IsRecording) continue;
 
+                var timeline = _timeline.Body(pair.Key);
+                if (!timeline.IsRecording) continue;
+
+                // Dying takes precedence over the seed. A body killed on the very step it was claimed —
+                // a bullet that spawns already touching a wall — still has to record the sample that puts
+                // it out of the world, or its death is silently dropped.
+                if (_dying.Remove(pair.Key))
+                {
+                    // Rule 6: the transition sits inside this span, between a manifest sample and this one,
+                    // so it interpolates rather than landing on a boundary. Channels are captured too — the
+                    // last thing the body did is what a later claim inherits.
+                    var dead = timeline.WriteSample(at, Form.Latent);
+                    foreach (var component in body.Components) component.CaptureSample(timeline, dead);
+
+                    _latent.Add(pair.Key);
+                    _scratch.Add(pair.Key);
+                    continue;
+                }
+
                 // Claimed this very step: its seed sample is already at this instant, and it is the
                 // pre-physics pose on purpose — that is what makes the seam exact.
                 if (_seededThisStep.Contains(pair.Key)) continue;
 
-                var timeline = _timeline.Body(pair.Key);
-                if (!timeline.IsRecording) continue;
-
-                var index = timeline.WriteSample(at);
+                var index = timeline.WriteSample(at, Form.Manifest);
                 foreach (var component in body.Components) component.CaptureSample(timeline, index);
             }
+
+            // Deferred: Release mutates _live, which is being iterated above.
+            foreach (var id in _scratch) Release(id);
         }
 
         /// <summary>
-        /// Void spans carry no samples, so they have nothing to widen from — they are grown explicitly,
-        /// one step at a time, which is how a death propagates only over loop time actually traversed.
+        /// Grows every latent span to the cursor. A body out of the world has no state worth sampling once
+        /// per step, but its span still has to keep outranking the older recording that says it was here —
+        /// so it grows by authority alone, over exactly the loop time actually traversed (rule 7).
         /// </summary>
-        void ExtendVoids(LoopTime at)
+        void ExtendLatent(LoopTime at)
         {
-            foreach (var pair in _open)
+            foreach (var id in _latent)
             {
-                if (pair.Value != SpanKind.Void) continue;
-                var timeline = _timeline.Body(pair.Key);
+                var timeline = _timeline.Body(id);
                 if (timeline.IsRecording) timeline.Extend(at);
             }
         }
@@ -851,6 +821,7 @@ namespace Chronomancers.Sim.Runtime
         void CloseSpan(SimId id)
         {
             if (!_open.Remove(id)) return;
+            _latent.Remove(id);
             _timeline.Body(id).EndSpan();
             if (_live.TryGetValue(id, out var body)) SetRecording(body, false);
         }
@@ -858,7 +829,7 @@ namespace Chronomancers.Sim.Runtime
         void CloseAllSpans()
         {
             _scratch.Clear();
-            foreach (var pair in _open) _scratch.Add(pair.Key);
+            foreach (var id in _open) _scratch.Add(id);
             foreach (var id in _scratch) CloseSpan(id);
         }
 
@@ -956,9 +927,9 @@ namespace Chronomancers.Sim.Runtime
             foreach (var id in _scratch) Release(id);
 
             _claims.Clear();
-            _voids.Clear();
             _spawns.Clear();
-            _absorbs.Clear();
+            _dying.Clear();
+            _latent.Clear();
 
             Reconcile(_clock.Cursor);
             ApplyPlayback(_clock.Cursor);
@@ -1017,19 +988,6 @@ namespace Chronomancers.Sim.Runtime
         struct PendingClaim
         {
             public SimId Id;
-            public string Reason;
-        }
-
-        struct PendingAbsorb
-        {
-            public SimId Id;
-        }
-
-        struct PendingVoid
-        {
-            public SimId Id;
-            public SimId CausedBy;
-            public LoopTime CausedAt;
             public string Reason;
         }
 

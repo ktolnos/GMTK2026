@@ -1,31 +1,94 @@
-﻿This is a puzzle game about re-recording timelines.
-Think time travel + Outer Wilds + Superhot +  Hotline Miami + Tenet.
+This is a puzzle game about re-recording timelines.
+Think time travel + Outer Wilds + Superhot + Hotline Miami + Tenet.
 The time loop is small-ish (probably 1 minute).
 
-The Simulation is recording everything that happens in the scene. 
-It should be able to play back the events exactly from any point in time and at any timescale (including negative, 
-e.g. for rewind).
-The gameobjects in simulation can be either recording or already recorded. The recorded objects should behave exactly
-as they behaved when they were recorded unless affected by the recording object.
-The player controls multiple characters and can switch between them. By default (after the first recording) all
-characters replay actions from the previous time loop until the player touches the controls. When they do,
-the character becomes isRecording=true and records the history going forward.
-Importantly, each character has their own timescale at which they move through simualtion, including a possibility of
-a negative one. Also there If they affect other recorded objects, the objects also start to record with the same timescale.
-E.g. if the player moves back in time and they shoot a bullet, the bullet is also going back in time, and if the bullet
-hurts an enemy, the enemy will start moving back in time and record the fact that it has low HP. There is also support for
-"time moves when you move" mechanic.
-Switching between characters is allowed only within one time instant, so regardless of their timescale all other objects have 
-something recorded (moving forward, inactive characters do NOOP actions).
-Sometimes players overwrite a recording of a character (by touching the controls) when they didn't intend to. So we also
-need to support CTRL+Z that rewinds the time to before the overwrite has happened and restores the recording.
-This implies that we have to store at least 2 versions of the history (current and prev) and maybe more if we want to 
-support multiple ctrl+z.
+`RULES.md` is the normative document — it states all of this as invariants and works through the
+consequences. This file is the pitch and the reasoning behind it.
 
-Architectural considerations:
-Objects moving at different time scales may have different frequency of state saves (for smooth replay), 
-so we need to store them in some kind of data structure that supports fast lookup of a state for a given frame.
-The whole history (or even multiple histories) should be serializable and writable to disk.
-Some objects start on the scene, some are instantiated at runtime. The simulation should support re-instantiating 
-objects during recording (including the case where objects have to be instantiated at their destruction time for
-negative time).
+## The premise
+
+The laws of physics are time-symmetric. What is not symmetric is likelihood: a bullet flying out of a
+wall and into a muzzle breaks no law, it just needs the wall's heat and the room's sound to conspire.
+So the game never violates physics locally — it only ever shows you the improbable branch. Every
+backwards thing you see is legal and merely absurdly lucky.
+
+Recording is what buys the luck. We can't simulate molecules, so we can't generate a fine-tuned reversed
+trajectory — but we already watched it happen forwards, so we can replay it backwards exactly. Every
+object we keep on playback is a butterfly effect we've refused to have.
+
+That gives one line, and it is not entropy: **improbable is allowed and is the whole aesthetic;
+contradictory is not.** A corpse standing up because you erased its killer is fine. A corpse standing up
+in zero time is not. Where a contradiction can't be unwound, it gets paid for — that's what the ship
+exploding is for.
+
+Two things follow that shape the whole codebase:
+
+- **Matter is conserved.** Nothing is created or destroyed. Instantiate/Destroy are presence
+  optimisations; an object that isn't in the world is *latent* rather than absent — still in the gun,
+  lying on the floor as a corpse, evaporated into the air. There is no "this object doesn't exist here"
+  concept, and no roster to pre-populate either: latent is just what the timeline reads when nothing
+  has been recorded, so objects still enter it the first time something writes them.
+- **Everything the player can see happened has to be recorded and un-makeable.** Entropy is visible:
+  bullet holes, scorch marks, blood, ragdoll rest poses, smoke, audio tails. A backward pass has to
+  un-make all of them, so none of them can be fire-and-forget. This is the biggest practical cost of the
+  design and it is where players will catch fakery if we get it wrong.
+
+## The mechanics
+
+The Simulation records everything in the scene and can play it back exactly, from any point in time, at
+any timescale including negative.
+
+There is **one cursor** — a single loop-time position shared by everything. Timescale comes from the
+character you are currently watching, and it drives that shared cursor, so a character with a negative
+timescale rewinds the world rather than running privately backwards. This is what makes interactions
+reproducible: they always happen between objects at equal loop time. "Time moves when you move" is just
+a rate of 0 when you hold still.
+
+Objects are either recording or playing back. Playback is the default and is what almost everything is
+doing almost all the time; an object only records when something claims it. The player touching the
+controls claims a character. Contact with something already recording claims the thing it touched. And
+an object whose recorded history stops making sense in the live world claims itself and re-simulates
+from there.
+
+That last one is the interesting one, because it's also the correct physics: perturbing an improbable
+trajectory should destroy it. Touch a backwards-running enemy and it stops being backwards-running —
+it goes inert, records forward like everything else, and loses the rest of its performance. So there is
+a real cost to interfering, and it is legible.
+
+Objects don't have an inherent time direction. Direction is a property of a *recording*, of which pass
+laid it down. So "inverted" always means "recorded during a backward pass, now being played back", and
+there is never a moment where two things are being simulated in opposite directions at once.
+
+Example: you move backwards through time and shoot. The bullet is recorded during a backward pass, so
+played forwards it flies out of the wall into your gun. It hits an enemy on the way, which claims the
+enemy — it records backwards too, so forwards it reads as an enemy that was wounded and gets up healed
+as the bullet leaves it.
+
+Switching between characters happens within one time instant, so everything always has something
+recorded at every instant — inactive characters record NOOP.
+
+Players sometimes overwrite a recording by touching the controls when they didn't mean to. CTRL+Z rewinds
+to before the overwrite and restores what was there. Taking over a character is the only action that
+*erases* anything, so it is the only thing that needs undo — everything else you fix by rewinding and
+re-recording. There is a full reset too, for states nobody can undo their way out of.
+
+## Architectural considerations
+
+Objects recorded at different timescales have different sample density, so history needs a structure with
+fast lookup of state at a given loop time. Interpolation between samples must never cross a recording
+boundary — those joins are real discontinuities.
+
+Undo is a stack of layers, not a pair of history copies. Each takeover opens a layer holding everything
+that takeover cascaded; popping it truncates all of them at once, which is cheap enough that the whole
+undo stack is affordable rather than just current + prev.
+
+Every gameplay-relevant piece of state has to live in the timeline rather than in a MonoBehaviour field —
+animator state, cooldowns, AI target, ammo, door state, form, and the set of things currently touching an
+object. Anything genuinely random has to be recorded or deterministically seeded; randomness is standing
+in for the molecular detail we refused to model, and it's exactly the part that makes reversal fragile.
+
+The whole history should be serializable to disk, and every object records its archetype so a save can be
+materialised from the file alone.
+
+Objects come and go from the scene for performance, including at their destruction time when running
+backwards, but that is instantiation only — the timeline itself never gains or loses anyone.

@@ -35,16 +35,6 @@ namespace Chronomancers.Sim
             var s2 = Side(Cross(q2X - q1X, q2Y - q1Y, p2X - q1X, p2Y - q1Y));
             var s3 = Side(Cross(p2X - p1X, p2Y - p1Y, q1X - p1X, q1Y - p1Y));
             var s4 = Side(Cross(p2X - p1X, p2Y - p1Y, q2X - p1X, q2Y - p1Y));
-
-            // Each segment must have the other's endpoints *strictly* on opposite sides.
-            //
-            // Zero has to be excluded explicitly rather than folded in with one sign: an endpoint sitting
-            // exactly on the other line means the segments touch, and comparing `d > 0` booleans would sort
-            // that zero onto the negative side and report a crossing. A body that walks up to a door and stops
-            // dead on the gate would then be claimed for going through it.
-            //
-            // Requiring it of *both* segments is separately what stops a body passing through the wall beside a
-            // door being blamed on the door: it crosses the gate's infinite line, but not the gate.
             if (s1 == 0 || s2 == 0 || s3 == 0 || s4 == 0) return false;
 
             return s1 != s2 && s3 != s4;

@@ -32,17 +32,6 @@ namespace Chronomancers.Sim.Runtime
         /// <summary>Direction the cursor is travelling, +1 or -1.</summary>
         protected int Dir => Body != null ? Body.Dir : 1;
 
-        /// <summary>
-        /// Whether ordinary contact with a recording body may claim this one (rule 11).
-        /// <para>
-        /// A projectile says no. Claiming a bullet mid-flight would re-record it in the cursor's
-        /// direction and overwrite the end of its span that holds the muzzle, which rule 8 forbids — a
-        /// bullet may never appear to have been emitted by the wall it hit. Projectiles handle contact
-        /// themselves instead, by stamping a flag.
-        /// </para>
-        /// </summary>
-        internal virtual bool AcceptsContactClaim => true;
-
         internal abstract void ApplyPlayback(BodyTimeline timeline, LoopTime at);
         internal abstract void CaptureSample(BodyTimeline timeline, int sampleIndex);
 

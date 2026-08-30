@@ -3,74 +3,29 @@ using UnityEngine;
 namespace Chronomancers.Sim.Runtime
 {
     /// <summary>
-    /// Whether this projectile was absorbed, and by what. Ordinary recorded state, which is the whole
-    /// trick — it dies with its span, so it needs no once-only delivery and no event log.
-    /// </summary>
-    public struct ProjectileState
-    {
-        public byte Absorbed;
-        public int AbsorbedBy;
-    }
-
-    /// <summary>
-    /// A bullet. Short-lived, spawned at a muzzle, and the awkward case for nearly every rule.
+    /// A bullet. Short-lived, released at a muzzle, and no longer the awkward case for any rule.
     /// <para>
-    /// It refuses contact claims (see <see cref="AcceptsContactClaim"/>): re-recording a bullet in the
-    /// cursor's direction would overwrite the end of its span that holds the muzzle, and rule 8 forbids a
-    /// bullet that appears to have been emitted by the wall it hit.
+    /// It has no channel of its own. It used to carry an <c>Absorbed</c> flag so that an inverted
+    /// character walking into a recorded bullet could stamp "this ended here" without writing behind the
+    /// cursor, and a later forward pass would find that flag and retire the tail. All of that is gone:
+    /// the contact set on <see cref="SimRigidbody2D"/> notices on the next forward pass that the bullet
+    /// meets a body its recording never touched, and diverges it like anything else.
     /// </para>
     /// <para>
-    /// So an inverted character running into a recorded bullet does not destroy it. Voiding the low side
-    /// would erase the muzzle; writing the high side is forbidden outright (rule 3). Instead the hit is
-    /// recorded as a single-sample <c>Absorbed</c> flag, and the tail beyond it is retired later, on a
-    /// forward pass — when the cursor is finally moving in a direction allowed to write it.
+    /// It also no longer refuses contact claims. Claiming a bullet mid-flight truncates the end of its
+    /// span away from the muzzle, which the old rule 8 forbade — but origin is read forwards, so an
+    /// inverted shot read forwards is a bullet leaving a wall and flying <i>into</i> a gun, and a span
+    /// that stops short of the muzzle is simply a bullet somebody caught. That is legal and needs no
+    /// repair; what breaks in that case is the gun's ammo, and the gun notices it.
     /// </para>
     /// </summary>
-    public sealed class SimBullet : SimulatedComponent<ProjectileState>
+    public sealed class SimBullet : MonoBehaviour
     {
         [SerializeField] int damage = 1;
 
-        byte _absorbed;
-        int _absorbedBy;
+        SimBody _body;
 
-        public override int ChannelId => SimChannels.Projectile;
-
-        /// <inheritdoc/>
-        internal override bool AcceptsContactClaim => false;
-
-        protected override ProjectileState Capture() =>
-            new ProjectileState { Absorbed = _absorbed, AbsorbedBy = _absorbedBy };
-
-        protected override void Apply(in Sampled<ProjectileState> sampled)
-        {
-            _absorbed = sampled.A.Absorbed;
-            _absorbedBy = sampled.A.AbsorbedBy;
-        }
-
-        protected override void Validate(LoopTime at, in Sampled<ProjectileState> sampled)
-        {
-            if (sampled.A.Absorbed == 0) return;
-
-            // Only forwards. Backwards, everything past this instant is behind the cursor and rule 3
-            // forbids touching it; the timeline is simply left transiently stale until a forward pass
-            // reaches here. The repair is idempotent — the guard is whether the bullet still exists past
-            // the hit — so nothing has to remember whether it has run.
-            if (Dir <= 0) return;
-
-            Runner.RequestKill(Body.Id, new SimId(sampled.A.AbsorbedBy), "absorbed on an earlier pass");
-        }
-
-        internal override void OnClaimed(int dir)
-        {
-            _absorbed = 0;
-            _absorbedBy = 0;
-        }
-
-        protected override void ResetState()
-        {
-            _absorbed = 0;
-            _absorbedBy = 0;
-        }
+        void Awake() => _body = GetComponentInParent<SimBody>();
 
         void OnCollisionEnter2D(Collision2D collision) => Hit(collision.collider);
 
@@ -78,35 +33,23 @@ namespace Chronomancers.Sim.Runtime
 
         void Hit(Collider2D other)
         {
-            if (Runner == null || !other) return;
+            if (_body == null || _body.Runner == null || !other) return;
+
+            // Only our own flight deals damage. On playback the recording is the authority on what this
+            // bullet did, and a live body that runs into it is claimed by SimBody.Touched instead — which
+            // re-simulates the bullet from here, and this fires again for real.
+            if (!_body.IsRecording) return;
 
             var theirs = other.GetComponentInParent<SimBody>();
-            if (theirs == Body) return;
+            if (theirs == _body) return;
 
-            if (IsRecording)
+            if (theirs != null)
             {
-                // Our own flight: an ordinary hit. We exist at the instant we are destroyed, so the void
-                // begins one unit beyond it — otherwise the damage we just dealt would lose its cause.
-                if (theirs != null)
-                {
-                    var health = theirs.GetComponent<SimHealth>();
-                    if (health != null) health.TakeDamage(damage, Body.Id);
-                }
-
-                Runner.RequestKill(Body.Id, theirs != null ? theirs.Id : SimId.None, "struck something");
-                return;
+                var health = theirs.GetComponent<SimHealth>();
+                if (health != null) health.TakeDamage(damage, _body.Id);
             }
 
-            // We are being played back and something live ran into us. That something is travelling
-            // against our recorded flight, so this is an absorption rather than a hit.
-            if (theirs == null || !theirs.IsRecording) return;
-
-            var victim = theirs.GetComponent<SimHealth>();
-            if (victim != null) victim.TakeDamage(damage, Body.Id);
-
-            _absorbed = 1;
-            _absorbedBy = theirs.Id.Value;
-            Runner.RequestAbsorb(Body.Id);
+            _body.Runner.RequestKill(_body.Id, "struck something");
         }
     }
 }

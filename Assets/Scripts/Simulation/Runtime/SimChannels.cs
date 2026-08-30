@@ -16,7 +16,14 @@ namespace Chronomancers.Sim.Runtime
         public const int Body2D = 2;
         public const int Health = 3;
         public const int Door = 4;
-        public const int Projectile = 5;
+
+        /// <summary>
+        /// Retired. Projectiles carried an <c>Absorbed</c> flag until the contact set on
+        /// <see cref="SimRigidbody2D"/> made it unnecessary. Never reuse the id: an old save still names
+        /// it, and loading one must fail loudly rather than deserialize into the wrong struct.
+        /// </summary>
+        public const int RetiredProjectile = 5;
+
         public const int Character = 6;
         public const int Gun = 7;
         public const int TimeMachine = 8;
@@ -27,7 +34,6 @@ namespace Chronomancers.Sim.Runtime
             registry.Register<Body2DState>(Body2D);
             registry.Register<HealthState>(Health);
             registry.Register<DoorState>(Door);
-            registry.Register<ProjectileState>(Projectile);
             registry.Register<CharacterState>(Character);
             registry.Register<GunState>(Gun);
             registry.Register<MachineState>(TimeMachine);

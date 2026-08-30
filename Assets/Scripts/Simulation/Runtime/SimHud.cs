@@ -98,7 +98,9 @@ namespace Chronomancers.Sim.Runtime
                     var x0 = barLeft + barWidth * Mathf.Clamp01(span.Min.Raw / (float)length);
                     var x1 = barLeft + barWidth * Mathf.Clamp01(span.Max.Raw / (float)length);
 
-                    GUI.color = span.Kind == SpanKind.Void
+                    // Latent is read off the span's own samples rather than its kind, since spans no
+                    // longer have one — a body out of the world for this whole span reads red.
+                    GUI.color = body.FormAt(span.Min) == Form.Latent && body.FormAt(span.Max) == Form.Latent
                         ? new Color(0.85f, 0.2f, 0.2f, 0.9f)
                         : span.Dir > 0
                             ? new Color(0.3f, 0.75f, 0.35f, 0.9f)

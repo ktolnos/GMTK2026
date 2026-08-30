@@ -45,6 +45,27 @@ namespace Chronomancers.Sim.Tests
             timeline.EndSpan(id);
         }
 
+        /// <summary>
+        /// Takes a body out of the world: a last manifest sample at <paramref name="lastAlive"/>, a latent
+        /// one immediately after it, and authority grown to <paramref name="to"/>.
+        /// <para>
+        /// There is no destroy call to mimic, because there is no longer such an operation — the runner
+        /// claims the body and records a sample whose form is <see cref="Form.Latent"/>, which outranks the
+        /// older recording by Seq like any other re-recording. The transition sits <i>inside</i> the span
+        /// rather than on its edge, which is what rule 6 requires.
+        /// </para>
+        /// </summary>
+        static void Kill(Timeline timeline, SimId id, int dir, int lastAlive, int to, P last = default)
+        {
+            timeline.Claim(id, dir, T(lastAlive));
+            var body = timeline.Body(id);
+            var channel = body.Channel<P>(Pose);
+            channel.Set(body.WriteSample(T(lastAlive), Form.Manifest), last);
+            channel.Set(body.WriteSample(T(lastAlive + dir), Form.Latent), last);
+            body.Extend(T(to));
+            timeline.EndSpan(id);
+        }
+
         /// <summary>What a component would actually display: the endpoints blended by T.</summary>
         static float Lerp(in Sampled<P> sampled) =>
             sampled.A.X + (sampled.B.X - sampled.A.X) * sampled.T;
@@ -257,21 +278,21 @@ namespace Chronomancers.Sim.Tests
         }
 
         [Test]
-        public void VoidSpanOverridesAnEarlierRecording()
+        public void LatentSamplesOverrideAnEarlierRecording()
         {
             var timeline = NewTimeline();
             Record(timeline, A, +1, new[] { 0, 100, 200, 300 }, raw => new P { X = raw, Hp = 10 });
             Assert.IsTrue(timeline.Exists(A, T(150)));
 
-            // Killed at 200 by something travelling backwards: non-existence propagates to every
+            // Killed at 200 by something travelling backwards: being out of the world propagates to every
             // earlier instant the inverted character still has to travel through.
             timeline.OpenLayer();
-            timeline.Void(A, -1, T(200));
-            timeline.Body(A).Extend(T(100));
-            timeline.EndSpan(A);
+            Kill(timeline, A, -1, 200, 100);
 
-            Assert.IsFalse(timeline.Exists(A, T(150)), "voided range");
-            Assert.IsFalse(timeline.Body(A).Sample<P>(Pose, T(150)).Exists);
+            Assert.IsFalse(timeline.Exists(A, T(150)), "latent range");
+            Assert.IsFalse(timeline.Body(A).Sample<P>(Pose, T(150)).Exists,
+                "and a latent body reports no state, so nothing plays it back");
+            Assert.IsTrue(timeline.Exists(A, T(200)), "but it is still there at the instant it died");
             Assert.IsTrue(timeline.Exists(A, T(250)), "outside it the recording stands");
         }
 
@@ -360,19 +381,17 @@ namespace Chronomancers.Sim.Tests
         }
 
         [Test]
-        public void PastTheEndOfAVoidIsNotTheFrontier()
+        public void PastTheEndOfALatentRangeIsNotTheFrontier()
         {
-            // A void only covers loop time the cursor actually traversed, so replaying past its far end
-            // finds no span either. Treating that as a frontier would resurrect everything that ever died.
+            // A latent span only covers loop time the cursor actually traversed, so replaying past its far
+            // end finds no span either. Treating that as a frontier would resurrect everything that died.
             var timeline = NewTimeline();
             Record(timeline, A, +1, new[] { 0, 400 }, raw => new P { X = raw, Hp = 3 }); // the killer
             Record(timeline, B, +1, new[] { 0, 100, 200 }, raw => new P { X = raw, Hp = 5 });
 
-            timeline.Void(B, +1, T(201), causedBy: A, causedAt: T(200));
-            timeline.Body(B).Extend(T(300));
-            timeline.EndSpan(B);
+            Kill(timeline, B, +1, 200, 300);
 
-            Assert.IsFalse(timeline.Exists(B, T(250)), "dead inside the void");
+            Assert.IsFalse(timeline.Exists(B, T(250)), "dead inside the latent range");
             Assert.IsFalse(timeline.Body(B).AtFrontier(T(301), +1), "and still dead past the end of it");
         }
 
@@ -449,153 +468,119 @@ namespace Chronomancers.Sim.Tests
             timeline.DeclareOrigin(bullet, B, T(100));
             Record(timeline, bullet, +1, new[] { 100, 150 }, raw => new P { X = raw, Hp = 1 });
 
-            Assert.IsTrue(timeline.CausalityHolds(bullet, T(120)));
+            Assert.IsTrue(timeline.OriginHolds(bullet));
 
             // A later take kills the enemy at 80, before it ever fired.
             timeline.OpenLayer();
-            timeline.Void(B, +1, T(81), causedBy: A, causedAt: T(80));
-            timeline.Body(B).Extend(T(400));
-            timeline.EndSpan(B);
+            Kill(timeline, B, +1, 80, 400);
 
-            Assert.IsFalse(timeline.CausalityHolds(bullet, T(120)),
-                "nothing fired it, so the bullet cannot exist");
+            Assert.IsFalse(timeline.OriginHolds(bullet),
+                "nothing fired it, so the bullet was never let go");
 
-            var broken = new List<BrokenCausality>();
-            timeline.CollectBrokenCausality(T(120), broken);
+            var broken = new List<SimId>();
+            timeline.CollectBrokenOrigins(broken);
             Assert.AreEqual(1, broken.Count);
-            Assert.AreEqual(bullet, broken[0].Id);
-            Assert.AreEqual(CausalityBreak.OriginGone, broken[0].Reason,
-                "void it — there is nothing to re-simulate about a shot that was never fired");
+            Assert.AreEqual(bullet, broken[0]);
         }
 
         [Test]
-        public void BrokenOriginAndBrokenCauseAskForOppositeRepairs()
+        public void OnlyTheOriginIsAnsweredFromTheTimeline()
         {
-            // Both failures at once, on two different bodies. A fires a bullet AND is the recorded
-            // killer of B, so erasing A breaks a spawn and a destruction in the same stroke.
+            // A fires a bullet AND is the recorded killer of B. Erasing A used to break two different
+            // things needing two different repairs; now the timeline answers only for the bullet, whose
+            // release has nothing behind it. B's death has no cause recorded anywhere — whether it still
+            // stands up is SimHealth's question, asked of the live world, not the timeline's.
             var timeline = NewTimeline();
             Record(timeline, A, +1, new[] { 0, 400 }, raw => new P { X = raw, Hp = 3 });
             Record(timeline, B, +1, new[] { 0, 100 }, raw => new P { X = raw, Hp = 5 });
-            timeline.Void(B, +1, T(101), causedBy: A, causedAt: T(100));
-            timeline.Body(B).Extend(T(400));
-            timeline.EndSpan(B);
+            Kill(timeline, B, +1, 100, 400);
 
             var bullet = SimId.Spawn(A, T(100), 0);
             timeline.DeclareOrigin(bullet, A, T(100));
             Record(timeline, bullet, +1, new[] { 100, 150 }, raw => new P { X = raw, Hp = 1 });
 
-            var broken = new List<BrokenCausality>();
-            timeline.CollectBrokenCausality(T(120), broken);
+            var broken = new List<SimId>();
+            timeline.CollectBrokenOrigins(broken);
             Assert.AreEqual(0, broken.Count, "nothing is wrong yet");
 
-            // Now A never existed at all.
+            // Now A is out of the world for the whole loop.
             timeline.OpenLayer();
-            timeline.Void(A, +1, T(0));
-            timeline.Body(A).Extend(T(400));
-            timeline.EndSpan(A);
+            Kill(timeline, A, +1, 0, 400);
 
-            timeline.CollectBrokenCausality(T(120), broken);
-            Assert.AreEqual(2, broken.Count);
-
-            var forB = broken.Find(b => b.Id.Equals(B));
-            var forBullet = broken.Find(b => b.Id.Equals(bullet));
-            Assert.AreEqual(CausalityBreak.CauseGone, forB.Reason, "B revives: it has a loop left to live");
-            Assert.AreEqual(CausalityBreak.OriginGone, forBullet.Reason, "the bullet is simply voided");
+            timeline.CollectBrokenOrigins(broken);
+            Assert.AreEqual(1, broken.Count, "one repair, one mechanism");
+            Assert.AreEqual(bullet, broken[0]);
         }
 
         [Test]
-        public void ADeathSpawnNamesTheKillerSoErasingItUndoesBoth()
+        public void ADeathSpawnNamesTheKillerNotTheCorpse()
         {
-            // The polarity trap: an item dropped on death must NOT take the corpse as its origin, or
-            // the drop would be flagged exactly while it is legitimate. It takes the killer instead,
-            // which is the same SimId the corpse's void span already carries.
+            // The polarity trap: an item dropped on death must NOT take the corpse as its origin, or the
+            // drop would be flagged exactly while it is legitimate — the corpse is latent precisely when
+            // the loot is on the floor. It names the killer instead.
             var timeline = NewTimeline();
             Record(timeline, A, +1, new[] { 0, 400 }, raw => new P { X = raw, Hp = 3 }); // the killer
             Record(timeline, B, +1, new[] { 0, 200 }, raw => new P { X = raw, Hp = 5 }); // dies at 200
-            timeline.Void(B, +1, T(201), causedBy: A, causedAt: T(200));
-            timeline.Body(B).Extend(T(400));
-            timeline.EndSpan(B);
+            Kill(timeline, B, +1, 200, 400);
 
             var loot = SimId.Spawn(B, T(200), 0);
             timeline.DeclareOrigin(loot, A, T(200)); // the killer, not the corpse
             Record(timeline, loot, +1, new[] { 200, 400 }, _ => new P { X = 50, Hp = 0 });
 
-            Assert.IsTrue(timeline.CausalityHolds(loot, T(300)), "B is dead and the loot is on the floor");
+            Assert.IsTrue(timeline.OriginHolds(loot), "B is dead and the loot is on the floor");
 
-            // Erase the killer. The death and the drop have to fall together.
+            // Naming the corpse would have failed here, since B is latent at 300.
+            Assert.IsFalse(timeline.Exists(B, T(300)));
+
+            // Erase the killer and the drop falls with it.
             timeline.OpenLayer();
-            timeline.Void(A, +1, T(0));
-            timeline.Body(A).Extend(T(400));
-            timeline.EndSpan(A);
+            Kill(timeline, A, +1, 0, 400);
 
-            var broken = new List<BrokenCausality>();
-            timeline.CollectBrokenCausality(T(300), broken);
-            Assert.AreEqual(2, broken.Count);
-            Assert.AreEqual(CausalityBreak.CauseGone, broken.Find(b => b.Id.Equals(B)).Reason);
-            Assert.AreEqual(CausalityBreak.OriginGone, broken.Find(b => b.Id.Equals(loot)).Reason);
+            Assert.IsFalse(timeline.OriginHolds(loot), "nothing killed B, so nothing dropped this");
         }
 
         [Test]
-        public void DestroyedBodyRevivesWhenItsKillerIsGone()
+        public void ARevivedBodyInheritsOrdinaryPlayback()
         {
-            // The case that actually breaks puzzles. X is shot dead at 150 and voided for the rest of
-            // the loop. A later take removes the bullet, so nothing killed X — and without a cause on
-            // the void span, X would simply stay dead forever with no killer, silently deleting
-            // everything X was meant to do over [151,400].
-            const int bulletPrefab = 4;
-            var bullet = SimId.Spawn(B, T(100), 0);
-
+            // Being un-killed used to be a special case: a void carried no samples, so a revived body had
+            // to be seeded from the instant before the void started. A latent span carries samples like
+            // any other, so the last manifest one is simply there to inherit — rule 5 with no exception.
             var timeline = NewTimeline();
-            timeline.Declare(bullet, bulletPrefab);
-            Record(timeline, bullet, +1, new[] { 100, 150 }, raw => new P { X = raw, Hp = 1 });
             Record(timeline, A, +1, new[] { 0, 100, 150 }, raw => new P { X = raw, Hp = 3 });
-
-            timeline.Void(A, +1, T(151), causedBy: bullet, causedAt: T(150));
-            timeline.Body(A).Extend(T(400));
-            timeline.EndSpan(A);
+            Kill(timeline, A, +1, 150, 400, new P { X = 150f, Hp = 0 });
 
             Assert.IsFalse(timeline.Exists(A, T(300)), "dead for the rest of the loop");
-            Assert.IsTrue(timeline.CausalityHolds(A, T(300)), "and legitimately so: the bullet is there");
+            Assert.IsTrue(timeline.Exists(A, T(150)), "but present at the instant it was hit");
 
-            // Now the bullet never happens.
+            var seed = timeline.Body(A).Sample<P>(Pose, T(150));
+            Assert.IsTrue(seed.Exists, "the death instant still holds its last state");
+            Assert.AreEqual(150f, seed.A.X, 1e-6f);
+
+            // The claim that revives it is an ordinary claim, seeded from that playback.
             timeline.OpenLayer();
-            timeline.Void(bullet, +1, T(100), causedBy: SimId.None, causedAt: T(100));
-            timeline.Body(bullet).Extend(T(400));
-            timeline.EndSpan(bullet);
-
-            Assert.IsFalse(timeline.CausalityHolds(A, T(300)), "X was killed by something that is gone");
-            Assert.IsTrue(timeline.CausalityHolds(A, T(100)), "but its earlier history is untouched");
-
-            // Reviving it: a claim in the cursor's direction, seeded from the state X had when it died
-            // — there is no playback to inherit from inside a void.
-            var reviveSeed = timeline.Body(A).Sample<P>(Pose, T(150));
-            Assert.IsTrue(reviveSeed.Exists, "the instant before the void still holds X's last state");
-
             timeline.Claim(A, +1, T(151));
             var body = timeline.Body(A);
             var channel = body.Channel<P>(Pose);
-            channel.Set(body.WriteSample(T(151)), reviveSeed.A);
-            channel.Set(body.WriteSample(T(400)), reviveSeed.A);
+            channel.Set(body.WriteSample(T(151)), seed.A);
+            channel.Set(body.WriteSample(T(400)), seed.A);
             timeline.EndSpan(A);
 
             Assert.IsTrue(timeline.Exists(A, T(300)), "alive again");
             Assert.AreEqual(150f, timeline.Body(A).Sample<P>(Pose, T(151)).A.X, 1e-6f,
                 "resuming from where it was hit");
-            Assert.IsTrue(timeline.CausalityHolds(A, T(300)));
         }
 
         [Test]
-        public void UncausedDestructionNeedsNoJustification()
+        public void DestructionNeedsNoRecordedCause()
         {
-            // Fell out of the world, expired, scripted: nothing to check.
+            // Fell out of the world, expired, scripted, shot: the timeline records none of it. There is
+            // no cause field on anything any more, so there is nothing that can dangle.
             var timeline = NewTimeline();
             Record(timeline, A, +1, new[] { 0, 100 }, raw => new P { X = raw, Hp = 1 });
-            timeline.Void(A, +1, T(101));
-            timeline.Body(A).Extend(T(400));
-            timeline.EndSpan(A);
+            Kill(timeline, A, +1, 100, 400);
 
             Assert.IsFalse(timeline.Exists(A, T(200)));
-            Assert.IsTrue(timeline.CausalityHolds(A, T(200)));
+            Assert.IsTrue(timeline.OriginHolds(A), "an authored body has no origin to lose");
         }
 
         // ---------------------------------------------------------------- undo
@@ -615,9 +600,7 @@ namespace Chronomancers.Sim.Tests
             timeline.Claim(A, -1, T(140));
             timeline.Body(A).WriteSample(T(140)); // a claim always writes its inherited seed first
             timeline.EndSpan(A);
-            timeline.Void(B, -1, T(200));
-            timeline.Body(B).Extend(T(50));
-            timeline.EndSpan(B);
+            Kill(timeline, B, -1, 200, 50);
             Assert.AreNotEqual(before.Length, Snapshot(timeline).Length, "the layer really changed things");
 
             timeline.PopLayer(layer);
@@ -697,9 +680,7 @@ namespace Chronomancers.Sim.Tests
             timeline.Declare(spawned, 7);
             timeline.DeclareOrigin(spawned, A, T(320));
             Record(timeline, spawned, +1, new[] { 320, 360 }, raw => new P { X = raw, Hp = 1 });
-            timeline.Void(spawned, +1, T(361), causedBy: A, causedAt: T(360));
-            timeline.Body(spawned).Extend(T(400));
-            timeline.EndSpan(spawned);
+            Kill(timeline, spawned, +1, 360, 400);
 
             var saved = Snapshot(timeline);
 
@@ -718,11 +699,14 @@ namespace Chronomancers.Sim.Tests
             Assert.AreEqual(10, loaded.Body(A).Sample<P>(Pose, T(150)).A.Hp);
             Assert.AreEqual(5, loaded.Body(B).Sample<P>(Pose, T(150)).A.Hp);
 
-            // Origin and void cause survive, so causality is still checkable from the file alone.
+            // Origin survives, so it is still checkable from the file alone — and so does form, so a body
+            // that was out of the world stays out of it.
             Assert.AreEqual(A, loaded.Body(spawned).Origin);
             Assert.AreEqual(T(320), loaded.Body(spawned).OriginAt);
             Assert.IsFalse(loaded.Exists(spawned, T(380)));
-            Assert.IsTrue(loaded.CausalityHolds(spawned, T(380)));
+            Assert.AreEqual(Form.Latent, loaded.Body(spawned).FormAt(T(380)));
+            Assert.AreEqual(Form.Manifest, loaded.Body(spawned).FormAt(T(340)));
+            Assert.IsTrue(loaded.OriginHolds(spawned));
         }
 
         // ---------------------------------------------------------------- materialization
@@ -770,9 +754,7 @@ namespace Chronomancers.Sim.Tests
             Assert.AreEqual(2, live.Count);
 
             timeline.OpenLayer();
-            timeline.Void(B, -1, T(200));
-            timeline.Body(B).Extend(T(100));
-            timeline.EndSpan(B);
+            Kill(timeline, B, -1, 200, 100);
 
             timeline.CollectExisting(T(150), live);
             Assert.AreEqual(1, live.Count, "B must be released over the voided range");
@@ -857,14 +839,12 @@ namespace Chronomancers.Sim.Tests
 
             // The copy's origin is A at the machine, so "did A get there?" needs no separate record —
             // it is the origin check.
-            Assert.IsTrue(timeline.CausalityHolds(inverted, T(150)));
+            Assert.IsTrue(timeline.OriginHolds(inverted));
 
             timeline.OpenLayer();
-            timeline.Void(A, +1, T(150)); // A killed on its way to the machine in a later take
-            timeline.Body(A).Extend(T(400));
-            timeline.EndSpan(A);
+            Kill(timeline, A, +1, 149, 400); // A killed on its way to the machine in a later take
 
-            Assert.IsFalse(timeline.CausalityHolds(inverted, T(150)),
+            Assert.IsFalse(timeline.OriginHolds(inverted),
                 "A is gone by the flip, so the copy has no origin");
             Assert.IsTrue(timeline.Exists(inverted, T(150)),
                 "core reports it; reacting to it is the sim loop's job");
@@ -876,19 +856,19 @@ namespace Chronomancers.Sim.Tests
         }
 
         [Test]
-        public void InvertedKillVoidsOnlyTheTraversedRange()
+        public void InvertedKillCoversOnlyTheTraversedRange()
         {
-            // An inverted agent kills an enemy at 130 while travelling 200 -> 0. The void covers the
-            // range the agent goes on to traverse; the enemy's own forward history is untouched.
+            // An inverted agent kills an enemy at 130 while travelling 200 -> 0. The latent range covers
+            // what the agent goes on to traverse; the enemy's own forward history is untouched.
             var timeline = NewTimeline();
             Record(timeline, B, +1, new[] { 0, 100, 200, 300, 400 }, raw => new P { X = raw, Hp = 10 });
 
             timeline.OpenLayer();
-            timeline.Void(B, -1, T(129)); // 129, not 130: a body exists at the instant it is killed,
-            timeline.Body(B).Extend(T(0)); // so any event caused by it there still has its cause
-            timeline.EndSpan(B);
+            // Manifest at 130 and latent from 129 down: a body exists at the instant it is killed, so
+            // anything it caused there still has something to have caused it.
+            Kill(timeline, B, -1, 130, 0);
 
-            // Anything simulated inside the voided range sees no enemy, and must not fall back to
+            // Anything simulated inside the latent range sees no enemy, and must not fall back to
             // the older recording that still covers those instants.
             Assert.IsFalse(timeline.Exists(B, T(0)));
             Assert.IsFalse(timeline.Exists(B, T(80)));
@@ -941,61 +921,44 @@ namespace Chronomancers.Sim.Tests
         }
 
         [Test]
-        public void AbsorbedProjectileIsRetiredOnTheNextForwardPass()
+        public void CatchingAnInvertedBulletTruncatesItAwayFromTheMuzzle()
         {
-            // A bullet fired at 100 and recorded flying to 160 is absorbed by an inverted character
-            // at 150, while the cursor descends.
+            // A bullet fired at 100 and recorded flying to 160 is caught at 150 by a character moving
+            // the other way.
             //
-            // Neither side may be written during that take. Behind the cursor is forbidden outright;
-            // voiding the low side is equally wrong, because it would erase the muzzle end and leave
-            // the bullet apparently emitted by the character. A projectile's span must always have
-            // its muzzle at one end — Min for a forward shot, Max for an inverted one.
+            // This used to need a whole mechanism. The bullet was claimed for one sample to stamp an
+            // "absorbed" flag, and a later forward pass read that flag and retired the tail — because
+            // truncating the low side would have erased the muzzle, and rule 8 insisted a projectile's
+            // span keep its muzzle at one end.
             //
-            // So the backward take records only the collision and leaves the bullet whole. The tail
-            // is retired on the next forward pass, when the cursor crosses 150 travelling in the
-            // direction the consequence actually points.
-            const int flagChannel = 3;
-            var inverted = new SimId(0x11);
-
+            // It does not any more. Origin is read forwards, so an inverted shot read forwards is a
+            // bullet leaving a wall and flying *into* a gun: the muzzle is where it ends, and a span
+            // stopping short of it is simply a bullet somebody caught. The catch is an ordinary claim
+            // that truncates the tail, with nothing carried in between.
             var timeline = NewTimeline();
-            timeline.Registry.Register<Flag>(flagChannel);
+            Record(timeline, A, +1, new[] { 0, 400 }, raw => new P { X = raw, Hp = 3 }); // the gun
             timeline.Declare(B, 4);
+            timeline.DeclareOrigin(B, A, T(100));
             Record(timeline, B, +1, new[] { 100, 120, 140, 160 }, raw => new P { X = raw, Hp = 1 });
-            Record(timeline, inverted, -1, new[] { 200, 150, 100 }, raw => new P { X = raw, Hp = 10 });
 
-            // The backward take claims the bullet just long enough to record that it was absorbed —
-            // one sample, at the instant of contact. No event entity: the flag is ordinary recorded
-            // state, so overwriting that span retires the flag with it, for free.
+            Assert.IsTrue(timeline.Exists(B, T(160)), "the whole recorded flight, before anyone interferes");
+
+            // Contact claims the bullet at 150 and it goes out of the world one step later. No flag, no
+            // deferred pass: the claim outranks the old span from 150 on (rule 6).
             var layer = timeline.OpenLayer();
-            timeline.Claim(B, -1, T(150));
-            var body = timeline.Body(B);
-            var pose = body.Channel<P>(Pose);
-            var flags = body.Channel<Flag>(flagChannel);
-            var index = body.WriteSample(T(150));
-            pose.Set(index, new P { X = 150, Hp = 1 });
-            flags.Set(index, new Flag { Absorbed = 1 });
-            timeline.EndSpan(B);
-
-            Assert.IsTrue(timeline.Exists(B, T(100)), "muzzle end intact through the backward take");
-            Assert.IsTrue(timeline.Exists(B, T(160)), "tail not retired yet");
-            Assert.AreEqual(1, body.Sample<Flag>(flagChannel, T(150)).Snap.Absorbed);
-
-            // A later forward pass samples the flag at 150 and retires the tail as the cursor moves.
-            // The guard against doing it twice is just whether the bullet still exists past the hit,
-            // so the operation is idempotent and needs no once-only delivery.
-            Assert.IsTrue(timeline.Exists(B, T(151)), "not retired yet, so the retirement must run");
-            timeline.OpenLayer();
-            timeline.Void(B, +1, T(151), causedBy: inverted, causedAt: T(150));
-            foreach (var raw in new[] { 155, 158, 160 }) timeline.Body(B).Extend(T(raw));
-            timeline.EndSpan(B);
+            Kill(timeline, B, +1, 150, 160, new P { X = 150, Hp = 1 });
 
             Assert.IsTrue(timeline.Exists(B, T(100)), "still fired from its muzzle");
-            Assert.IsTrue(timeline.Exists(B, T(150)), "and exists where it was absorbed");
+            Assert.IsTrue(timeline.Exists(B, T(150)), "and present where it was caught");
             Assert.IsFalse(timeline.Exists(B, T(151)), "but travels no further");
             Assert.IsFalse(timeline.Exists(B, T(160)));
-            Assert.IsTrue(timeline.CausalityHolds(B, T(155)), "retired by a body that is still there");
 
-            // Undoing the collision restores the original flight whole, muzzle to wall.
+            // The muzzle end is untouched, which is all rule 8 ever needed: the bullet may not grow back
+            // across its origin, but it may certainly stop short of the far end.
+            Assert.IsFalse(timeline.Body(B).AtFrontier(T(99), -1),
+                "below the muzzle it was latent, and recording there would manifest it uncaused");
+
+            // Undoing the catch restores the original flight whole, muzzle to wall.
             timeline.PopLayer(layer);
             Assert.IsTrue(timeline.Exists(B, T(100)));
             Assert.IsTrue(timeline.Exists(B, T(160)));
@@ -1004,11 +967,6 @@ namespace Chronomancers.Sim.Tests
         struct DoorState
         {
             public int Open;
-        }
-
-        struct Flag
-        {
-            public byte Absorbed;
         }
 
         [Test]
@@ -1071,7 +1029,7 @@ namespace Chronomancers.Sim.Tests
             Assert.AreEqual(200f, xBody.Sample<P>(Pose, T(200)).A.X, 1e-6f, "original run intact above it");
             Assert.IsTrue(timeline.Exists(A, T(50)), "X is inert, not destroyed");
             Assert.IsTrue(timeline.Exists(A, T(300)), "and still exists for the whole loop");
-            Assert.IsTrue(timeline.CausalityHolds(inverted, T(150)),
+            Assert.IsTrue(timeline.OriginHolds(inverted),
                 "X still reaches the machine, so the copy still has an origin");
 
             // X remains a character and so remains a switch target: the player can take it over and
@@ -1082,7 +1040,7 @@ namespace Chronomancers.Sim.Tests
 
             Assert.AreEqual(400f, xBody.Sample<P>(Pose, T(200)).A.X, 1e-6f, "re-recorded run");
             Assert.AreEqual(-1f, xBody.Sample<P>(Pose, T(50)).A.X, 1e-6f, "below the takeover, unchanged");
-            Assert.IsTrue(timeline.CausalityHolds(inverted, T(150)));
+            Assert.IsTrue(timeline.OriginHolds(inverted));
 
             // And the whole machine episode still undoes in one step.
             timeline.PopLayer(layer);
@@ -1199,9 +1157,7 @@ namespace Chronomancers.Sim.Tests
             timeline.OpenLayer();
             Record(timeline, A, -1, new[] { 260, 180, 120 }, raw => new P { X = -raw, Hp = 1 });
             timeline.OpenLayer();
-            timeline.Void(A, -1, T(60));
-            timeline.Body(A).Extend(T(20));
-            timeline.EndSpan(A);
+            Kill(timeline, A, -1, 60, 20);
 
             var body = timeline.Body(A);
             var ascending = new Dictionary<int, string>();
