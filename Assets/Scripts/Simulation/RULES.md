@@ -1,21 +1,38 @@
 # Rules of time travel
 
-The mechanics of `GAME.md`, stated as invariants. Every example uses a loop of 0–400 (in
-`LoopTime` raw units; the real loop is ~60 s = 600000).
+The mechanics of `GAME.md`, stated as invariants. Every example uses a loop of 0–400 ticks; the real
+loop is ~60 s, so ~3000.
 
-Vocabulary: **loop time** is the position on the timeline being recorded — the only time coordinate
-that exists. **Real time** is frames going past. A **body** is anything simulated. A **span** is one
-continuous recording pass over one body. A body is **recording** (claimed, live-simulated) or
-**playing back** (sampled from history).
+Vocabulary: a **tick** is the one time coordinate — an int, possibly negative, 50 to the second. A
+**body** is anything simulated. A body is **recording** (claimed, live-simulated) or **playing back**
+(read from what was recorded). A **take** is one stretch of the world being re-run under one claim;
+every recording belongs to one, and a body keeps a **layer** per take it recorded in.
+
+**Rules 0–6 and 12 are built and describe the code. Rules 7–11 and the turnstile are design** —
+nothing in the project does any of it yet, and their vocabulary still needs bringing into line as each
+one lands.
+
+What exists, and where the rules live in it:
+
+| | |
+|---|---|
+| `Core/History<T>` | one thing's recording within one take: a state per tick, growable both ways |
+| `Core/Layers<T>` | that recording as a layer per take, and which layer answers for a tick |
+| `Core/Takes` | the stack of takes and the undo cursor into it |
+| `Core/SimStep` | what a component is told about a step |
+| `Runtime/Sim` | the cursor, the stepping loop, undo and redo |
+| `Runtime/SimBody` | record-or-replay, and which take a tick is written under |
+| `Runtime/SimComponent<T>` | one recordable aspect of a body |
+| `Runtime/SimRigidbody` | position and rotation; the only component that touches physics |
+| `Runtime/SimCharacter` | intent, and the rate the cursor runs at |
+| `Runtime/Controls` | the keyboard |
 
 ---
 
 ## 0. Why any of this works: entropy, not prohibition
 
 **The laws of physics are time-symmetric.** Reverse a trajectory and nothing breaks: `x(-t)` obeys the
-same equations `x(t)` did. Under reversal, *odd* quantities flip sign (velocity, momentum, current) and
-*even* ones do not (position, mass, acceleration, HP). Gravity needs no handling at all — a reversed
-parabola is the same parabola.
+same equations `x(t)` did. Gravity needs no handling at all — a reversed parabola is the same parabola.
 
 **What is not symmetric is likelihood.** Gas fills a box because spread-out states are overwhelmingly
 more numerous, not because a law forbids the reverse. A bullet leaving a wall and flying into a muzzle
@@ -39,106 +56,167 @@ Three consequences run through everything:
   stop being backwards-running. It does: it diverges, is claimed, and records in the cursor's direction
   like anything else (rule 10).
 
-Time direction is a property of a *span*, not of a body — of which pass laid it down. Since there is one
+Time direction is a property of a *take*, not of a body — of which pass laid it down. Since there is one
 cursor (rule 1), two bodies are never simulated in opposite directions at once; "inverted" always means a
 recording being played against live bodies. That is why conservation inside the live set is automatic,
 and why every remaining problem in this document lives at the playback/live boundary.
 
 ## 1. There is exactly one cursor
 
-Every body — recording or playing back — sits at the same loop time. There are no per-body clocks.
+Every body — recording or playing back — sits on the same tick. There are no per-body clocks.
 
-This is what makes interactions reproducible: they always happen between bodies at equal loop time, so
+This is what makes interactions reproducible: they always happen between bodies on the same tick, so
 replaying the timeline reproduces them by construction.
 
 ## 2. Rate comes from the watched character
 
-The cursor advances by `rate × dt` each physics step, where `rate` is the *watched* character's signed
-timescale. The watched character need not be the recording one. Rate `0` freezes the timeline, and **a
-frozen cursor records nothing**: no loop time passed, so there is nothing new to describe.
+`Rate` is ticks of loop time per second of real time, signed, and it comes from the character being
+watched. `1` is ordinary, `-1` runs the loop backwards, `0` freezes it, and **a frozen cursor records
+nothing** — no loop time passed, so there is nothing new to describe. That is the whole of "time moves
+when you move": a character with the superhot rule set drops to `idleRate` when the player is not
+acting, and the world crawls with them.
 
-`rate` is also the conversion factor between the two time coordinates, which is what makes rule 5 work.
+The player's scrub folds in on top rather than replacing it. Scrubbing *with* a character adds to what
+they were doing; scrubbing *against* them contributes their own rate nothing at all, because they are
+not acting — their recording is playing:
 
-> **Bullet time is free.** A character at rate `0.2` takes five physics steps per unit of loop time that
-> a rate-`1.0` character covers in one. Watched, it looks normal and the world crawls. Watched from
-> someone else, its samples are five times denser, so it replays five times faster at full fidelity.
-> Nobody wrote any code for that.
+```
+own  = scrubbing against ? 0 : OwnRate
+Rate = (own + scrub * |rate|) * (fast-forward ? 4 : 1)
+```
 
-`|rate| > 1` costs history resolution, not correctness — a recording body covers more loop time per
-physics step, so its samples land further apart. Physics always steps exactly once per frame; **rate is
-never a physics property.** `Time.timeScale` and `fixedDeltaTime` are never touched.
+Scaling the scrub by the character's own rate rather than making it an absolute number of ticks means
+one notch is always "one more character's worth of speed", whoever you are.
+
+**The cursor is two numbers.** `SimulatedTick` is the last tick actually simulated; `TargetTick` is
+where the cursor wants to be, and moves by a fraction of a tick per frame. Each frame we step one tick
+at a time until they are within one of each other — so a rate above 1 takes several steps in one frame,
+and a rate below 1 takes none for a while.
+
+That is why physics is driven from `Update` with `Physics2D.Simulate` called by hand, rather than from
+`FixedUpdate`: Unity's clock will not run several fixed steps on request. `fixedDeltaTime` is set once
+to match the tick and `simulationMode` is `Script`. **Rate is never a physics property** — a step is
+always exactly one tick of exactly `SecondsPerTick`, whatever the cursor is doing.
+
+A consequence worth remembering: **no physics runs between steps**, which is what makes it safe to move
+transforms about for drawing.
+
+> **Bullet time costs input resolution, not correctness.** Input is read once a frame, so a
+> fast-forwarding character reads the same keys for every step inside that frame. The player really did
+> hold one key for that whole frame, so the recording is honest — it is just coarser than acting at
+> rate 1.
 
 ## 3. Nothing is ever written behind the cursor
 
-**The master rule.** Every span grows in the cursor's direction, one sample per physics step, keyed by
-the loop time that step landed on. Nothing is ever written into loop time the cursor has already left,
-and no span is ever created whole.
+**The master rule.** A recording grows in the cursor's direction, one state per tick, keyed by the tick
+the step landed on. Nothing is ever written into a tick the cursor has already left, and no recording
+is ever created whole.
 
 Most of the other rules are consequences of this one.
 
-## 4. Playback is the default; recording happens only at the frontier
+## 4. Playback is the default; recording happens only where nothing answers
 
-Moving through loop time a body already has history for is pure playback — no physics for that body. A
-body records only when something claims it (rule 10), and the commonest trigger is having no history in
-the direction of travel: the **frontier**.
+Moving through ticks a body already has a recording for is playback: the state is put back on the body
+and the solver sweeps it there. A body records only when something claims it (rule 10), or when nothing
+in force answers for the tick — the **frontier**.
 
-The frontier is per body, not global. The first take establishes history for every body across the whole
-loop, most of them recording NOOP, so afterwards the cursor almost never leaves known territory: **rewind
-is pure playback and needs no physics at all.** This is also what makes direction changes cheap — flipping
-to backwards does *not* re-record everything as inert, because everything with history below the flip
-point simply plays back.
+The frontier is per body, not global. The first pass establishes a recording for every body across the
+whole loop, most of them standing still, so afterwards the cursor almost never leaves known territory
+and **rewind is pure playback**.
 
-> A crate is claimed at 290 and shoved across the floor, recording its slide over `[290,300]`. Rewinding
-> below 290 invents nothing — the crate's *older* span still covers that range, showing it standing where
-> it always stood. The new span begins at 290 with an inherited sample (rule 5), so the slide starts
-> exactly where the crate was sitting, caused by the shove.
+Playback still runs physics. A replaying body is **kinematic** and aimed with `MovePosition`, so the
+step sweeps it to its recorded pose rather than teleporting it, and it still shoves live bodies out of
+the way on the journey. A recording body is **dynamic** and the solver moves it; whatever it does is
+the recording. Nobody writes collision response. That switch, in `SimRigidbody`, is the entire
+difference between the two modes.
+
+> A crate is claimed at 290 and shoved across the floor, recording its slide over `[290,300]`.
+> Rewinding below 290 invents nothing — the crate's *older* recording still covers that range, showing
+> it standing where it always stood.
 >
-> Without that older history the question has no good answer. Simulating a moving body while the cursor
-> descends writes decreasing loop times, which reads forward as the crate sliding *back* into a shove
-> that has not happened yet; freezing it reads as an uncaused stop. The first take is what makes the case
-> unreachable.
+> Without that older recording the question has no good answer. Simulating a moving body while the
+> cursor descends writes decreasing ticks, which reads forward as the crate sliding *back* into a shove
+> that has not happened yet; freezing it reads as an uncaused stop. The first pass is what makes the
+> case unreachable — and where it is reachable anyway, off the ends of recorded time, the body does
+> record backwards. That is the one known hole in "seeking never records".
 
-## 5. A claim inherits its first sample, in loop-time units
+## 5. Velocity is worked out, never recorded
 
-When a body is claimed, the live body is seeded from whatever playback was already showing, and that seed
-is written as the new span's first sample. So old and new authority **agree exactly at the instant they
-meet**. Re-recording can never teleport a body; seam-freedom is structural, not policed.
+A body's recording is its **pose**: position and rotation, absolute, one per tick. No velocity, no
+momentum, no derivatives with respect to anything.
 
-> X is recorded walking through a doorway at 100. An inverted copy shuts that door, so X's position at
-> 100 is now inside it. X is claimed at 100 and re-records backwards, getting pushed aside. At exactly
-> 100 X is where it always was; below 100 it diverges; above 100 the original run stands.
+When a body is claimed, its velocity is differenced from the last two poses it was replaying:
 
-**Every channel is stored as a derivative with respect to loop time, never real time.** A velocity sample
-means `dx/dτ`, so seeding a rigidbody is `velocity = rate × sample` and reading one back is
-`sample = velocity / rate`. Under a negative rate that negates automatically — rule 0's "reversal flips
-the odd quantities", for free, with no flip logic anywhere.
+```
+last       = the tick the cursor came from
+beforeLast = last - dir            // the tick before that, in recording order
+velocity   = (pose[last] - pose[beforeLast]) / SecondsPerTick
+```
 
-Getting this wrong is an impulse from nowhere at every direction change, so keep the split explicit.
-**Odd, must flip:** linear and angular velocity, momentum, animation playback rate, particle velocities,
-conveyor and fan and current directions, audio playback direction. **Even, must not:** position,
-orientation, mass, HP, acceleration, form. HP being even is why a backwards character *heals* as it walks
-toward the shooter, which is the correct reading.
+Under a descending cursor "before" is the numerically *larger* tick, so the same subtraction yields the
+negated velocity with nobody asking it to. **That is the whole of reversal.** The odd/even taxonomy —
+which quantities flip sign under time reversal and which do not — is a fact about physics this design
+never has to encode, because it stores none of the odd ones.
 
-## 6. Where two spans overlap, the later recording wins
+The seed is a one-tick average rather than an instantaneous velocity, so a body under gravity is off by
+about `g·dt/2` at the moment of a claim. That is the price of not storing velocity, and it is below
+noticing.
 
-Each span carries a monotonically increasing `Seq`; lookup takes the highest `Seq` covering an instant.
-That covers overwriting a previous take and re-recording the same stretch twice in one take.
+A claim inherits the pose it was already showing, so **re-recording can never teleport a body**.
+Seam-freedom at the near end is structural, not policed.
 
-**Interpolation never crosses a span boundary**, so boundaries are the only true discontinuities in the
+## 6. The newest take in force wins
+
+A recording is never overwritten. It is written into a layer belonging to the take that made it, on top
+of whatever was there. Reading a tick means walking down from the newest take in force and taking the
+first layer that wrote it. That is what makes undo cost nothing to store (rule 12), and it is why
+re-recording the same stretch a dozen times costs a dozen layers rather than losing eleven recordings.
+
+**A take goes out of force from a tick on when the same body is claimed again from at or before that
+tick.** Re-recording a character supersedes what they did before — and everything that takeover
+cascaded recorded into the same take, so a crate it shoved goes with it and stops replaying a shove
+that no longer happens. Takes belonging to *other* claimants are untouched, which is what lets the
+characters you are not re-recording go on performing.
+
+This is worked out from the take stack rather than stored on it. A voided-from tick kept as a field
+would outlive the undo of the take that set it, and leave a performance deleted by the very thing that
+was just taken back.
+
+**Which take a recording is written under** is two cases. A claim records under the take it opened. A
+body that records because nothing answers records under the live take *if a take is running* — which is
+what puts a shoved crate in the take that shoved it — and otherwise grows whichever take answered for
+the tick it came from, which is what keeps a recording one unbroken stretch when the cursor wanders off
+the end of everything.
+
+**Interpolation never crosses a take boundary**, so boundaries are the only true discontinuities in the
 game — and a discontinuity is impossible read in *either* direction, unlike a steep continuous ramp,
 which is merely improbable in one (rule 0). Two consequences:
 
-**A state change must happen inside a span, never on its boundary.** One recording step is enough;
-nothing needs animating, since the world is only ever observed at sample resolution. This is the whole
+**A state change must happen inside a take, never on its boundary.** One recorded tick is enough;
+nothing needs animating, since the world is only ever observed at tick resolution. This is the whole
 difference between a corpse reassembling and a corpse blinking into existence.
 
-**Both ends of a span must be accounted for.** Rule 5 handles the near end by inheriting. The far end —
-where a re-recorded span stops and an older one resumes underneath — inherits nothing and cannot:
-inheriting at both ends would make re-recording a two-point boundary value problem instead of an initial
-value problem, which is the entire thing recording-based time travel exists to avoid. So the far end is
-repaired rather than prevented — a body whose channels jump with no cause is exactly what rule 10 looks
-for, so crossing such a seam claims the body and it re-simulates from there. That costs the player a
-performance, but it is never a silent violation.
+**Both ends of a recording must be accounted for.** Rule 5 handles the near end by inheriting. The far
+end — where a re-recorded stretch stops and an older one resumes underneath — inherits nothing and
+cannot: inheriting at both ends would make re-recording a two-point boundary value problem instead of
+an initial value problem, which is the entire thing recording-based time travel exists to avoid. So the
+far end is repaired rather than prevented — a body whose state jumps with no cause is exactly what rule
+10 looks for, so crossing such a seam claims the body and it re-simulates from there. That costs the
+player a performance, but it is never a silent violation.
+
+## 6b. Drawing
+
+Not a rule about time, but it constrains one. The display runs **one tick stale**, interpolating across
+the last step taken: from the tick the cursor left, to the tick it is on. Both are certainly simulated,
+so there is no frontier case, no missing future state and no fallback, and a recording body is drawn
+exactly like a playback one.
+
+The price is 20 ms of lag on everything including your own character, and a bounded sub-tick wobble
+when the cursor reverses, because the pair being interpolated only swaps once the next step happens.
+
+This is why `SimRigidbody` draws to a separate `view` transform rather than the rigidbody's own: a
+recording body's drawn pose is *behind* its solver pose, and writing that back would feed a stale
+position into the next step.
 
 ## 7. Matter is conserved; absence is a state, not a nonexistence
 
@@ -345,26 +423,41 @@ Anything genuinely random — particle seeds, procedural noise, AI tiebreaks —
 molecular detail rule 0 refused to model, so it must be recorded or deterministically seeded. That is not
 an engineering nicety; it is the thing carrying the entropy argument.
 
-## 12. Undo is a layer, and only a takeover opens one
+## 12. Undo is a take, and only a takeover opens one
 
 **Taking control of a character is the only undoable action**, because it is the only one that *erases*
-anything: that character's performance from the previous loop is superseded from the takeover point
-onward, and rewinding cannot bring it back — rewinding only moves the cursor. Push the wrong crate and you
-rewind; going forward again re-records over it. That is destructive too, but incrementally and visibly, so
-it needs no separate mechanism.
+anything: that character's performance is superseded from the takeover point onward (rule 6), and
+rewinding cannot bring it back — rewinding only moves the cursor. Push the wrong crate and you rewind;
+going forward again re-records over it. That is destructive too, but incrementally and visibly, so it
+needs no separate mechanism.
 
-So: one layer per takeover, holding every claim and divergence that takeover cascaded. Popping it
-truncates all of them at once and restores the prior history byte-for-byte. Layers pop LIFO, so a layer's
-spans are always a suffix of the recording order — undo is a truncation, not a rewrite, which is why the
-whole undo stack is affordable rather than the two copies originally planned.
+So: one take per takeover, holding every claim and cascade that takeover caused. **Undo moves no data.**
+The recording is still sitting in its layers; `Live` — how far up the stack is in force — is the only
+thing that changes, and everything underneath becomes visible again on its own.
 
-Rewinding and replaying within one layer leaves superseded spans in place, outranked by `Seq`. Correct,
-but it accumulates; if it ever matters, a compaction pass can drop any span wholly covered by a
-higher-`Seq` span in the same layer.
+That is why the whole undo stack is affordable rather than the two copies originally planned, and it is
+why nothing needs restoring. Both directions are one integer:
 
-`Seq` is deliberately *not* rewound: a later re-recording must never reuse a retired span's `Seq`, or a
-stale event could resurrect by matching it.
+| | |
+|---|---|
+| **Undo** | wind the cursor back to where the take opened, *then* put it out of force |
+| **Redo** | put it back in force, *then* wind forward to where it ended |
 
+The order is opposite on purpose. The recording being wound through has to be in force for the wind to
+show anything — undo the other way round and the bodies sit frozen while the cursor slides backwards.
+
+**A wind is not a performance.** Nothing is claimed while one runs, nothing records, and input is
+ignored, so it cannot write over the very stretch it is winding through. After either, the player is
+watching rather than driving, and acting opens a new take — which is exactly where the redo branch
+should die, and does: opening a take drops every undone take above it, and that is the only place a
+recording is ever actually thrown away.
+
+Rewinding and re-recording within one take leaves superseded ticks in place, outranked by the newer
+layer. Correct, but it accumulates; if it ever matters, a compaction pass can drop any layer wholly
+covered by a newer one in force.
+
+Take numbers are indices into the stack, so they are reused after an undone branch is dropped. That is
+safe only because the layers filed under those numbers are dropped at the same moment.
 ---
 
 ## Worked example: the turnstile

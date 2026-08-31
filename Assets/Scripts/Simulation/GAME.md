@@ -74,21 +74,31 @@ re-recording. There is a full reset too, for states nobody can undo their way ou
 
 ## Architectural considerations
 
-Objects recorded at different timescales have different sample density, so history needs a structure with
-fast lookup of state at a given loop time. Interpolation between samples must never cross a recording
-boundary — those joins are real discontinuities.
+There is one time coordinate — the **tick**, an int, 50 to the second — and everything records one state
+per tick. That is what removes the sample-density problem: nothing needs a search, a lookup is an array
+index, and interpolation is between two adjacent ticks. A character in bullet time does not sample
+faster; the world moves slower around them.
 
-Undo is a stack of layers, not a pair of history copies. Each takeover opens a layer holding everything
-that takeover cascaded; popping it truncates all of them at once, which is cheap enough that the whole
-undo stack is affordable rather than just current + prev.
+Interpolation must never cross a recording boundary — those joins are real discontinuities.
+
+Undo is a stack of takes, not a pair of history copies. Each takeover opens a take, and every recording
+made under it goes into a layer of its own rather than overwriting what was there. So undo moves no
+data: how far up the stack is in force is the only thing that changes, and the layer underneath becomes
+visible again by itself. That is cheap enough that the whole undo stack is affordable rather than just
+current + prev.
 
 Every gameplay-relevant piece of state has to live in the timeline rather than in a MonoBehaviour field —
 animator state, cooldowns, AI target, ammo, door state, form, and the set of things currently touching an
 object. Anything genuinely random has to be recorded or deterministically seeded; randomness is standing
 in for the molecular detail we refused to model, and it's exactly the part that makes reversal fragile.
 
+Velocity is the exception, and deliberately: it is never recorded, only differenced from the last two
+recorded poses at the moment a body is claimed. Under a descending cursor that subtraction comes out
+negated on its own, which is the entire reversal mechanism — no code anywhere flips a sign.
+
 The whole history should be serializable to disk, and every object records its archetype so a save can be
-materialised from the file alone.
+materialised from the file alone. Bodies carry a stable id for the same reason, so the undo stack still
+means something after a round trip, and so a body pooled out and back in is the same character.
 
 Objects come and go from the scene for performance, including at their destruction time when running
 backwards, but that is instantiation only — the timeline itself never gains or loses anyone.

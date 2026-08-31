@@ -1,118 +1,76 @@
 # Controls
 
-Top-down, Hotline Miami handling. Everything below is read straight from the keyboard and mouse by
-`PlayerIntentSource`, so the playtest scene needs no input wiring.
+Top-down, Hotline Miami handling. Read straight off the project-wide input actions asset by
+`Controls`, which is static and pollable at any moment — input updates once at the top of the frame,
+so nothing needs an execution order.
 
-Build the scene with **Chronomancers > Build Playtest Scene**, then press play.
+Actions used: `Move`, `Attack`, `Interact`, `Seek`, `FastForward`, `Undo`, `Redo`. All but `Seek`,
+`FastForward`, `Undo` and `Redo` come with the default asset.
 
 ## Acting
 
 | Input | Does |
 |---|---|
-| `W` `A` `S` `D` (or arrows) | Move, both axes. There is no jump. |
-| Mouse | Aim. Independent of movement — you can walk one way and cover another. |
-| Left mouse, or `J` | Fire |
-| `E` (or `K`) | Interact: open or shut a door, use the reversal machine |
+| `W` `A` `S` `D` | Move, both axes. There is no jump. |
+| Left mouse | Fire — bound, but nothing fires yet |
+| `E` | Interact — bound, but nothing interacts yet |
 
 Only the character you **control** acts. Everything else that is recording is *inert*: no intent, but
 still physics. It keeps its momentum, gets pushed, and can still be shot.
+
+Movement sets velocity outright rather than accelerating toward it, so there is **no inertia** — let go
+and you stop that tick. Being shoved still works, because it comes out of contact resolution during
+the step rather than out of momentum carried between steps: a body leaning on you displaces you, it
+just cannot send you flying.
 
 ## Moving through the loop
 
 | Input | Does |
 |---|---|
-| `1`–`9` | Take control of that character. **This is the only undoable action.** |
-| `Tab` | Watch the next character without taking control |
-| `Space` | Pause. A frozen cursor records nothing at all. |
-| `R` (hold) | Run loop time *against* the way the watched character experiences it |
-| `Left Shift` (hold) | Move through loop time faster, whichever way it is going |
-| `Ctrl+Z` | Undo the last takeover, and everything it cascaded |
-| `F5` / `F9` | Save / load the timeline |
+| `←` `→` | Seek: run loop time against or with the way the watched character experiences it |
+| `Shift` (hold) | Move through loop time faster, whichever way it is going |
+| `Z` | Undo the last takeover |
+| `Shift+Z` | Redo it |
 
-**Watching is free; controlling is not.** Watching only changes the cursor's rate, which is why `Tab`
-costs nothing. Taking control re-records that character from this instant onward, which erases what
-they did in the previous take — so it is the one action that opens an undo layer.
+**Watching is free; controlling is not.** Taking control re-records that character from this instant
+onward, superseding what they did in the previous take — so it is the one action that opens a take,
+and the one thing undo has to undo.
 
-**Moving takes control.** You do not have to press a number key to resume acting. Pressing a movement,
-fire or interact key claims the character you already control, which matters after a rewind: reversing
-closes every open span, so the body you were driving goes back to being played back and ignores input
-until you take it again. Aim alone does not count — a mouse always has a position, so if it did, the
-world could never stand still.
+**Moving takes control.** You do not press anything special to resume acting. A movement, fire or
+interact key claims the character you already control, which matters after seeking backwards: that
+drops the claim, so the body goes back to being played back and ignores input until you take it again.
+Aim alone does not count — a mouse always has a position, so if it did, the world could never stand
+still.
 
-**`R` is relative, not absolute.** It negates the watched character's own rate rather than forcing the
-cursor backwards. Watching an ordinary character it rewinds; watching an inverted copy, whose rate is
-already negative, it runs the loop *forwards* again. `Left Shift` only scales magnitude, so it speeds
-up a backward cursor instead of flipping it.
+**Seek is signed and relative, not absolute.** It is a 1D axis: negative winds the loop back, positive
+winds it on. It is read against the watched character's own direction rather than the world's, so for
+a character the reversal machine has turned round, it is seeking *forwards* that fights them. Releasing
+it returns the cursor to that character's own rate.
 
-**Rate comes from whoever you are watching, not whoever you control.** Bob's rate is `0.35`, so
-watching Bob makes the whole world crawl while he moves normally; watching Alice puts it back to
-`1.0`. Nothing about that is special-cased — it is one field on one component.
+Seeking against a character drops its claim, and their own rate stops contributing — they are not
+acting, their recording is playing, so the cursor runs at the scrub speed alone. Seeking *with* them
+they are still acting, so the scrub adds on top: an ordinary character at rate 1 seeks forward at 2.
+
+**Rate comes from whoever you are watching, not whoever you control.** A character whose `rate` is
+`0.35` makes the whole world crawl while they move normally. Nothing about that is special-cased — it
+is one field on one component.
 
 ## Superhot mode — time moves when you move
 
-Per character, on `SimRate`. Off by default so it does not change the baseline feel.
+Per character, on `SimCharacter`. Off by default so it does not change the baseline feel.
 
 | Field | Meaning |
 |---|---|
 | `timeMovesWhenYouMove` | Enable it |
-| `rate` | Rate while acting, as usual |
-| `idleRate` | Rate while standing still. Signed off `rate`, so an inverted character still creeps backwards. |
-| `activeHoldSeconds` | How long after a keypress you still count as moving. Smooths the stop-start. |
+| `rate` | Ticks of loop time per second while acting. Negative for a character who experiences the loop backwards. |
+| `idleRate` | Magnitude of the rate while standing still. Takes its sign from `rate`, so an inverted character still creeps backwards rather than turning round. |
 
-It applies only while you are **both driving and watching** that character. Watching someone else must
-not freeze the world because *you* are standing still — a body on playback is always moving in the only
-sense that matters, in that its recording is running.
+Idleness is read live off the controls, so it only tells the truth for the character being driven. The
+moment you can watch someone other than yourself, it has to come out of the recording instead — which
+is the first thing that will make `SimCharacter` record anything.
 
-`idleRate = 0` is legal and freezes the cursor completely, but a frozen cursor records nothing at all
-(rule 2), so a motionless character accrues no history for anyone to replay later. A small non-zero
-value keeps the world creeping and history accumulating, which is why the default is `0.05`.
+## Not built yet
 
-## Reading the HUD
-
-Top line is the cursor: loop position in seconds, raw fixed-point units, the current rate, and the
-direction.
-
-Second line is the state: who you control, who you watch, how many bodies are live, how many are
-recording, how many exist in the timeline at all, the current `Seq`, and the undo depth.
-
-Below that is the **span strip**, one row per body. This is the real debugging tool — most things that
-can go wrong here are a span with the wrong range, direction or precedence, and none of those are
-visible by watching the game.
-
-| Colour | Means |
-|---|---|
-| Green bar | Recorded forwards |
-| Blue bar | Recorded backwards |
-| Red bar | Void — the body explicitly does not exist over that range |
-| Faint track | No span at all, which also means non-existent |
-| White line | The cursor |
-| Yellow name | That body is recording right now |
-
-Spans are drawn oldest-first, so a later recording paints over an earlier one — which is exactly the
-precedence rule, and means what you see is what a lookup would return.
-
-## Things worth trying
-
-- **Bullet time.** `Tab` to Bob and move. His samples are five times denser than Alice's, so when you
-  switch back and watch Alice, Bob replays fast at full fidelity.
-- **Shut a door on your own past.** Walk Alice through the doorway, rewind, take control of Bob, shut
-  the door with `E`, then go forward. Alice's recorded path now runs through a shut door, so she is
-  claimed and goes inert from that instant — watch her row in the strip gain a new span.
-- **Shove the crate and look away.** Push it, then `1`/`2` to another character. The crate keeps
-  sliding and keeps recording, because the slide is a consequence you caused.
-- **Kill the shooter after the shot.** Have one character fire, rewind, then kill them before they
-  fired. The bullet's origin no longer exists, so it is voided — it never appears at all.
-- **The turnstile.** Walk into the machine and press `E`. It emits an inverted copy, hands you
-  control, and time immediately runs backwards because the copy's rate is `-1`.
-- **Break the turnstile.** After using it, `Ctrl+Z` and re-record so that character never goes to the
-  machine. The copy has already played a whole backward pass, which is behind the cursor and cannot be
-  unwritten — so the ship goes up instead. That is the one paradox with no quiet repair.
-
-## Notes
-
-The cursor clamps at both ends of the loop rather than wrapping, so at the end of the loop nothing
-advances until you hold `R`.
-
-`logRepairs` on `SimRunner` is on by default and logs every claim and void with the reason it
-happened. A claim you did not expect is the main symptom of a rule going wrong, and it is invisible
-otherwise.
+`Tab` to watch another character, pause, save and load. Firing and interacting are bound but do
+nothing. Nothing yet reads `Attack` or `Interact` except the "is the player acting?" test that claims
+a character and drives the superhot rate.

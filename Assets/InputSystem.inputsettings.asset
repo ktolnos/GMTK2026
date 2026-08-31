@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: InputSystem.inputsettings
   m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.InputSettings
   m_SupportedDevices: []
-  m_UpdateMode: 2
+  m_UpdateMode: 1
   m_ScrollDeltaBehavior: 0
   m_MaxEventBytesPerUpdate: 5242880
   m_MaxQueuedEventsPerUpdate: 1000
@@ -32,6 +32,7 @@ MonoBehaviour:
   m_MultiTapDelayTime: 0.75
   m_DisableRedundantEventsMerging: 0
   m_ShortcutKeysConsumeInputs: 0
+  m_ShortcutKeysUseActionPriority: 0
   m_iOSSettings:
     m_MotionUsage:
       m_Enabled: 0
