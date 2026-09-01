@@ -6,7 +6,7 @@ namespace Chronomancers.Sim
     /// One thing's recording, kept as a layer per take.
     ///
     /// Recording a tick never overwrites what an earlier take put there; it writes into that take's
-    /// own layer, on top. So undo has nothing to restore -- putting a take out of force is enough
+    /// own layer, on top. So undo has nothing to restore -- taking a take off the stack is enough
     /// for the layer beneath to become visible again -- and re-recording the same stretch a dozen
     /// times costs a dozen layers.
     ///
@@ -17,6 +17,10 @@ namespace Chronomancers.Sim
         /// Index 0 is the layer for "no take", so a take number indexes this directly.
         readonly List<History<T>> layers = new List<History<T>> { null };
 
+        /// Whether this take wrote anything at all. A layer exists only once written to.
+        public bool Any(int take) =>
+            take > Takes.None && take < layers.Count && layers[take] != null;
+
         /// Whether this take wrote this tick.
         public bool Has(int take, int tick) =>
             take > Takes.None && take < layers.Count &&
@@ -25,14 +29,13 @@ namespace Chronomancers.Sim
         /// <summary>
         /// Which take's recording of this tick is the truth, or Takes.None if none of them is.
         ///
-        /// The newest layer in force that wrote the tick. Coming up empty is the signal to record
-        /// instead of replaying: either nothing ever recorded here, or everything that did has
-        /// been re-recorded over by its claimant since.
+        /// The newest layer on the stack that wrote the tick. Coming up empty means nothing ever recorded
+        /// here, and is the signal to record rather than replay.
         /// </summary>
-        public int Resolve(Takes takes, int tick)
+        public int Resolve(int live, int tick)
         {
-            for (int take = takes.Live; take > Takes.None; take--)
-                if (takes.InForce(take, tick) && Has(take, tick))
+            for (int take = live; take > Takes.None; take--)
+                if (Has(take, tick))
                     return take;
 
             return Takes.None;

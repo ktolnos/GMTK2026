@@ -53,7 +53,7 @@ namespace Chronomancers.Sim
         /// </summary>
         protected bool TryRead(int tick, out TState state)
         {
-            int take = layers.Resolve(Sim.I.Takes, tick);
+            int take = layers.Resolve(Sim.I.Takes.Live, tick);
 
             if (take == Takes.None)
             {
@@ -69,7 +69,7 @@ namespace Chronomancers.Sim
         {
             if (step.IsRecording) PrepareRecording(step);
 
-            // Takes.None while replaying means the cursor is seeking across ticks nothing in force
+            // Takes.None while replaying means the cursor is seeking across ticks nothing
             // has a recording of. There is nothing to apply and nothing to record, so we sit still.
             else if (step.Take != Takes.None) Replay(new SimReplay<TState>(step, layers.Read(step.Take, step.Tick)));
         }

@@ -15,7 +15,7 @@ namespace Chronomancers.Sim
     /// </summary>
     public static class Controls
     {
-        static InputAction move, attack, interact, seek, fastForward, undo, redo;
+        static InputAction move, attack, interact, seek, fastForward, undo, redo, next, previous;
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         static void Bind()
@@ -37,6 +37,8 @@ namespace Chronomancers.Sim
             fastForward = Find(actions, "FastForward");
             undo = Find(actions, "Undo");
             redo = Find(actions, "Redo");
+            next = Find(actions, "Next");
+            previous = Find(actions, "Previous");
         }
 
         /// Resolve once and complain once, rather than returning null and failing every frame from
@@ -96,5 +98,12 @@ namespace Chronomancers.Sim
         public static bool Undo => undo.WasPressedThisFrame();
 
         public static bool Redo => redo.WasPressedThisFrame();
+
+        /// <summary>
+        /// Step to the next character in the list, or the previous one. One-shot, not held.
+        /// </summary>
+        public static bool Next => next.WasPressedThisFrame();
+
+        public static bool Previous => previous.WasPressedThisFrame();
     }
 }

@@ -7,9 +7,8 @@ namespace Chronomancers.Sim
     /// cursor while they are the one being watched.
     ///
     /// A recording character that nobody is driving is <b>inert</b>: no intent, but still physics.
-    /// It keeps whatever momentum it had, gets shoved, and can be shot. That is the difference
-    /// between recording and being controlled, and it is why this touches nothing at all unless it
-    /// is both.
+    /// It gets shoved and it can be shot, it just does not act. That is the difference between
+    /// recording and being controlled.
     /// </summary>
     [RequireComponent(typeof(SimBody), typeof(Rigidbody2D))]
     public class SimCharacter : SimComponent<SimCharacter.State>
@@ -36,18 +35,24 @@ namespace Chronomancers.Sim
         [SerializeField] float idleRate = 0.05f;
 
         /// <summary>
-        /// Whether the player is driving this one. The slice has a single character, so this is
-        /// just a field; character switching will be the thing that moves it about.
+        /// Whether the player is driving this one.
         ///
         /// Distinct from SimBody.IsSimulated, which is whether history is being written. You
         /// control a character in order to claim it, and you go on controlling it after a backward
         /// seek has dropped the claim -- which is what lets a nudge of the stick take it back.
         /// </summary>
-        public bool IsControlled = true;
+        public bool IsControlled => CharacterSwitcher.I.Controlled == this;
 
         Rigidbody2D rb;
 
         void Awake() => rb = GetComponent<Rigidbody2D>();
+
+        void OnEnable() => CharacterSwitcher.I.Register(this);
+
+        void OnDisable()
+        {
+            if (CharacterSwitcher.I != null) CharacterSwitcher.I.Unregister(this);
+        }
 
         /// <summary>
         /// Loop time per second of real time this character asks for, before the player scrubs.
@@ -88,33 +93,49 @@ namespace Chronomancers.Sim
         /// </summary>
         void Update()
         {
-            // A seek is the cursor moving of its own accord -- an undo or a redo winding to the
+            // Only the character being driven runs any of this: the claim and the cursor's rate are
+            // decisions about the player rather than about a character, and there has to be exactly
+            // one of each per frame.
+            if (!IsControlled) return;
+
+            // A wind is the cursor moving of its own accord -- an undo or a redo travelling to the
             // far end of a take. It takes no input and claims nothing, or it would record over the
             // stretch it is winding through.
-            if (!IsControlled || Sim.I.IsWinding) return;
-
-            if (ScrubbingAgainst) Body.IsSimulated = false;
-            else if (Controls.IsActing && !Body.IsSimulated) Claim();
+            if (Sim.I.IsWinding) return;
+            
+            if (!ScrubbingAgainst && Controls.IsActing && !Body.IsSimulated) Claim();
 
             Sim.I.Rate = Rate;
         }
 
+        /// <summary>
+        /// Start writing history with this character.
+        /// </summary>
         void Claim()
         {
-            Sim.I.OpenTake(Body);
-
             // Which way this character lays history down. One the reversal machine has turned
             // round has a negative rate and records while the cursor descends.
             Body.RecordDir = rate < 0f ? -1 : 1;
             Body.IsSimulated = true;
         }
 
+        /// <summary>
+        /// What this character is trying to do this tick.
+        ///
+        /// Zero for anyone the player is not driving, which is the same statement as the driven
+        /// character with no keys held -- so a character you walk away from stops dead rather than
+        /// skating on. Consistent with there being no inertia anywhere else in the movement model,
+        /// and it costs them nothing: being shoved happens inside the step, not through momentum
+        /// carried between steps.
+        ///
+        /// This is where recorded intent goes when there is any to record.
+        /// </summary>
+        Vector2 Intent => IsControlled ? Controls.Move : Vector2.zero;
+
         /// Drive the body, before the solver runs.
         protected override void PrepareRecording(in SimStep step)
         {
-            if (!IsControlled) return;
-
-            rb.linearVelocity = Controls.Move * speed;
+            rb.linearVelocity = Intent * speed;
         }
 
         protected override void Replay(in SimReplay<State> replay) { }

@@ -18,11 +18,9 @@ namespace Chronomancers.Sim
         [SerializeField] string id = "";
 
         /// <summary>
-        /// What the take stack records as having been claimed.
+        /// Who this body is, for anything that has to name it across a round trip to disk.
         ///
-        /// A string rather than this component, so the undo stack means something after it has
-        /// been written to disk and read back, and so a body pooled out and back in is still the
-        /// same character rather than a new one whose earlier takes nothing supersedes.
+        /// Nothing at runtime reads it today.
         /// </summary>
         public string Id => id;
 
@@ -30,8 +28,8 @@ namespace Chronomancers.Sim
 
         void OnValidate()
         {
-            // Duplicating a GameObject copies the id with it, and two bodies claiming to be the
-            // same character would supersede each other's takes.
+            // Duplicating a GameObject copies the id with it, and two bodies answering to the same
+            // name would be indistinguishable once a recording is read back from disk.
             if (id.Length == 0 || IsIdTaken()) id = System.Guid.NewGuid().ToString("N");
         }
 
@@ -90,49 +88,59 @@ namespace Chronomancers.Sim
             if (Sim.I != null) Sim.I.Unregister(this);
         }
 
-        /// Which take answers for this tick, or Takes.None if nothing in force recorded it.
-        public int TakeAt(int tick) => layers.Resolve(Sim.I.Takes, tick);
+        /// Which take answers for this tick, or Takes.None if nothing ever recorded it.
+        public int TakeAt(int tick) => layers.Resolve(Sim.I.Takes.Live, tick);
 
-        /// Whether anything in force has a recording of this tick.
+        /// Whether anything has a recording of this tick.
         public bool HasState(int tick) => TakeAt(tick) != Takes.None;
+
+        /// <summary>
+        /// Whether recording this tick would need a take of its own.
+        ///
+        /// A layer is one unbroken stretch, so this body can go on writing into the live take only
+        /// where that leaves it unbroken: the tick has to be new to the layer, and next to what the
+        /// layer already holds. Everything else needs a fresh layer, which means a fresh take --
+        /// re-running ground this take already recorded, or coming back to recorded ground after
+        /// wandering off the end of it.
+        ///
+        /// Asked of every body before the step, because the take is shared: one body needing a new
+        /// one is enough, and the rest simply start fresh layers in it.
+        /// </summary>
+        public bool NeedsOwnTake(int tick, int dir)
+        {
+            // A wind writes nothing, and neither does a body reading back what it already did.
+            if (Sim.I.IsWinding) return false;
+            if (!IsSimulated && TakeAt(tick) != Takes.None) return false;
+
+            int live = Sim.I.Takes.Live;
+
+            // Already ours in this take: writing it again would overwrite inside one layer, which
+            // is the one thing a layer cannot survive.
+            if (layers.Has(live, tick)) return true;
+
+            // Not adjacent to what we have in this take, and we do have something: a hole.
+            return layers.Any(live) && !layers.Has(live, tick - dir);
+        }
 
         ///  Before the solver
         public void PrepareStep(int tick, int dir)
         {
             int read = TakeAt(tick);
-            bool claimed = IsSimulated && dir == RecordDir;
 
-            // Nothing in force recorded this tick, so the body has to be somewhere and records
-            // whichever way the cursor is going -- unless the cursor is only winding, in which case
-            // it is passing through rather than living through, and writes nothing.
-            bool recording = !Sim.I.IsWinding && (claimed || read == Takes.None);
+            // IsSimulated alone: Sim has already released anyone the cursor is travelling against,
+            // so a claim that survives to here agrees with the direction by construction.
+            //
+            // Nothing recorded this tick, so the body has to be somewhere and records whichever way
+            // the cursor is going -- unless the cursor is only winding, in which case it is passing
+            // through rather than living through, and writes nothing.
+            bool recording = !Sim.I.IsWinding && (IsSimulated || read == Takes.None);
 
-            step = new SimStep(tick, dir, recording, recording ? WriteTake(claimed, tick - dir) : read);
+            // Always the live take, whether this is a claim overwriting a recording or a body at
+            // the frontier inventing one. Everything simulated while a take runs belongs to it.
+            step = new SimStep(tick, dir, recording, recording ? Sim.I.Takes.Live : read);
 
             foreach (var part in parts)
                 part.PrepareStep(step);
-        }
-
-        /// <summary>
-        /// Which take to record this tick under.
-        ///
-        /// A take that is running owns everything simulated while it runs, claimed or not. That is
-        /// what makes a shoved crate belong to the take that shoved it: undo that take and the
-        /// crate loses the shove, because the recording of it went away with the take.
-        ///
-        /// With nothing running the cursor is only wandering -- off the front of the first pass, or
-        /// past the end of what anyone recorded -- and there is no take that can be said to have
-        /// caused what happens. Growing whatever answered for the tick we came from keeps that
-        /// recording one unbroken stretch, which is the only thing that matters there.
-        /// </summary>
-        int WriteTake(bool claimed, int cameFrom)
-        {
-            if (claimed || Sim.I.IsRerunning) return Sim.I.Takes.Live;
-
-            int neighbour = TakeAt(cameFrom);
-
-            // Only at a cold start, where the live take has recorded nothing either.
-            return neighbour == Takes.None ? Sim.I.Takes.Live : neighbour;
         }
 
         /// After the solver. Write down what happened, if we were the one who caused it.
@@ -153,7 +161,7 @@ namespace Chronomancers.Sim
                 part.Show(show);
         }
 
-        /// Throw away the recordings of takes a new claim has made unreachable.
+        /// Throw away the recordings of takes a new take has made unreachable.
         public void DropTakesAbove(int take)
         {
             layers.DropAbove(take);

@@ -5,8 +5,8 @@ loop is ~60 s, so ~3000.
 
 Vocabulary: a **tick** is the one time coordinate — an int, possibly negative, 50 to the second. A
 **body** is anything simulated. A body is **recording** (claimed, live-simulated) or **playing back**
-(read from what was recorded). A **take** is one stretch of the world being re-run under one claim;
-every recording belongs to one, and a body keeps a **layer** per take it recorded in.
+(read from what was recorded). A **take** is one stretch of the world re-run over ground that has
+already been run; every recording belongs to one, and a body keeps a **layer** per take it recorded in.
 
 **Rules 0–6 and 12 are built and describe the code. Rules 7–11 and the turnstile are design** —
 nothing in the project does any of it yet, and their vocabulary still needs bringing into line as each
@@ -21,10 +21,11 @@ What exists, and where the rules live in it:
 | `Core/Takes` | the stack of takes and the undo cursor into it |
 | `Core/SimStep` | what a component is told about a step |
 | `Runtime/Sim` | the cursor, the stepping loop, undo and redo |
-| `Runtime/SimBody` | record-or-replay, and which take a tick is written under |
+| `Runtime/SimBody` | record-or-replay, and when a recording needs a take of its own |
 | `Runtime/SimComponent<T>` | one recordable aspect of a body |
 | `Runtime/SimRigidbody` | position and rotation; the only component that touches physics |
 | `Runtime/SimCharacter` | intent, and the rate the cursor runs at |
+| `Runtime/CharacterSwitcher` | every character, and which of them the player is |
 | `Runtime/Controls` | the keyboard |
 
 ---
@@ -118,11 +119,20 @@ Most of the other rules are consequences of this one.
 
 Moving through ticks a body already has a recording for is playback: the state is put back on the body
 and the solver sweeps it there. A body records only when something claims it (rule 10), or when nothing
-in force answers for the tick — the **frontier**.
+answers for the tick — the **frontier**.
 
 The frontier is per body, not global. The first pass establishes a recording for every body across the
 whole loop, most of them standing still, so afterwards the cursor almost never leaves known territory
 and **rewind is pure playback**.
+
+**A claim ends when the cursor turns against it.** A claim is the statement that this body writes
+history while the cursor travels one particular way — that is what `RecordDir` is — so the moment the
+cursor turns the other way, the body goes back to playback and taking it again means acting again.
+That is one test at the top of every step, and it is deliberately a property of the cursor rather than
+of the controls: it covers a backward seek, a character who lives the loop the other way round becoming
+the one who drives it, and any body the reversal machine claims later, all as the same thing. Watching
+somebody else is *not* one of them — who the player is looking at has nothing to do with who is writing
+history, so switching character releases nobody.
 
 Playback still runs physics. A replaying body is **kinematic** and aimed with `MovePosition`, so the
 step sweeps it to its recorded pose rather than teleporting it, and it still shoves live bodies out of
@@ -165,28 +175,40 @@ noticing.
 A claim inherits the pose it was already showing, so **re-recording can never teleport a body**.
 Seam-freedom at the near end is structural, not policed.
 
-## 6. The newest take in force wins
+## 6. The newest layer wins, and takes are anonymous
 
 A recording is never overwritten. It is written into a layer belonging to the take that made it, on top
-of whatever was there. Reading a tick means walking down from the newest take in force and taking the
-first layer that wrote it. That is what makes undo cost nothing to store (rule 12), and it is why
-re-recording the same stretch a dozen times costs a dozen layers rather than losing eleven recordings.
+of whatever was there. Reading a tick means walking down from the newest take on the stack and taking
+the first layer that wrote it — **and nothing else**. No layer is ever held to be superseded; a take is
+in force by being on the stack and out of it by being popped. That is what makes undo cost nothing to
+store (rule 12), and it is why re-recording the same stretch a dozen times costs a dozen layers rather
+than losing eleven recordings.
 
-**A take goes out of force from a tick on when the same body is claimed again from at or before that
-tick.** Re-recording a character supersedes what they did before — and everything that takeover
-cascaded recorded into the same take, so a crate it shoved goes with it and stops replaying a shove
-that no longer happens. Takes belonging to *other* claimants are untouched, which is what lets the
-characters you are not re-recording go on performing.
+**Nothing records who caused a take**, because for the body that re-recorded, nothing needs to: it has
+a newer layer over that stretch and wins by itself.
 
-This is worked out from the take stack rather than stored on it. A voided-from tick kept as a field
-would outlive the undo of the take that set it, and leave a performance deleted by the very thing that
-was just taken back.
+What that leaves is the body that did *not* re-record. A crate shoved in an earlier take goes on
+replaying the slide after the shove has been re-recorded away, because its old layer is still the newest
+thing it has. Naming a claimant on each take and voiding that claimant's takes from the re-recording
+point was an attempt to repair this from the stack alone, and it cannot: the stack knows a character was
+re-recorded, not whether they still shove the crate, so it deletes shoves that still happen exactly as
+readily as ones that no longer do. **The repair belongs to rule 10.** A crate accelerating with nothing
+touching it is a divergence, and re-simulating it from there is the only answer that stays true whether
+the shove survived the re-recording or not. Until that exists, this is a known hole rather than a
+solved problem.
 
-**Which take a recording is written under** is two cases. A claim records under the take it opened. A
-body that records because nothing answers records under the live take *if a take is running* — which is
-what puts a shoved crate in the take that shoved it — and otherwise grows whichever take answered for
-the tick it came from, which is what keeps a recording one unbroken stretch when the cursor wanders off
-the end of everything.
+**A take opens exactly where a layer cannot continue.** A layer is one unbroken stretch, so a body goes
+on writing into the live take only where that leaves it unbroken: the tick must be new to the layer and
+next to what the layer already holds. Anything else needs a fresh layer, and a fresh layer means a fresh
+take — re-running ground this take already recorded, or coming back to recorded ground after wandering
+off the end of it. One body needing one is enough; the rest simply start fresh layers in it.
+
+Two things follow, and both are the point:
+
+- **Claiming a body opens nothing.** At the frontier a recording is being invented rather than replaced.
+  Driving a character for the first time, handing over to a second and driving them, and driving the
+  first again all belong to the same take, because none of it destroyed anything.
+- **A take is one re-recording**, which is precisely the thing undo has to undo (rule 12).
 
 **Interpolation never crosses a take boundary**, so boundaries are the only true discontinuities in the
 game — and a discontinuity is impossible read in *either* direction, unlike a steep continuous ramp,
@@ -197,7 +219,7 @@ nothing needs animating, since the world is only ever observed at tick resolutio
 difference between a corpse reassembling and a corpse blinking into existence.
 
 **Both ends of a recording must be accounted for.** Rule 5 handles the near end by inheriting. The far
-end — where a re-recorded stretch stops and an older one resumes underneath — inherits nothing and
+end — where a re-recorded stretch stops and the body's own older layer resurfaces underneath — inherits nothing and
 cannot: inheriting at both ends would make re-recording a two-point boundary value problem instead of
 an initial value problem, which is the entire thing recording-based time travel exists to avoid. So the
 far end is repaired rather than prevented — a body whose state jumps with no cause is exactly what rule
@@ -318,6 +340,12 @@ records its archetype**, because loading a save must be able to materialise a bo
 
 ## 10. Claiming is one mechanism with several triggers
 
+> **This rule now carries a load nothing else can.** Takes are anonymous (rule 6), so a body replaying a
+> consequence whose cause has been re-recorded away — the crate still sliding from a shove that no longer
+> happens — is repaired here or not at all. It is a divergence like any other: something is moving with
+> nothing to move it. The bookkeeping alternative was tried and thrown out, because a take stack can tell
+> you a character was re-recorded but not whether they still shove the crate.
+
 `Claim(body, direction, at)` is the whole of it. Triggers: the player touches the controls; the body is at
 its frontier (rule 4); contact with something already recording; recorded state the live world cannot
 account for.
@@ -423,16 +451,16 @@ Anything genuinely random — particle seeds, procedural noise, AI tiebreaks —
 molecular detail rule 0 refused to model, so it must be recorded or deterministically seeded. That is not
 an engineering nicety; it is the thing carrying the entropy argument.
 
-## 12. Undo is a take, and only a takeover opens one
+## 12. Undo is a take, and a take is one re-recording
 
-**Taking control of a character is the only undoable action**, because it is the only one that *erases*
-anything: that character's performance is superseded from the takeover point onward (rule 6), and
-rewinding cannot bring it back — rewinding only moves the cursor. Push the wrong crate and you rewind;
-going forward again re-records over it. That is destructive too, but incrementally and visibly, so it
-needs no separate mechanism.
+**Re-recording is the only undoable action**, because it is the only one that *erases* anything: a
+stretch that had a recording now has a newer one over it (rule 6), and rewinding cannot bring the old
+one back — rewinding only moves the cursor. Everything else is additive. Driving a character across
+ground nobody has covered destroys nothing, so there is nothing there to take back; if you dislike what
+you did, you rewind and re-record it, and *that* is the undoable step.
 
-So: one take per takeover, holding every claim and cascade that takeover caused. **Undo moves no data.**
-The recording is still sitting in its layers; `Live` — how far up the stack is in force — is the only
+So: one take per re-recording, holding every layer started while it ran. **Undo moves no data.**
+The recording is still sitting in its layers; `Live` — how far up the stack is live — is the only
 thing that changes, and everything underneath becomes visible again on its own.
 
 That is why the whole undo stack is affordable rather than the two copies originally planned, and it is
@@ -440,21 +468,20 @@ why nothing needs restoring. Both directions are one integer:
 
 | | |
 |---|---|
-| **Undo** | wind the cursor back to where the take opened, *then* put it out of force |
-| **Redo** | put it back in force, *then* wind forward to where it ended |
+| **Undo** | wind the cursor back to where the take opened, *then* take it off the stack |
+| **Redo** | put it back on, *then* wind forward to the far end of what it ran |
 
-The order is opposite on purpose. The recording being wound through has to be in force for the wind to
-show anything — undo the other way round and the bodies sit frozen while the cursor slides backwards.
+The order is opposite on purpose. The recording being wound through has to be on the stack for the wind
+to show anything — undo the other way round and the bodies sit frozen while the cursor slides backwards.
 
 **A wind is not a performance.** Nothing is claimed while one runs, nothing records, and input is
 ignored, so it cannot write over the very stretch it is winding through. After either, the player is
-watching rather than driving, and acting opens a new take — which is exactly where the redo branch
+watching rather than driving, and re-recording opens a new take — which is exactly where the redo branch
 should die, and does: opening a take drops every undone take above it, and that is the only place a
 recording is ever actually thrown away.
 
-Rewinding and re-recording within one take leaves superseded ticks in place, outranked by the newer
-layer. Correct, but it accumulates; if it ever matters, a compaction pass can drop any layer wholly
-covered by a newer one in force.
+Rewinding and re-recording leaves superseded ticks in place, outranked by the newer layer. Correct, but
+it accumulates; if it ever matters, a compaction pass can drop any layer wholly covered by a newer one.
 
 Take numbers are indices into the stack, so they are reused after an undone branch is dropped. That is
 safe only because the layers filed under those numbers are dropped at the same moment.

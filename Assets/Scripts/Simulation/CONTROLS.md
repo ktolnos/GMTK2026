@@ -4,8 +4,8 @@ Top-down, Hotline Miami handling. Read straight off the project-wide input actio
 `Controls`, which is static and pollable at any moment — input updates once at the top of the frame,
 so nothing needs an execution order.
 
-Actions used: `Move`, `Attack`, `Interact`, `Seek`, `FastForward`, `Undo`, `Redo`. All but `Seek`,
-`FastForward`, `Undo` and `Redo` come with the default asset.
+Actions used: `Move`, `Attack`, `Interact`, `Next`, `Previous`, `Seek`, `FastForward`, `Undo`, `Redo`.
+All but `Seek`, `FastForward`, `Undo` and `Redo` come with the default asset.
 
 ## Acting
 
@@ -29,8 +29,23 @@ just cannot send you flying.
 |---|---|
 | `←` `→` | Seek: run loop time against or with the way the watched character experiences it |
 | `Shift` (hold) | Move through loop time faster, whichever way it is going |
-| `Z` | Undo the last takeover |
+| `Z` | Undo the last re-recording |
 | `Shift+Z` | Redo it |
+
+## Switching character
+
+| Input | Does |
+|---|---|
+| `Tab` or `2` | Become the next character |
+| `1` | Become the previous one |
+
+**Switching is not a claim, and not a release.** Who you are looking at has nothing to do with who is
+writing history: a character you walk away from mid-performance carries on doing what they were doing,
+they just stop hearing you. What ends a claim is the cursor turning against it — seek backwards, and
+whoever was recording goes back to playback.
+
+A character with nobody driving them has no intent, so they stop dead rather than skate on. That is the
+same statement as the driven character with no keys held, and they can still be shoved.
 
 **Watching is free; controlling is not.** Taking control re-records that character from this instant
 onward, superseding what they did in the previous take — so it is the one action that opens a take,
@@ -71,6 +86,6 @@ is the first thing that will make `SimCharacter` record anything.
 
 ## Not built yet
 
-`Tab` to watch another character, pause, save and load. Firing and interacting are bound but do
+Pause, save and load. Firing and interacting are bound but do
 nothing. Nothing yet reads `Attack` or `Interact` except the "is the player acting?" test that claims
 a character and drives the superhot rate.

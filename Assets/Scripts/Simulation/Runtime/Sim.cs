@@ -33,24 +33,20 @@ namespace Chronomancers.Sim
 
         /// <summary>
         /// The stack of takes and the undo cursor into it. Every recording belongs to one, and
-        /// which of them are in force is the only thing undo and redo change.
+        /// how far up the stack is live is the only thing undo and redo change.
         /// </summary>
         public Takes Takes { get; } = new Takes();
 
         /// <summary>
-        /// Open a take in which this body re-runs the world from here, and make room for it.
+        /// Start a take running from the cursor, and make room for it.
         ///
         /// Dropping the layers above is what makes a redo unreachable: those takes are gone from
         /// the stack, so the recordings filed under their numbers have to go too before anything
         /// writes to the number this take has just been given.
         /// </summary>
-        public void OpenTake(SimBody claimant)
+        void OpenTake()
         {
-            Debug.Assert(claimant.Id.Length > 0,
-                claimant.gameObject.name + "has no id, so the take stack cannot tell it from any other body.",
-                claimant);
-
-            int take = Takes.Open(claimant.Id, SimulatedTick);
+            int take = Takes.Open(SimulatedTick);
 
             foreach (var body in bodies)
                 body.DropTakesAbove(take - 1);
@@ -94,10 +90,10 @@ namespace Chronomancers.Sim
         }
 
         /// <summary>
-        /// Wind back to where the newest take began, then put it out of force.
+        /// Wind back to where the newest take began, then take it off the stack.
         ///
         /// In that order, because the recording being undone is what should play on the way back --
-        /// popping it first would leave the bodies with nothing in force covering the ticks being
+        /// popping it first would leave the bodies with nothing covering the ticks being
         /// crossed, and they would sit still instead of un-doing what you watched them do.
         /// </summary>
         public void Undo()
@@ -107,8 +103,8 @@ namespace Chronomancers.Sim
             WindTo(Takes.UndoTick, Takes.Undo);
         }
 
-        /// Put the last undone take back in force and wind forward to where it ended. The other way
-        /// round from Undo, and for the same reason: the take has to be in force to play.
+        /// Put the last undone take back and wind forward to where it ended. The other way
+        /// round from Undo, and for the same reason: the take has to be on the stack to play.
         public void Redo()
         {
             if (IsWinding || !Takes.CanRedo) return;
@@ -181,23 +177,6 @@ namespace Chronomancers.Sim
         }
 
         /// <summary>
-        /// Whether anything is claimed, and so whether the tick being stepped is being re-run under
-        /// the live take rather than merely watched.
-        ///
-        /// Settled once at the top of a step, because it decides which take an unclaimed body files
-        /// what it does under, and every body has to agree about that.
-        /// </summary>
-        public bool IsRerunning { get; private set; }
-
-        bool IsAnythingLive()
-        {
-            foreach (var body in bodies)
-                if (body.IsSimulated) return true;
-
-            return false;
-        }
-
-        /// <summary>
         /// Advance the world by exactly one tick, in either direction.
         ///
         /// Physics always steps <i>forwards</i>, whatever dir is. A body recording while the cursor
@@ -211,7 +190,26 @@ namespace Chronomancers.Sim
 
             int next = SimulatedTick + dir;
 
-            IsRerunning = IsAnythingLive();
+            // A claim is a statement that this body writes history while the cursor travels this
+            // way. The moment it turns the other way the claim is over -- the body goes back to
+            // playback, and taking it again means acting again.
+            foreach (var body in bodies)
+                if (body.RecordDir != dir) body.IsSimulated = false;
+
+            // The only place a take is ever opened, and it is the bodies that decide: a take exists
+            // so that somebody can start a fresh layer, and nothing else. Claiming does not open
+            // one -- at the frontier a recording is being invented rather than replaced, so driving
+            // a character for the first time, and handing over to a second one and driving them,
+            // all belong to the same take.
+            //
+            // Once open it stays open, because the sweep that follows extends the layers it just
+            // started rather than breaking them.
+            foreach (var body in bodies)
+                if (body.NeedsOwnTake(next, dir))
+                {
+                    OpenTake();
+                    break;
+                }
 
             // Sim does not decide who records; each body settles that in PrepareStep and remembers
             // it, so the two sides of the solver cannot disagree.
@@ -225,8 +223,8 @@ namespace Chronomancers.Sim
             foreach (var body in bodies)
                 body.CommitStep();
 
-            // How far the live take has got, which is where redo comes back to.
-            if (IsRerunning) Takes.Extend(next);
+            // How far the live take has run, which is where redo comes back to.
+            Takes.Extend(next);
 
             SimulatedTick = next;
             lastStepDir = dir;

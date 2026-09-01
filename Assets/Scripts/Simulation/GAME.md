@@ -81,11 +81,16 @@ faster; the world moves slower around them.
 
 Interpolation must never cross a recording boundary — those joins are real discontinuities.
 
-Undo is a stack of takes, not a pair of history copies. Each takeover opens a take, and every recording
-made under it goes into a layer of its own rather than overwriting what was there. So undo moves no
-data: how far up the stack is in force is the only thing that changes, and the layer underneath becomes
-visible again by itself. That is cheap enough that the whole undo stack is affordable rather than just
-current + prev.
+Undo is a stack of takes, not a pair of history copies. Each re-recording opens a take, and every
+recording made under it goes into a layer of its own rather than overwriting what was there. So undo
+moves no data: how far up the stack is live is the only thing that changes, and the layer underneath
+becomes visible again by itself. That is cheap enough that the whole undo stack is affordable rather
+than just current + prev.
+
+Takes are anonymous, and reading a tick is nothing more than the newest layer that has it. Nothing
+tries to work out from the stack whose fault a recording was — a stack can tell you a character was
+re-recorded, but not whether they still shove the crate they shoved last time. Repairing a consequence
+whose cause has been re-recorded away is a job for causality checking, not for bookkeeping.
 
 Every gameplay-relevant piece of state has to live in the timeline rather than in a MonoBehaviour field —
 animator state, cooldowns, AI target, ammo, door state, form, and the set of things currently touching an
