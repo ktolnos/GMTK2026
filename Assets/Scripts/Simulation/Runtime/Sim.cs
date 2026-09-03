@@ -143,9 +143,11 @@ namespace Chronomancers.Sim
 
         readonly List<SimBody> bodies = new List<SimBody>();
 
-        /// Everything registered, for anything that has to ask about bodies other than itself.
-        /// Read-only: membership goes through Register and Unregister.
-        public IReadOnlyList<SimBody> Bodies => bodies;
+        readonly Dictionary<string, SimBody> byId = new Dictionary<string, SimBody>();
+
+        /// The body a recording names, or null if nothing by that name is in the world -- which is
+        /// itself an answer, since a recorded partner that no longer exists is certainly gone.
+        public SimBody Find(string id) => byId.TryGetValue(id, out var body) ? body : null;
 
         void Awake()
         {
@@ -161,9 +163,14 @@ namespace Chronomancers.Sim
         {
             Debug.Assert(!bodies.Contains(body), $"{body} registered with Sim twice.", body);
             bodies.Add(body);
+            byId[body.Id] = body;
         }
 
-        public void Unregister(SimBody body) => bodies.Remove(body);
+        public void Unregister(SimBody body)
+        {
+            bodies.Remove(body);
+            byId.Remove(body.Id);
+        }
 
         void Update()
         {

@@ -39,36 +39,21 @@ namespace Chronomancers.Sim
         [SerializeField] Transform view;
 
         /// <summary>
-        /// How close, in metres, two bodies have to be to count as touching.
-        ///
-        /// Well above how far the solver's separation pass can hold a replayed overlap open, which
-        /// is what has to be swallowed for the answer to come out the same in both directions. Well
-        /// below anything visible, so a pair that reads as touching looks like it.
-        /// </summary>
-        static float contactRange = 0.05f;
-
-        /// <summary>
-        /// How much further than touching a partner the recording names may be before we take the
-        /// recording to describe a world that no longer exists.
+        /// How far, in metres, a partner the recording names may be before we take the recording to
+        /// describe a world that no longer exists.
         ///
         /// Wide. The question is asked before the state is applied, so the bodies are still a step
         /// short of the configuration being replayed and this has to swallow a step of closing
-        /// speed. All it separates is "about to touch" from "somewhere else entirely".
+        /// speed. All it separates is "about to touch" from "somewhere else entirely", and a
+        /// tolerance is only needed on this side -- see Diverged.
         /// </summary>
-        static float causeBand = 0.20f;
-
-        /// <summary>
-        /// How much closer than touching a partner the recording does not name has to be before we
-        /// count it as interfering.
-        ///
-        /// Narrow. Without it, recording and testing turn on the same number, so a pair sitting
-        /// either side of it claims itself on the difference between two measurements of one gap.
-        /// That is all it has to cover, not a step of travel.
-        /// </summary>
-        static float touchBand = 0.01f;
+        static float causeRange = 0.25f;
 
         /// Stands in for a recording made before anything touched anything.
         static readonly HashSet<string> nothing = new HashSet<string>();
+
+        /// Scratch for the contact query.
+        static readonly List<ContactPoint2D> contacts = new List<ContactPoint2D>();
 
         Rigidbody2D rb;
 
@@ -119,10 +104,15 @@ namespace Chronomancers.Sim
         /// be useful fires on contacts that were faithfully replayed. Whether they are touching
         /// survives.
         ///
-        /// Asked of the world as it stands, a step short of the pose being replayed, so neither
-        /// direction turns on contactRange itself. A partner the recording expects only has to be
-        /// somewhere near, because it may still be closing. A partner it does not expect has to be
-        /// well inside -- and one that was touching a tick ago is a contact ending, not a new one.
+        /// Each direction asks whatever is trustworthy for it, and neither needs to look past the
+        /// bodies actually involved. Absence is measured, because the solver's manifold drops a
+        /// replayed contact and re-forms it; the partners to measure to are the handful the
+        /// recording names. Presence is the manifold, which can only ever under-report, and it
+        /// wants no tolerance at all: the set it gives now is the same set the previous tick
+        /// recorded from it, nothing having moved in between, so the two agree exactly.
+        ///
+        /// The measured side is asked a step short of the configuration being replayed, though,
+        /// which is why that side alone needs causeRange -- the partner may still be closing.
         /// </summary>
         public override bool Diverged(in SimStep step)
         {
@@ -130,35 +120,33 @@ namespace Chronomancers.Sim
 
             var recorded = layers.Read(step.Take, step.Tick).Touching ?? nothing;
 
+            foreach (var id in recorded)
+            {
+                var partner = Find(id);
+
+                if (partner == null || Gap(partner) > causeRange) return true;
+            }
+
             // Null where history does not cover the tick we came from -- the first tick of a rewind
             // into recorded ground, most often. Then we are standing in a pose nothing recorded, so
             // its contacts contradict nothing and only the partners this tick names are asked about.
             var before = Recorded(step.Previous);
 
-            var bodies = Sim.I.Bodies;
+            if (before == null) return false;
 
-            for (int i = 0; i < bodies.Count; i++)
-            {
-                var other = bodies[i].GetComponent<SimRigidbody>();
-
-                if (other == null || other == this) continue;
-
-                float gap = Gap(other);
-                string id = bodies[i].Id;
-
-                // The cause of what we are about to replay is not even in the neighbourhood.
-                if (recorded.Contains(id))
-                {
-                    if (gap > contactRange + causeBand) return true;
-                }
-
-                // Something is touching us that was not touching us when this tick was recorded.
-                // The tick behind gets a say because that is the configuration we are standing in:
-                // its recording was captured from this very geometry, nothing having moved since.
-                else if (before != null && gap < contactRange - touchBand && !before.Contains(id)) return true;
-            }
+            // A contact this tick did not record, and not one the tick behind is still letting go of.
+            foreach (var id in Touching())
+                if (!recorded.Contains(id) && !before.Contains(id)) return true;
 
             return false;
+        }
+
+        /// The rigidbody of a body the recording names, or null if it has left the world.
+        static SimRigidbody Find(string id)
+        {
+            var body = Sim.I.Find(id);
+
+            return body != null ? body.GetComponent<SimRigidbody>() : null;
         }
 
         /// What history says this body was touching at a tick, or null if nothing recorded it.
@@ -178,25 +166,28 @@ namespace Chronomancers.Sim
         /// Who this body is touching right now, as ids. Bodies rather than colliders, so a partner
         /// built from several counts once.
         ///
-        /// Measured, rather than read out of the solver. What the solver holds in a manifold depends
-        /// on how the bodies came together: it only ever pushes a pair apart, never together, so a
-        /// replay of a recorded overlap ends up more separated than it was recorded and the manifold
-        /// is dropped, then re-aimed into existence, then dropped again. Distance between shapes has
-        /// no such history and answers the same going either way.
+        /// The solver's own manifold. It is honest about a contact the solver made and unreliable
+        /// only about one being replayed -- it separates a replayed overlap each step and the drive
+        /// re-aims into it, so membership flickers. Neither costs anything here: recording only
+        /// happens while the solver is the one choosing, and a flicker can drop a contact but never
+        /// invent one, so at worst an intrusion is noticed a tick late.
         /// </summary>
         HashSet<string> Touching()
         {
             var touching = new HashSet<string>();
 
-            var others = Sim.I.Bodies;
+            int count = rb.GetContacts(contacts);
 
-            for (int i = 0; i < others.Count; i++)
+            for (int i = 0; i < count; i++)
             {
-                var other = others[i].GetComponent<SimRigidbody>();
+                var contact = contacts[i];
+                var other = contact.rigidbody == rb ? contact.otherRigidbody : contact.rigidbody;
 
-                if (other == null || other == this) continue;
+                if (other == null) continue;
 
-                if (Gap(other) < contactRange) touching.Add(others[i].Id);
+                var body = other.GetComponent<SimBody>();
+
+                if (body != null) touching.Add(body.Id);
             }
 
             return touching;
