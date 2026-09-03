@@ -11,8 +11,8 @@ namespace Chronomancers.Sim
     /// tick means taking the newest layer that has it, and undo is this class saying the top of the
     /// stack is no longer there. Nothing is moved and nothing is restored.
     ///
-    /// This class does not decide when a take opens; the bodies do, when one of them can no longer
-    /// extend its layer -- see SimBody.NeedsOwnTake.
+    /// This class does not decide when a take opens. The player does, by taking a character --
+    /// every time, see Sim.PlayerClaims.
     ///
     /// Take 1 is the world's first pass. It cannot be undone -- there is nothing to go back to.
     /// </summary>

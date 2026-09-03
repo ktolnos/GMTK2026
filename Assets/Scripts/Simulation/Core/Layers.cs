@@ -17,10 +17,6 @@ namespace Chronomancers.Sim
         /// Index 0 is the layer for "no take", so a take number indexes this directly.
         readonly List<History<T>> layers = new List<History<T>> { null };
 
-        /// Whether this take wrote anything at all. A layer exists only once written to.
-        public bool Any(int take) =>
-            take > Takes.None && take < layers.Count && layers[take] != null;
-
         /// Whether this take wrote this tick.
         public bool Has(int take, int tick) =>
             take > Takes.None && take < layers.Count &&

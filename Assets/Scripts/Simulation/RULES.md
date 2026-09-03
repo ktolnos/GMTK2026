@@ -21,7 +21,7 @@ What exists, and where the rules live in it:
 | `Core/Takes` | the stack of takes and the undo cursor into it |
 | `Core/SimStep` | what a component is told about a step |
 | `Runtime/Sim` | the cursor, the stepping loop, undo and redo |
-| `Runtime/SimBody` | record-or-replay, and when a recording needs a take of its own |
+| `Runtime/SimBody` | record-or-replay, and which layer a recording goes into |
 | `Runtime/SimComponent<T>` | one recordable aspect of a body |
 | `Runtime/SimRigidbody` | position and rotation; the only component that touches physics |
 | `Runtime/SimCharacter` | intent, and the rate the cursor runs at |
@@ -118,7 +118,7 @@ Most of the other rules are consequences of this one.
 ## 4. Playback is the default; recording happens only where nothing answers
 
 Moving through ticks a body already has a recording for is playback: the state is put back on the body
-and the solver sweeps it there. A body records only when something claims it (rule 10), or when nothing
+and the solver carries it there. A body records only when something claims it (rule 10), or when nothing
 answers for the tick — the **frontier**.
 
 The frontier is per body, not global. The first pass establishes a recording for every body across the
@@ -134,11 +134,21 @@ the one who drives it, and any body the reversal machine claims later, all as th
 somebody else is *not* one of them — who the player is looking at has nothing to do with who is writing
 history, so switching character releases nobody.
 
-Playback still runs physics. A replaying body is **kinematic** and aimed with `MovePosition`, so the
-step sweeps it to its recorded pose rather than teleporting it, and it still shoves live bodies out of
-the way on the journey. A recording body is **dynamic** and the solver moves it; whatever it does is
-the recording. Nobody writes collision response. That switch, in `SimRigidbody`, is the entire
-difference between the two modes.
+**Playback still runs physics, and nothing is ever kinematic.** Every body is dynamic all the time. A
+recording body is moved by the solver and whatever it does is the recording. A replaying body is handed
+the velocity that lands it on its recorded pose — `(pose - where it actually is) / dt` — and the solver
+moves it from there. Nobody writes collision response, and the difference between the two modes is one
+line in `SimRigidbody`: who chooses the velocity.
+
+**Kinematic is infinite mass**, which is why nothing may be it: a kinematic body wins every contact and
+takes no reaction, so a crate could not be pushed by another crate and you could lean on your own past
+self forever. Playback you cannot push is scenery, and nothing here is meant to be scenery.
+
+Driving by velocity rather than by teleport is **self-correcting** — the aim is taken from where the body
+really is, so a knock is undone by the next step's aim and playback holds its path without ever being
+placed on it. `MovePosition` does the moving, since it skips gravity and damping and so lands an
+unobstructed body exactly while still colliding, and the velocity is written alongside it because
+`MovePosition` leaves none behind — and a body's velocity is what it keeps if rule 10 claims it.
 
 > A crate is claimed at 290 and shoved across the floor, recording its slide over `[290,300]`.
 > Rewinding below 290 invents nothing — the crate's *older* recording still covers that range, showing
@@ -150,27 +160,21 @@ difference between the two modes.
 > case unreachable — and where it is reachable anyway, off the ends of recorded time, the body does
 > record backwards. That is the one known hole in "seeking never records".
 
-## 5. Velocity is worked out, never recorded
+## 5. Velocity is never recorded, and never has to be restored
 
 A body's recording is its **pose**: position and rotation, absolute, one per tick. No velocity, no
 momentum, no derivatives with respect to anything.
 
-When a body is claimed, its velocity is differenced from the last two poses it was replaying:
+Nothing seeds a velocity at a claim, because there is nothing to seed. A replaying body is dynamic and
+driven at `(pose[tick] - where it actually is) / dt` every step (rule 4), so **it is already moving at
+the right speed in the right direction at every instant**, claimed or not. Claiming stops choosing its
+velocity for it; it does not give it one.
 
-```
-last       = the tick the cursor came from
-beforeLast = last - dir            // the tick before that, in recording order
-velocity   = (pose[last] - pose[beforeLast]) / SecondsPerTick
-```
-
-Under a descending cursor "before" is the numerically *larger* tick, so the same subtraction yields the
-negated velocity with nobody asking it to. **That is the whole of reversal.** The odd/even taxonomy —
-which quantities flip sign under time reversal and which do not — is a fact about physics this design
-never has to encode, because it stores none of the odd ones.
-
-The seed is a one-tick average rather than an instantaneous velocity, so a body under gravity is off by
-about `g·dt/2` at the moment of a claim. That is the price of not storing velocity, and it is below
-noticing.
+Under a descending cursor that drive aims at *decreasing* ticks, so the body is physically travelling
+backwards along its own recorded path, and a claim inherits that. **That is the whole of reversal.** No
+code anywhere flips a sign. The odd/even taxonomy — which quantities reverse under time reversal and
+which do not — is a fact about physics this design never has to encode, because it stores none of the
+odd ones.
 
 A claim inherits the pose it was already showing, so **re-recording can never teleport a body**.
 Seam-freedom at the near end is structural, not policed.
@@ -194,21 +198,15 @@ point was an attempt to repair this from the stack alone, and it cannot: the sta
 re-recorded, not whether they still shove the crate, so it deletes shoves that still happen exactly as
 readily as ones that no longer do. **The repair belongs to rule 10.** A crate accelerating with nothing
 touching it is a divergence, and re-simulating it from there is the only answer that stays true whether
-the shove survived the re-recording or not. Until that exists, this is a known hole rather than a
-solved problem.
+the shove survived the re-recording or not. That check now exists, so this is repaired rather than
+merely accounted for.
 
-**A take opens exactly where a layer cannot continue.** A layer is one unbroken stretch, so a body goes
-on writing into the live take only where that leaves it unbroken: the tick must be new to the layer and
-next to what the layer already holds. Anything else needs a fresh layer, and a fresh layer means a fresh
-take — re-running ground this take already recorded, or coming back to recorded ground after wandering
-off the end of it. One body needing one is enough; the rest simply start fresh layers in it.
+**A take opens every time the player takes a character** — see rule 12 for the whole of it. Two things
+follow, and both are the point:
 
-Two things follow, and both are the point:
-
-- **Claiming a body opens nothing.** At the frontier a recording is being invented rather than replaced.
-  Driving a character for the first time, handing over to a second and driving them, and driving the
-  first again all belong to the same take, because none of it destroyed anything.
-- **A take is one re-recording**, which is precisely the thing undo has to undo (rule 12).
+- **Only the player opens a take.** Not a shove: a crate claimed by divergence joins the take the shove
+  belongs to, because the shove required someone to be acting.
+- **A take is one performance**, which is precisely the thing undo has to undo.
 
 **Interpolation never crosses a take boundary**, so boundaries are the only true discontinuities in the
 game — and a discontinuity is impossible read in *either* direction, unlike a steep continuous ramp,
@@ -350,6 +348,36 @@ records its archetype**, because loading a save must be able to materialise a bo
 its frontier (rule 4); contact with something already recording; recorded state the live world cannot
 account for.
 
+**The contact set is the whole test.** Contact is a fact about the world rather than about this body's
+recording, and the two questions it answers are the only two ways a recording can be wrong. A partner
+the recording names that is no longer near means the cause of what is about to be replayed is gone. A
+partner the recording does not name that is touching now means something new is interfering.
+
+**Measure the world, not the solver.** Contacts read out of the solver's manifold are unusable, because
+manifold membership records how the bodies came together. Contact resolution only ever separates — the
+velocity pass stops approach, the position pass pushes penetrating bodies apart over several steps — so a
+replayed overlap ends each step wider than it was recorded, the manifold is dropped, the drive re-aims
+into it, and it is dropped again. Presence flickers in the *middle* of a contact with a period of a few
+ticks, so no tolerance around the boundary can rescue it. Distance between shapes carries no such
+history and answers the same going either way.
+
+**Do not measure the pose,** and do not measure velocity. Penetration depth fails to reproduce for the
+same reason presence did: nothing ever pushes two bodies together to restore an overlap that was
+recorded, so a pose tolerance tight enough to be useful fires on contacts that were replayed faithfully.
+Velocity answers the opposite of the question, because the solver stops a body in proportion to how hard
+it was pushing — so a body being shoved reads as motionless.
+
+**The decision belongs before the solver, not after it.** A body claimed after being driven has already
+been given its recorded pose's velocity, and a frictionless world keeps it: the crate whose shove was
+re-recorded away coasts off across the room anyway. Asked first, the body is never driven at all, and the
+velocity it inherits is the one it legitimately had.
+
+Running first is also what makes measured distance necessary rather than merely tidier. The world stands
+a step short of the configuration being replayed, so the two questions need different ranges. A partner
+the recording expects has only to be **nearby**, because it may still be closing. A partner it does not
+expect has to be **properly touching** — and one that was touching on the tick behind is a contact
+ending, not a new one.
+
 A claimed body without a controller is **inert, not dead**. Inert means *no intent source* — not no
 physics. It keeps its momentum, coasts, gets pushed, and dies. It stays a character and stays a switch
 target; taking one over is just attaching an intent source to a body that was already claimed.
@@ -359,12 +387,12 @@ target; taking one over is just attaching an intent source to a body that was al
 > characters have to be able to collide with the crate while it is still moving. A crate that froze the
 > moment you looked away would be a different puzzle.
 
-**Three predicates** detect divergence, each validating its own channel against the live world:
+**Two predicates** detect divergence, each validating its own channel against the live world:
 
 - **Contact set.** Compare the contacts recorded at this sample against the contacts the live world
   offers. A recorded partner that is no longer there, or a live partner that was not recorded, means the
-  recorded motion is not the motion this body would now have.
-- **Interpenetration.** Is my recorded position inside something solid now?
+  recorded motion is not the motion this body would now have. Something solid where the recording is
+  about to go is the second case, so interpenetration needs no predicate of its own.
 - **Channel accounting.** My recorded HP drops between these two samples — is there a live damage dealer
   for it? Same shape for ammo, charge, any consumable.
 
@@ -385,9 +413,17 @@ from being brittle — brushing past a recorded crate does not claim it; only do
 actually have changed its recording does. Sub-threshold pushes into playback bodies are the one accepted
 violation in the game, and they are accepted deliberately.
 
-**The check runs in both directions**, on the live body as well as the playback one. Without that, a
-playback body is an infinite-mass anchor: a live character could stand on a recorded crate or brace
-against a recorded door, taking an equal and opposite reaction from nothing. Accumulating `Δv` handles
+> **Built so far:** shape-to-shape distance to every other simulated body, measured before the state is
+> applied. `causeRange` is how far a partner the recording expects may have strayed; `contactRange` is
+> what counts as touching. Static geometry is left out, since it cannot change and touching it is never
+> evidence that history has. Not yet an accumulator, so a sub-threshold lean never claims however long it
+> goes on.
+
+**The check runs in both directions**, on the live body as well as the playback one — though rule 4 now
+does most of that work by itself. Playback is dynamic and takes a real reaction, so a character bracing
+against a recorded door is pushed back by it with the door's own mass and nobody has to arrange it.
+What the check still owes is the *other* half: noticing that the door was moved, and ending its
+recording rather than letting it be dragged off its path indefinitely. Accumulating `Δv` handles
 leaning correctly — a sustained push crosses the threshold on a light crate and never does on a heavy
 one, which is right in both cases.
 
@@ -405,6 +441,14 @@ which the player re-records by hand.
 These checks run during **playback**, not only while something is recording: two bodies can both be on
 playback and still conflict, because their recordings come from different takes and were never
 simultaneously true.
+
+One comparison covers both. Two recordings that were never simultaneously true put a body next to a
+partner its own recording does not name, which is the second question; a **cause that is gone** leaves a
+named partner nowhere near, which is the first. Nothing has to work out whose fault it was, and no take
+numbers are involved — which is why the bookkeeping alternative was not needed after all.
+
+The second question is the one a top-down game with no gravity barely needs, and the first is the one it
+lives on: nothing falls, nothing topples, and a body only moves while something is pushing it.
 
 ## 10b. Every recorded state is applied, however fast the cursor moves
 
@@ -458,6 +502,25 @@ stretch that had a recording now has a newer one over it (rule 6), and rewinding
 one back — rewinding only moves the cursor. Everything else is additive. Driving a character across
 ground nobody has covered destroys nothing, so there is nothing there to take back; if you dislike what
 you did, you rewind and re-record it, and *that* is the undoable step.
+
+**A take opens every time the player takes a character.** Nothing else opens one, and there is no test:
+taking control *is* the undoable act, so the player always knows exactly what one press of undo costs.
+Testing whether the ground was already recorded is tempting and wrong — it leaves a performance over
+fresh ground with no take to lift, and that first pass is then the one thing you can never take back.
+
+**Nothing a body does to another body opens a take.** A crate shoved into recording joins the take the
+shove belongs to, since the shove required the player to be acting, and it needs no layer of its own to
+be undone: lifting that take takes the shove with it.
+
+Opening a take gives every body an empty layer in it, which is also what makes a claim structurally
+safe. A claimed body writes into the live take and can never meet or hole its own layer there, because
+it has none yet.
+
+**Which take a write goes into follows the same distinction.** Replacing something goes into the live
+take, because the live take is what undo lifts. Ground nobody has covered continues whichever layer
+already ends next to it, however far down the stack that is — a layer is one unbroken stretch, and
+starting the same body higher up would leave a hole in the one below and put untouched ground on the
+undo stack, where there is nothing to undo.
 
 So: one take per re-recording, holding every layer started while it ran. **Undo moves no data.**
 The recording is still sitting in its layers; `Live` — how far up the stack is live — is the only

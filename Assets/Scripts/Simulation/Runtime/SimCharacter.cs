@@ -103,20 +103,12 @@ namespace Chronomancers.Sim
             // stretch it is winding through.
             if (Sim.I.IsWinding) return;
             
-            if (!ScrubbingAgainst && Controls.IsActing && !Body.IsSimulated) Claim();
-
-            Sim.I.Rate = Rate;
-        }
-
-        /// <summary>
-        /// Start writing history with this character.
-        /// </summary>
-        void Claim()
-        {
             // Which way this character lays history down. One the reversal machine has turned
             // round has a negative rate and records while the cursor descends.
-            Body.RecordDir = rate < 0f ? -1 : 1;
-            Body.IsSimulated = true;
+            if (!ScrubbingAgainst && Controls.IsActing && !Body.IsSimulated)
+                Sim.I.PlayerClaims(Body, rate < 0f ? -1 : 1);
+
+            Sim.I.Rate = Rate;
         }
 
         /// <summary>

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Chronomancers.Sim
@@ -5,12 +6,12 @@ namespace Chronomancers.Sim
     /// <summary>
     /// Where a body is, recorded as a pose per tick.
     ///
-    /// This is the component that turns the record-or-replay decision into physics. Recording means
-    /// <b>dynamic</b>: the solver moves the body and whatever it does is the recording. Replaying
-    /// means <b>kinematic</b> and aimed with MovePosition.
-    /// 
-    /// <b>Velocity is not recorded.</b> When a body is claimed it is worked out from the last two
-    /// poses it was replaying.
+    /// Every body is dynamic, always. Recording means the solver chooses its velocity; replaying
+    /// means we do, aiming at the recorded pose from wherever the body actually is. Kinematic is
+    /// infinite mass -- it wins every contact and takes no reaction, so playback could shove
+    /// everything and be shoved by nothing.
+    ///
+    /// Being dynamic is also what makes divergence measurable. See <see cref="Diverged"/>.
     /// </summary>
     [RequireComponent(typeof(Rigidbody2D))]
     public class SimRigidbody : SimComponent<SimRigidbody.State>
@@ -22,6 +23,14 @@ namespace Chronomancers.Sim
 
             /// Degrees, as Rigidbody2D reports it.
             public float Rotation;
+
+            /// <summary>
+            /// The bodies this one was touching, by <see cref="SimBody.Id"/>.
+            ///
+            /// Static geometry is left out. It cannot change, so a contact with it can never be
+            /// evidence that history has.
+            /// </summary>
+            public HashSet<string> Touching;
         }
 
         [Tooltip("Transform the sprite lives on. Drawing runs one tick behind the solver, so this " +
@@ -29,13 +38,41 @@ namespace Chronomancers.Sim
                  "body would feed it straight back into the next step.")]
         [SerializeField] Transform view;
 
+        /// <summary>
+        /// How close, in metres, two bodies have to be to count as touching.
+        ///
+        /// Well above how far the solver's separation pass can hold a replayed overlap open, which
+        /// is what has to be swallowed for the answer to come out the same in both directions. Well
+        /// below anything visible, so a pair that reads as touching looks like it.
+        /// </summary>
+        static float contactRange = 0.05f;
+
+        /// <summary>
+        /// How far, in metres, a body the recording expects may be from us before we take the
+        /// recording to describe a world that no longer exists.
+        ///
+        /// Loose on purpose. It is asked before the state is applied, so the bodies are still a step
+        /// short of the configuration being replayed and it has to swallow a step of closing speed.
+        /// All it has to separate is "about to touch" from "somewhere else entirely".
+        /// </summary>
+        static float causeRange = 0.25f;
+
+        /// Stands in for a recording made before anything touched anything.
+        static readonly HashSet<string> nothing = new HashSet<string>();
+
         Rigidbody2D rb;
+
+        Collider2D[] colliders;
 
         void Awake()
         {
             rb = GetComponent<Rigidbody2D>();
+            colliders = GetComponentsInChildren<Collider2D>();
 
-            // A sleeping body ignores MovePosition, which would silently freeze playback.
+            // Overrides whatever the prefab was authored with; nothing here may be kinematic.
+            rb.bodyType = RigidbodyType2D.Dynamic;
+
+            // A sleeping body ignores the velocity we hand it, which silently freezes playback.
             rb.sleepMode = RigidbodySleepMode2D.NeverSleep;
 
             Debug.Assert(view != null && view != transform,
@@ -43,54 +80,134 @@ namespace Chronomancers.Sim
                 this);
         }
 
-        protected override void PrepareRecording(in SimStep step)
-        {
-            if (rb.bodyType == RigidbodyType2D.Dynamic) return;
-
-            rb.bodyType = RigidbodyType2D.Dynamic;
-
-            // The last tick we replayed, and the one before it in recording order. Under a
-            // descending cursor "before" is the numerically larger tick, which is exactly why the
-            // subtraction below comes out negated without anyone asking it to.
-            int last = step.Previous;
-            int beforeLast = last - step.Dir;
-
-            if (TryRead(beforeLast, out State from) && TryRead(last, out State to))
-            {
-                rb.linearVelocity = (to.Position - from.Position) / Sim.SecondsPerTick;
-                rb.angularVelocity = Mathf.DeltaAngle(from.Rotation, to.Rotation) / Sim.SecondsPerTick;
-            }
-            else
-            {
-                // Nothing to difference: this body has never been anywhere. Starting at rest is the
-                // honest answer, and it is what happens on the first step of a session.
-                rb.linearVelocity = Vector2.zero;
-                rb.angularVelocity = 0f;
-            }
-        }
-
-        /// Aim at the recorded pose. MovePosition rather than a teleport so the step sweeps us
-        /// there, and momentum still transfers to anything in the way.
+        /// <summary>
+        /// Put the body back on its recorded pose.
+        ///
+        /// MovePosition does the moving. It skips gravity and damping, so an unobstructed body lands
+        /// exactly, and it still collides, so an obstructed one is stopped short of the pose -- which
+        /// is the whole reason playback can be leaned on. What it does not do is leave behind the
+        /// velocity it used, and a replaying body's velocity is what it keeps if it gets claimed, so
+        /// we state that ourselves.
+        ///
+        /// Aiming from where the body really is, rather than from where its recording says it was,
+        /// is what pulls it back onto its path after a knock.
+        /// </summary>
         protected override void Replay(in SimReplay<State> replay)
         {
-            if (rb.bodyType != RigidbodyType2D.Kinematic)
-            {
-                rb.bodyType = RigidbodyType2D.Kinematic;
-
-                // A kinematic body still integrates its velocity, which would fight MovePosition.
-                rb.linearVelocity = Vector2.zero;
-                rb.angularVelocity = 0f;
-            }
-
+            rb.linearVelocity = (replay.State.Position - rb.position) / Sim.SecondsPerTick;
+            rb.angularVelocity = Mathf.DeltaAngle(rb.rotation, replay.State.Rotation) / Sim.SecondsPerTick;
             rb.MovePosition(replay.State.Position);
             rb.MoveRotation(replay.State.Rotation);
         }
 
-        protected override State Capture(in SimStep step) => new State
+        /// <summary>
+        /// Whether the world still fits what this body is about to replay.
+        ///
+        /// Who it is touching, rather than where it is. How deeply two bodies overlap does not
+        /// reproduce once the cursor turns round -- the solver recovers penetration over several
+        /// steps and never pushes a pair together to put it back -- so a pose test tight enough to
+        /// be useful fires on contacts that were faithfully replayed. Whether they are touching
+        /// survives.
+        ///
+        /// Asked of the world as it stands, a step short of the pose being replayed, which is why
+        /// the two directions get different ranges. A partner the recording expects only has to be
+        /// nearby, because it may still be closing. A partner it does not expect has to be properly
+        /// touching -- and one that was touching a tick ago is a contact ending, not a new one.
+        /// </summary>
+        public override bool Diverged(in SimStep step)
         {
-            Position = rb.position,
-            Rotation = rb.rotation,
-        };
+            if (step.Take == Takes.None) return false;
+
+            var recorded = layers.Read(step.Take, step.Tick).Touching ?? nothing;
+            var before = Recorded(step.Previous) ?? nothing;
+
+            var bodies = Sim.I.Bodies;
+
+            for (int i = 0; i < bodies.Count; i++)
+            {
+                var other = bodies[i].GetComponent<SimRigidbody>();
+
+                if (other == null || other == this) continue;
+
+                float gap = Gap(other);
+                string id = bodies[i].Id;
+
+                // The cause of what we are about to replay is not even in the neighbourhood.
+                if (recorded.Contains(id))
+                {
+                    if (gap > causeRange) return true;
+                }
+
+                // Something is touching us that neither this tick nor the one behind accounts for.
+                else if (gap < contactRange && !before.Contains(id)) return true;
+            }
+
+            return false;
+        }
+
+        /// What history says this body was touching at a tick, or null if nothing recorded it.
+        HashSet<string> Recorded(int tick) => TryRead(tick, out var state) ? state.Touching ?? nothing : null;
+
+        protected override State Capture(in SimStep step)
+        {
+            return new State
+            {
+                Position = rb.position,
+                Rotation = rb.rotation,
+                Touching = Touching(),
+            };
+        }
+
+        /// <summary>
+        /// Who this body is touching right now, as ids. Bodies rather than colliders, so a partner
+        /// built from several counts once.
+        ///
+        /// Measured, rather than read out of the solver. What the solver holds in a manifold depends
+        /// on how the bodies came together: it only ever pushes a pair apart, never together, so a
+        /// replay of a recorded overlap ends up more separated than it was recorded and the manifold
+        /// is dropped, then re-aimed into existence, then dropped again. Distance between shapes has
+        /// no such history and answers the same going either way.
+        /// </summary>
+        HashSet<string> Touching()
+        {
+            var touching = new HashSet<string>();
+
+            var others = Sim.I.Bodies;
+
+            for (int i = 0; i < others.Count; i++)
+            {
+                var other = others[i].GetComponent<SimRigidbody>();
+
+                if (other == null || other == this) continue;
+
+                if (Gap(other) < contactRange) touching.Add(others[i].Id);
+            }
+
+            return touching;
+        }
+
+        /// Distance between the nearest pair of shapes on these two bodies, negative when they
+        /// overlap, and float.MaxValue when there is nothing to measure between.
+        float Gap(SimRigidbody other)
+        {
+            float gap = float.MaxValue;
+
+            foreach (var mine in colliders)
+            {
+                if (!mine.enabled) continue;
+
+                foreach (var theirs in other.colliders)
+                {
+                    if (!theirs.enabled) continue;
+
+                    var distance = mine.Distance(theirs);
+
+                    if (distance.isValid) gap = Mathf.Min(gap, distance.distance);
+                }
+            }
+
+            return gap;
+        }
 
         /// Presentation only, and deliberately on `view` rather than the rigidbody. Runs on frames
         /// where no step happened, which is the whole point of it.

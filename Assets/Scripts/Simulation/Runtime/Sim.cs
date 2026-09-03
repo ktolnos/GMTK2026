@@ -52,6 +52,21 @@ namespace Chronomancers.Sim
                 body.DropTakesAbove(take - 1);
         }
 
+        /// <summary>
+        /// The player takes a character, and with it the only thing that opens a take.
+        ///
+        /// Every time, so that taking control is exactly the undoable act. Testing whether the
+        /// ground was already recorded would leave the first performance over fresh ground with no
+        /// take to lift, which is the one thing you could then never take back.
+        ///
+        /// Nothing else opens one: a body claimed by a shove joins the take the shove happened in.
+        /// </summary>
+        public void PlayerClaims(SimBody body, int dir)
+        {
+            OpenTake();
+            body.Claim(dir);
+        }
+
         /// The last tick that was simulated. Every body describes this tick right now.
         public int SimulatedTick { get; private set; }
 
@@ -128,6 +143,10 @@ namespace Chronomancers.Sim
 
         readonly List<SimBody> bodies = new List<SimBody>();
 
+        /// Everything registered, for anything that has to ask about bodies other than itself.
+        /// Read-only: membership goes through Register and Unregister.
+        public IReadOnlyList<SimBody> Bodies => bodies;
+
         void Awake()
         {
             Debug.Assert(I == null, "Two Sim components in the scene; there must be exactly one.");
@@ -196,32 +215,16 @@ namespace Chronomancers.Sim
             foreach (var body in bodies)
                 if (body.RecordDir != dir) body.IsSimulated = false;
 
-            // The only place a take is ever opened, and it is the bodies that decide: a take exists
-            // so that somebody can start a fresh layer, and nothing else. Claiming does not open
-            // one -- at the frontier a recording is being invented rather than replaced, so driving
-            // a character for the first time, and handing over to a second one and driving them,
-            // all belong to the same take.
-            //
-            // Once open it stays open, because the sweep that follows extends the layers it just
-            // started rather than breaking them.
-            foreach (var body in bodies)
-                if (body.NeedsOwnTake(next, dir))
-                {
-                    OpenTake();
-                    break;
-                }
-
-            // Sim does not decide who records; each body settles that in PrepareStep and remembers
-            // it, so the two sides of the solver cannot disagree.
+            // Sim does not decide who records; each body works that out for itself from the tick.
             foreach (var body in bodies)
                 body.PrepareStep(next, dir);
 
-            // Always, even when nothing is recording: MovePosition on a kinematic body only
-            // resolves during a step, so without this playback would not move at all.
+            // Always, even when nothing is recording: the velocity handed to a replaying body only
+            // carries it anywhere during a step, so without this playback would not move at all.
             Physics2D.Simulate(SecondsPerTick);
 
             foreach (var body in bodies)
-                body.CommitStep();
+                body.CommitStep(next, dir);
 
             // How far the live take has run, which is where redo comes back to.
             Takes.Extend(next);

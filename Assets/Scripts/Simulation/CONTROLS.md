@@ -18,6 +18,12 @@ All but `Seek`, `FastForward`, `Undo` and `Redo` come with the default asset.
 Only the character you **control** acts. Everything else that is recording is *inert*: no intent, but
 still physics. It keeps its momentum, gets pushed, and can still be shot.
 
+**Playback pushes back, and can be pushed.** A body replaying its recording has the mass it always had,
+so you shove it and it shoves you. Touch one that was not recorded touching you and it gives up its
+recording and starts writing a new one from there — a real cost, since it loses the performance it had
+left. Meant eventually to take a real push rather than a touch, so that leaning on the scenery is free;
+today the touch is enough.
+
 Movement sets velocity outright rather than accelerating toward it, so there is **no inertia** — let go
 and you stop that tick. Being shoved still works, because it comes out of contact resolution during
 the step rather than out of momentum carried between steps: a body leaning on you displaces you, it
@@ -48,8 +54,9 @@ A character with nobody driving them has no intent, so they stop dead rather tha
 same statement as the driven character with no keys held, and they can still be shoved.
 
 **Watching is free; controlling is not.** Taking control re-records that character from this instant
-onward, superseding what they did in the previous take — so it is the one action that opens a take,
-and the one thing undo has to undo.
+onward, superseding what they did before — a character you were not driving still recorded standing
+still. It is the one action that opens a take and the one thing undo has to undo, every time, so one
+press of undo always costs you exactly the last time you took control.
 
 **Moving takes control.** You do not press anything special to resume acting. A movement, fire or
 interact key claims the character you already control, which matters after seeking backwards: that

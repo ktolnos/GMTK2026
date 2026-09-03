@@ -59,11 +59,13 @@ namespace Chronomancers.Sim
         /// </summary>
         public int RecordDir { get; set; } = 1;
 
-        /// The step currently being taken. Set in PrepareStep and read again in CommitStep, so the
-        /// two sides of the solver cannot disagree about what was decided.
-        SimStep step;
-
-        public bool IsRecording => step.IsRecording;
+        /// Start writing history with this body, laying it down as the cursor travels dir. Claiming
+        /// something already claimed is harmless.
+        public void Claim(int dir)
+        {
+            RecordDir = dir;
+            IsSimulated = true;
+        }
 
         /// <summary>
         /// Empty for now. It exists because this body's layers are the authority on which take
@@ -88,44 +90,49 @@ namespace Chronomancers.Sim
             if (Sim.I != null) Sim.I.Unregister(this);
         }
 
-        /// Which take answers for this tick, or Takes.None if nothing ever recorded it.
-        public int TakeAt(int tick) => layers.Resolve(Sim.I.Takes.Live, tick);
-
-        /// Whether anything has a recording of this tick.
-        public bool HasState(int tick) => TakeAt(tick) != Takes.None;
+        /// What this body is doing this tick, settled before the solver and read again after it.
+        SimStep step;
 
         /// <summary>
-        /// Whether recording this tick would need a take of its own.
+        /// Before the solver: settle what this body is doing and hand it to every part.
         ///
-        /// A layer is one unbroken stretch, so this body can go on writing into the live take only
-        /// where that leaves it unbroken: the tick has to be new to the layer, and next to what the
-        /// layer already holds. Everything else needs a fresh layer, which means a fresh take --
-        /// re-running ground this take already recorded, or coming back to recorded ground after
-        /// wandering off the end of it.
-        ///
-        /// Asked of every body before the step, because the take is shared: one body needing a new
-        /// one is enough, and the rest simply start fresh layers in it.
+        /// Divergence belongs here, ahead of applying anything. A body whose recording no longer
+        /// fits the world around it is claimed now, so it is never driven towards a pose that
+        /// recording asked for -- and so it carries none of that pose's velocity afterwards.
         /// </summary>
-        public bool NeedsOwnTake(int tick, int dir)
-        {
-            // A wind writes nothing, and neither does a body reading back what it already did.
-            if (Sim.I.IsWinding) return false;
-            if (!IsSimulated && TakeAt(tick) != Takes.None) return false;
-
-            int live = Sim.I.Takes.Live;
-
-            // Already ours in this take: writing it again would overwrite inside one layer, which
-            // is the one thing a layer cannot survive.
-            if (layers.Has(live, tick)) return true;
-
-            // Not adjacent to what we have in this take, and we do have something: a hole.
-            return layers.Any(live) && !layers.Has(live, tick - dir);
-        }
-
-        ///  Before the solver
         public void PrepareStep(int tick, int dir)
         {
-            int read = TakeAt(tick);
+            step = Decide(tick, dir);
+
+            if (!step.IsRecording && Diverged(step))
+            {
+                Claim(dir);
+                step = Decide(tick, dir);
+            }
+
+            foreach (var part in parts)
+                part.PrepareStep(step);
+        }
+
+        /// After the solver: write down what it did to us, if we were the one being simulated.
+        public void CommitStep(int tick, int dir)
+        {
+            Debug.Assert(step.Tick == tick && step.Dir == dir,
+                $"{name} is committing t{tick} having prepared t{step.Tick}.", this);
+
+            if (!step.IsRecording) return;
+
+            foreach (var part in parts)
+                part.CommitStep(step);
+
+            layers.Write(step.Take, tick, default);
+        }
+
+        /// Record or replay, and which layer answers -- the one decision behind both halves of a
+        /// step, so neither half can hold a different view of it.
+        SimStep Decide(int tick, int dir)
+        {
+            int read = layers.Resolve(Sim.I.Takes.Live, tick);
 
             // IsSimulated alone: Sim has already released anyone the cursor is travelling against,
             // so a claim that survives to here agrees with the direction by construction.
@@ -135,23 +142,28 @@ namespace Chronomancers.Sim
             // through rather than living through, and writes nothing.
             bool recording = !Sim.I.IsWinding && (IsSimulated || read == Takes.None);
 
-            // Always the live take, whether this is a claim overwriting a recording or a body at
-            // the frontier inventing one. Everything simulated while a take runs belongs to it.
-            step = new SimStep(tick, dir, recording, recording ? Sim.I.Takes.Live : read);
+            if (!recording) return new SimStep(tick, dir, false, read);
 
-            foreach (var part in parts)
-                part.PrepareStep(step);
+            // Replacing something goes into the live take, because the live take is what undo
+            // lifts. Ground nobody has covered replaces nothing, so it continues whichever layer
+            // already ends next to it: a layer is one unbroken stretch, and starting the same body
+            // higher up would leave a hole in the one below and put untouched ground on the stack.
+            int join = read != Takes.None ? Takes.None : layers.Resolve(Sim.I.Takes.Live, tick - dir);
+
+            return new SimStep(tick, dir, true, join != Takes.None ? join : Sim.I.Takes.Live);
         }
 
-        /// After the solver. Write down what happened, if we were the one who caused it.
-        public void CommitStep()
+        /// Whether any part of this body finds the world no longer fits what it is about to replay.
+        /// A wind is passing through the world rather than living through it, so it claims nothing.
+        bool Diverged(in SimStep step)
         {
-            if (!step.IsRecording) return;
+            if (Sim.I.IsWinding) return false;
 
             foreach (var part in parts)
-                part.CommitStep(step);
+                if (part.Diverged(step))
+                    return true;
 
-            layers.Write(step.Take, step.Tick, default);
+            return false;
         }
 
         /// Once a frame, presentation only. See the contract on Sim.Show.

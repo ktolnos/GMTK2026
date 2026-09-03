@@ -16,17 +16,13 @@ namespace Chronomancers.Sim
         /// +1 or -1 -- which way the cursor is travelling.
         public readonly int Dir;
 
-        /// Whether this body is writing this tick rather than reading it. Decided once per step by
-        /// SimBody, so every component agrees and no component decides for itself.
+        /// Whether this body is writing this tick rather than reading it. Settled by SimBody for
+        /// the whole body, so every component agrees and none decides for itself.
         public readonly bool IsRecording;
 
-        /// <summary>
         /// The layer to use: the take being written when recording, the take being read when
-        /// replaying
-        ///
-        /// Resolved once by SimBody for the same reason as IsRecording: every component on a body
-        /// records together, so they must all read the same layer back.
-        /// </summary>
+        /// replaying. Resolved by SimBody for the same reason -- every component on a body records
+        /// together, so they must all read the same layer back.
         public readonly int Take;
 
         /// The tick the cursor came from.

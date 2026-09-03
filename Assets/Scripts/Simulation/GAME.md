@@ -81,7 +81,9 @@ faster; the world moves slower around them.
 
 Interpolation must never cross a recording boundary — those joins are real discontinuities.
 
-Undo is a stack of takes, not a pair of history copies. Each re-recording opens a take, and every
+Undo is a stack of takes, not a pair of history copies. A take opens every time the player takes control
+of a character, so taking control is exactly the undoable act and nothing else opens one — everything
+else that records joins the take it happens inside, and is undone with it. Every
 recording made under it goes into a layer of its own rather than overwriting what was there. So undo
 moves no data: how far up the stack is live is the only thing that changes, and the layer underneath
 becomes visible again by itself. That is cheap enough that the whole undo stack is affordable rather
@@ -97,9 +99,17 @@ animator state, cooldowns, AI target, ammo, door state, form, and the set of thi
 object. Anything genuinely random has to be recorded or deterministically seeded; randomness is standing
 in for the molecular detail we refused to model, and it's exactly the part that makes reversal fragile.
 
-Velocity is the exception, and deliberately: it is never recorded, only differenced from the last two
-recorded poses at the moment a body is claimed. Under a descending cursor that subtraction comes out
-negated on its own, which is the entire reversal mechanism — no code anywhere flips a sign.
+Velocity is the exception, and deliberately: it is never recorded and never restored either. Playback is
+not teleported onto its recorded poses, it is *driven* at the velocity that lands it on the next one, so
+a body is always genuinely moving and a claim simply stops choosing its velocity for it. Under a
+descending cursor that drive aims at decreasing ticks, so the body is already travelling backwards along
+its own path — the entire reversal mechanism, with no code anywhere flipping a sign.
+
+Nothing is ever kinematic, because kinematic is infinite mass: playback would be scenery you could lean
+on forever. Staying dynamic is what makes it interactable. Whether a recording still holds is a separate
+question, asked before each state is applied and answered by who is touching the body rather than by
+where it is: a partner the recording expects and cannot find, or one it never recorded that is touching
+now, means the world would not let that recording happen, and it ends there.
 
 The whole history should be serializable to disk, and every object records its archetype so a save can be
 materialised from the file alone. Bodies carry a stable id for the same reason, so the undo stack still

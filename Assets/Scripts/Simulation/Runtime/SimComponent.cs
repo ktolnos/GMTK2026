@@ -23,9 +23,14 @@ namespace Chronomancers.Sim
             }
         }
 
-        /// Before the solver: get ready to be moved by it, or aim at the recorded pose so it sweeps
+        /// Before the solver: get ready to be moved by it, or aim at the recorded pose so it carries
         /// us there.
         public abstract void PrepareStep(in SimStep step);
+
+        /// After the solver, before anything is written: whether the world refused this body the
+        /// state it was replaying. Saying yes claims the body, and this tick is written as it
+        /// actually turned out rather than as the recording wanted it.
+        public virtual bool Diverged(in SimStep step) => false;
 
         /// After the solver: write down what it did to us, if we were the one being simulated.
         public abstract void CommitStep(in SimStep step);
@@ -48,8 +53,8 @@ namespace Chronomancers.Sim
         /// Read whatever the timeline currently says about this tick, if anything does.
         ///
         /// Resolves the layer itself rather than using the step's, because it is for looking at
-        /// ticks other than the one being stepped -- differencing a velocity out of the last two
-        /// poses, drawing between two of them.
+        /// ticks other than the one being stepped -- drawing between two recorded poses, or asking
+        /// where a body was before the one being written.
         /// </summary>
         protected bool TryRead(int tick, out TState state)
         {
@@ -87,8 +92,8 @@ namespace Chronomancers.Sim
 
         /// <summary>
         /// We are live this step -- the solver is about to move us and whatever it does is the
-        /// recording. There is no state to apply, so most components have nothing to do here. It is
-        /// where a motion component turns its rigidbody dynamic.
+        /// recording. There is no state to apply, so most components have nothing to do here -- it
+        /// is where an intent source drives its rigidbody.
         /// </summary>
         protected virtual void PrepareRecording(in SimStep step) { }
 
