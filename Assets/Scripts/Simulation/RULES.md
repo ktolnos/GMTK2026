@@ -414,10 +414,14 @@ actually have changed its recording does. Sub-threshold pushes into playback bod
 violation in the game, and they are accepted deliberately.
 
 > **Built so far:** shape-to-shape distance to every other simulated body, measured before the state is
-> applied. `causeRange` is how far a partner the recording expects may have strayed; `contactRange` is
-> what counts as touching. Static geometry is left out, since it cannot change and touching it is never
-> evidence that history has. Not yet an accumulator, so a sub-threshold lean never claims however long it
-> goes on.
+> applied. `contactRange` is what counts as touching, and neither test turns on it directly: a partner
+> the recording names is lost only past `causeBand` beyond it, and one it does not name interferes only
+> `touchBand` inside it. Without those, recording and testing would turn on the same number and a pair
+> sitting on it would claim itself. Static geometry is left out, since it cannot change and touching it
+> is never evidence that history has. A body standing in a pose no recording covers — the first tick of
+> a rewind into recorded ground — is asked only about the partners its own recording names, since its
+> contacts contradict nothing. Not yet an accumulator, so a sub-threshold lean never claims however long
+> it goes on.
 
 **The check runs in both directions**, on the live body as well as the playback one — though rule 4 now
 does most of that work by itself. Playback is dynamic and takes a real reaction, so a character bracing

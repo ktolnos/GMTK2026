@@ -48,14 +48,24 @@ namespace Chronomancers.Sim
         static float contactRange = 0.05f;
 
         /// <summary>
-        /// How far, in metres, a body the recording expects may be from us before we take the
+        /// How much further than touching a partner the recording names may be before we take the
         /// recording to describe a world that no longer exists.
         ///
-        /// Loose on purpose. It is asked before the state is applied, so the bodies are still a step
-        /// short of the configuration being replayed and it has to swallow a step of closing speed.
-        /// All it has to separate is "about to touch" from "somewhere else entirely".
+        /// Wide. The question is asked before the state is applied, so the bodies are still a step
+        /// short of the configuration being replayed and this has to swallow a step of closing
+        /// speed. All it separates is "about to touch" from "somewhere else entirely".
         /// </summary>
-        static float causeRange = 0.25f;
+        static float causeBand = 0.20f;
+
+        /// <summary>
+        /// How much closer than touching a partner the recording does not name has to be before we
+        /// count it as interfering.
+        ///
+        /// Narrow. Without it, recording and testing turn on the same number, so a pair sitting
+        /// either side of it claims itself on the difference between two measurements of one gap.
+        /// That is all it has to cover, not a step of travel.
+        /// </summary>
+        static float touchBand = 0.01f;
 
         /// Stands in for a recording made before anything touched anything.
         static readonly HashSet<string> nothing = new HashSet<string>();
@@ -109,17 +119,21 @@ namespace Chronomancers.Sim
         /// be useful fires on contacts that were faithfully replayed. Whether they are touching
         /// survives.
         ///
-        /// Asked of the world as it stands, a step short of the pose being replayed, which is why
-        /// the two directions get different ranges. A partner the recording expects only has to be
-        /// nearby, because it may still be closing. A partner it does not expect has to be properly
-        /// touching -- and one that was touching a tick ago is a contact ending, not a new one.
+        /// Asked of the world as it stands, a step short of the pose being replayed, so neither
+        /// direction turns on contactRange itself. A partner the recording expects only has to be
+        /// somewhere near, because it may still be closing. A partner it does not expect has to be
+        /// well inside -- and one that was touching a tick ago is a contact ending, not a new one.
         /// </summary>
         public override bool Diverged(in SimStep step)
         {
             if (step.Take == Takes.None) return false;
 
             var recorded = layers.Read(step.Take, step.Tick).Touching ?? nothing;
-            var before = Recorded(step.Previous) ?? nothing;
+
+            // Null where history does not cover the tick we came from -- the first tick of a rewind
+            // into recorded ground, most often. Then we are standing in a pose nothing recorded, so
+            // its contacts contradict nothing and only the partners this tick names are asked about.
+            var before = Recorded(step.Previous);
 
             var bodies = Sim.I.Bodies;
 
@@ -135,11 +149,13 @@ namespace Chronomancers.Sim
                 // The cause of what we are about to replay is not even in the neighbourhood.
                 if (recorded.Contains(id))
                 {
-                    if (gap > causeRange) return true;
+                    if (gap > contactRange + causeBand) return true;
                 }
 
-                // Something is touching us that neither this tick nor the one behind accounts for.
-                else if (gap < contactRange && !before.Contains(id)) return true;
+                // Something is touching us that was not touching us when this tick was recorded.
+                // The tick behind gets a say because that is the configuration we are standing in:
+                // its recording was captured from this very geometry, nothing having moved since.
+                else if (before != null && gap < contactRange - touchBand && !before.Contains(id)) return true;
             }
 
             return false;
