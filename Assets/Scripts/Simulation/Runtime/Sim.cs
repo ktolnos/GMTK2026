@@ -143,6 +143,10 @@ namespace Chronomancers.Sim
 
         readonly List<SimBody> bodies = new List<SimBody>();
 
+        /// Everything registered, for the recording side of rule 10, which has to ask about bodies
+        /// it has no reason to know about yet. Read-only: membership goes through Register.
+        public IReadOnlyList<SimBody> Bodies => bodies;
+
         readonly Dictionary<string, SimBody> byId = new Dictionary<string, SimBody>();
 
         /// The body a recording names, or null if nothing by that name is in the world -- which is

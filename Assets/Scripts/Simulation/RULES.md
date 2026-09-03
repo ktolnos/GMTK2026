@@ -280,8 +280,8 @@ There is no event log. Everything one would carry is single-valued, so it fits o
   being *let go*;
 - a body records, each sample, **what pushed it** — its **contact set** (rule 10).
 
-Both are cheap because both are small. A contact set is a handful of ids, taken from contact points the
-engine already computes, and is usually empty or a single floor.
+Both are cheap because both are small. A contact set is a handful of ids with a measured distance each,
+and is usually empty or a single floor.
 
 **Origin is read forwards, like everything else on the timeline.** An inverted shot read forwards is a
 bullet emerging from a wall and flying into a gun, so its origin is the *wall*, not the muzzle — and it
@@ -353,18 +353,27 @@ recording, and the two questions it answers are the only two ways a recording ca
 the recording names that is no longer near means the cause of what is about to be replayed is gone. A
 partner the recording does not name that is touching now means something new is interfering.
 
-**Each direction asks whatever is trustworthy for it**, and neither has to look past the bodies actually
-involved. Absence must be *measured*: the solver's manifold records how the bodies came together, and
-since contact resolution only ever separates — the velocity pass stops approach, the position pass pushes
-penetrating bodies apart over several steps — a replayed overlap ends each step wider than it was
-recorded, so the manifold is dropped, the drive re-aims into it, and it is dropped again. Presence
-flickers in the *middle* of a replayed contact, where no boundary tolerance can rescue it. Distance
-between shapes carries no such history. The partners to measure to are the handful the recording names.
+**Record a distance, not a yes-or-no.** How far each nearby body was, per sample. On the way back what
+matters is how much a partner has *moved*, and a difference from a recorded distance is forgiving in a
+way set membership can never be: a contact ending, or one still arriving, differs from its recording by a
+fraction of a step's travel rather than by whether a set contains an id. Neither end has to be
+special-cased.
 
-Presence, on the other hand, is exactly what the manifold is good for. It can only ever under-report a
-replayed contact, never invent one, so a flicker costs at most a tick's delay in noticing an intruder.
-And it needs no tolerance at all: the set it gives before the step is the set the previous tick recorded
-from it, nothing having moved in between, so the two agree exactly rather than approximately.
+**Measure it; do not read the solver's contacts.** A manifold's membership records how the bodies came
+together as well as where they are. It over-reports, because a contact exists once *fattened* bounds
+overlap and how fat those are depends on how the body has been moving — so the same pair at the same
+distance is in the list on one pass and out of it on the next. And it under-reports, because contact
+resolution only ever separates: a replayed overlap ends each step wider than it was recorded, the
+manifold is dropped, the drive re-aims into it, and it is dropped again, so presence flickers in the
+*middle* of a replayed contact where no boundary tolerance can rescue it. Distance between shapes carries
+no such history.
+
+Which sets where the work goes. **Recording walks the world** — it is the exact side, and it runs for a
+handful of bodies at a time. **Replay walks nothing:** a partner the recording had close enough to be
+leaning on is looked up by id and measured, and the solver's contacts serve as a candidate list for
+anything else that is touching. As a candidate list both of its faults are harmless — over-reporting is
+filtered by the contact's own separation, and a dropped contact only delays noticing an intruder by a
+tick.
 
 **Do not measure the pose,** and do not measure velocity. Penetration depth fails to reproduce for the
 same reason presence did: nothing ever pushes two bodies together to restore an overlap that was
@@ -377,11 +386,9 @@ been given its recorded pose's velocity, and a frictionless world keeps it: the 
 re-recorded away coasts off across the room anyway. Asked first, the body is never driven at all, and the
 velocity it inherits is the one it legitimately had.
 
-Running first is also what puts a tolerance on the measured side. The world stands a step short of the
-configuration being replayed, so a partner the recording expects has only to be **nearby** rather than
-touching — it may still be closing. Nothing corresponding is needed on the manifold side, which compares
-two readings of the same query at the same instant. A partner that was touching on the tick behind is a
-contact ending rather than a new one, and is let alone.
+Running first is also why the tolerance is as wide as it is. The world stands a step short of the
+configuration being replayed, so a partner may still be closing, and the band has to swallow a step of
+travel. All it has to separate is *roughly where it was* from *somewhere else entirely*.
 
 A claimed body without a controller is **inert, not dead**. Inert means *no intent source* — not no
 physics. It keeps its momentum, coasts, gets pushed, and dies. It stays a character and stays a switch
@@ -418,14 +425,12 @@ from being brittle — brushing past a recorded crate does not claim it; only do
 actually have changed its recording does. Sub-threshold pushes into playback bodies are the one accepted
 violation in the game, and they are accepted deliberately.
 
-> **Built so far:** asked before the state is applied. Shape-to-shape distance to each partner the
-> recording names, against a single `causeRange`; and the solver's contacts for anything touching that
-> neither this tick nor the one behind recorded. Neither walks the world — one iterates a handful of
-> recorded ids, the other what is already touching — so the cost is in the contacts, not the body count.
-> Static geometry is left out, since it cannot change and touching it is never evidence that history has.
-> A body standing in a pose no recording covers — the first tick of a rewind into recorded ground — is
-> asked only about the partners its own recording names, since its contacts contradict nothing. Not yet
-> an accumulator, so a sub-threshold lean never claims however long it goes on.
+> **Built so far:** each sample records shape-to-shape distance to every body within `notedRange`.
+> Before a state is applied, a partner it had within `touchRange` must still be within `causeBand` of
+> where it was, and anything the solver reports touching within `touchRange` must have been recorded no
+> further than `causeBand` outside it. Static geometry is left out, since it cannot change and distance
+> to it is never evidence that history has. A tick with no recording of its own is not asked at all. Not
+> yet an accumulator, so a sub-threshold lean never claims however long it goes on.
 
 **The check runs in both directions**, on the live body as well as the playback one — though rule 4 now
 does most of that work by itself. Playback is dynamic and takes a real reaction, so a character bracing

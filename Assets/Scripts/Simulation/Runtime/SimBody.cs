@@ -106,6 +106,7 @@ namespace Chronomancers.Sim
 
             if (!step.IsRecording && Diverged(step))
             {
+                Debug.Log($"{gameObject.name} is diverged", this);
                 Claim(dir);
                 step = Decide(tick, dir);
             }

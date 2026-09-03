@@ -25,12 +25,15 @@ namespace Chronomancers.Sim
             public float Rotation;
 
             /// <summary>
-            /// The bodies this one was touching, by <see cref="SimBody.Id"/>.
+            /// How far away every nearby body was, by <see cref="SimBody.Id"/>, negative where the
+            /// shapes overlapped.
             ///
-            /// Static geometry is left out. It cannot change, so a contact with it can never be
-            /// evidence that history has.
+            /// A distance rather than a yes-or-no, because on the way back it is compared against
+            /// where things have actually got to, and how much a partner has moved is the question.
+            /// Static geometry is left out: it cannot change, so distance to it is never evidence
+            /// that history has.
             /// </summary>
-            public HashSet<string> Touching;
+            public Dictionary<string, float> Gaps;
         }
 
         [Tooltip("Transform the sprite lives on. Drawing runs one tick behind the solver, so this " +
@@ -38,19 +41,23 @@ namespace Chronomancers.Sim
                  "body would feed it straight back into the next step.")]
         [SerializeField] Transform view;
 
-        /// <summary>
-        /// How far, in metres, a partner the recording names may be before we take the recording to
-        /// describe a world that no longer exists.
-        ///
-        /// Wide. The question is asked before the state is applied, so the bodies are still a step
-        /// short of the configuration being replayed and this has to swallow a step of closing
-        /// speed. All it separates is "about to touch" from "somewhere else entirely", and a
-        /// tolerance is only needed on this side -- see Diverged.
-        /// </summary>
-        static float causeRange = 0.25f;
+        /// How far apart, in metres, two bodies can be and still count as touching.
+        static float touchRange = 0.02f;
 
-        /// Stands in for a recording made before anything touched anything.
-        static readonly HashSet<string> nothing = new HashSet<string>();
+        /// <summary>
+        /// How much further than the recording had it a partner has to have got before the recording
+        /// is describing a world that no longer exists.
+        ///
+        /// Wide, and a difference rather than a distance. The question is asked before the state is
+        /// applied, so the bodies are still a step short of the configuration being replayed and this
+        /// has to swallow a step of closing speed. All it separates is "roughly where it was" from
+        /// "somewhere else entirely".
+        /// </summary>
+        static float causeBand = 0.2f;
+
+        /// How far away a body has to be before it is not worth writing down. Anything past this
+        /// cannot come back as a contact without having crossed causeBand to get here.
+        static float notedRange = 0.5f;
 
         /// Scratch for the contact query.
         static readonly List<ContactPoint2D> contacts = new List<ContactPoint2D>();
@@ -104,44 +111,55 @@ namespace Chronomancers.Sim
         /// be useful fires on contacts that were faithfully replayed. Whether they are touching
         /// survives.
         ///
-        /// Each direction asks whatever is trustworthy for it, and neither needs to look past the
-        /// bodies actually involved. Absence is measured, because the solver's manifold drops a
-        /// replayed contact and re-forms it; the partners to measure to are the handful the
-        /// recording names. Presence is the manifold, which can only ever under-report, and it
-        /// wants no tolerance at all: the set it gives now is the same set the previous tick
-        /// recorded from it, nothing having moved in between, so the two agree exactly.
+        /// Both halves compare distances, and neither walks the world. Where the recording had a
+        /// partner close enough to be leaning on, that one partner is looked up and measured. What
+        /// is touching us that the recording did not have close comes from the solver's contacts,
+        /// which is a candidate list rather than an answer: it over-reports pairs that are merely
+        /// near, since a contact exists once fattened bounds overlap, and it drops a replayed
+        /// contact and re-forms it. Both are harmless against a recorded distance -- over-reporting
+        /// is filtered by the separation, and a drop only delays noticing an intruder by a tick.
         ///
-        /// The measured side is asked a step short of the configuration being replayed, though,
-        /// which is why that side alone needs causeRange -- the partner may still be closing.
+        /// The recorded distance is also what makes this forgiving. A contact ending, or one still
+        /// arriving, differs from its recording by a fraction of a step's travel rather than by
+        /// whether a set contains an id, so nothing has to be special-cased about either end.
         /// </summary>
         public override bool Diverged(in SimStep step)
         {
             if (step.Take == Takes.None) return false;
 
-            var recorded = layers.Read(step.Take, step.Tick).Touching ?? nothing;
+            var recorded = layers.Read(step.Take, step.Tick).Gaps;
 
-            foreach (var id in recorded)
+            if (recorded == null) return false;
+
+            // Has anything this tick was leaning on gone somewhere else?
+            foreach (var pair in recorded)
             {
-                var partner = Find(id);
+                if (pair.Value > touchRange) continue;
 
-                if (partner == null || Gap(partner) > causeRange) return true;
+                var partner = Find(pair.Key);
+
+                if (partner == null || Gap(partner) > pair.Value + causeBand) return true;
             }
 
-            // Null where history does not cover the tick we came from -- the first tick of a rewind
-            // into recorded ground, most often. Then we are standing in a pose nothing recorded, so
-            // its contacts contradict nothing and only the partners this tick names are asked about.
-            var before = Recorded(step.Previous);
+            // Is anything touching us that this tick had nowhere near?
+            int count = rb.GetContacts(contacts);
 
-            if (before == null) return false;
+            for (int i = 0; i < count; i++)
+            {
+                if (contacts[i].separation > touchRange) continue;
 
-            // A contact this tick did not record, and not one the tick behind is still letting go of.
-            foreach (var id in Touching())
-                if (!recorded.Contains(id) && !before.Contains(id)) return true;
+                var body = Named(contacts[i]);
+
+                if (body == null) continue;
+
+                if (!recorded.TryGetValue(body.Id, out float was) || was > touchRange + causeBand) return true;
+            }
 
             return false;
         }
 
-        /// The rigidbody of a body the recording names, or null if it has left the world.
+        /// The rigidbody of a body the recording names, or null if it has left the world -- which is
+        /// itself an answer, since a partner that no longer exists has certainly gone.
         static SimRigidbody Find(string id)
         {
             var body = Sim.I.Find(id);
@@ -149,8 +167,13 @@ namespace Chronomancers.Sim
             return body != null ? body.GetComponent<SimRigidbody>() : null;
         }
 
-        /// What history says this body was touching at a tick, or null if nothing recorded it.
-        HashSet<string> Recorded(int tick) => TryRead(tick, out var state) ? state.Touching ?? nothing : null;
+        /// Who the far side of a contact is, or null when it is not something we record.
+        SimBody Named(in ContactPoint2D contact)
+        {
+            var other = contact.rigidbody == rb ? contact.otherRigidbody : contact.rigidbody;
+
+            return other != null ? other.GetComponent<SimBody>() : null;
+        }
 
         protected override State Capture(in SimStep step)
         {
@@ -158,39 +181,37 @@ namespace Chronomancers.Sim
             {
                 Position = rb.position,
                 Rotation = rb.rotation,
-                Touching = Touching(),
+                Gaps = Gaps(),
             };
         }
 
         /// <summary>
-        /// Who this body is touching right now, as ids. Bodies rather than colliders, so a partner
-        /// built from several counts once.
+        /// How far away everything within notedRange is, by id.
         ///
-        /// The solver's own manifold. It is honest about a contact the solver made and unreliable
-        /// only about one being replayed -- it separates a replayed overlap each step and the drive
-        /// re-aims into it, so membership flickers. Neither costs anything here: recording only
-        /// happens while the solver is the one choosing, and a flicker can drop a contact but never
-        /// invent one, so at worst an intrusion is noticed a tick late.
+        /// This is the side that walks the world, and it can afford to: it runs only while recording,
+        /// which is a handful of bodies at a time, and it is the side that has to be exact. The
+        /// solver's contacts would be cheaper and are not usable -- a contact exists once fattened
+        /// bounds overlap, and how fat those are depends on how the body has been moving, so the same
+        /// pair at the same distance is in the list on one pass and out of it on another.
         /// </summary>
-        HashSet<string> Touching()
+        Dictionary<string, float> Gaps()
         {
-            var touching = new HashSet<string>();
+            var gaps = new Dictionary<string, float>();
 
-            int count = rb.GetContacts(contacts);
+            var bodies = Sim.I.Bodies;
 
-            for (int i = 0; i < count; i++)
+            for (int i = 0; i < bodies.Count; i++)
             {
-                var contact = contacts[i];
-                var other = contact.rigidbody == rb ? contact.otherRigidbody : contact.rigidbody;
+                var other = bodies[i].GetComponent<SimRigidbody>();
 
-                if (other == null) continue;
+                if (other == null || other == this) continue;
 
-                var body = other.GetComponent<SimBody>();
+                float gap = Gap(other);
 
-                if (body != null) touching.Add(body.Id);
+                if (gap <= notedRange) gaps[bodies[i].Id] = gap;
             }
 
-            return touching;
+            return gaps;
         }
 
         /// Distance between the nearest pair of shapes on these two bodies, negative when they
